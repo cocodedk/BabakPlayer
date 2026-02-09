@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+./gradlew buildSmoke --no-daemon --quiet
+
+if [ -n "${KEYSTORE_PATH:-}" ] && [ -n "${KEYSTORE_PASSWORD:-}" ] && [ -n "${KEY_ALIAS:-}" ] && [ -n "${KEY_PASSWORD:-}" ]; then
+  if [ -f "$KEYSTORE_PATH" ]; then
+    ./gradlew assembleRelease --no-daemon --quiet
+  else
+    echo "KEYSTORE_PATH is set but file does not exist: $KEYSTORE_PATH"
+    exit 1
+  fi
+fi

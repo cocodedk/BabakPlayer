@@ -1,0 +1,84 @@
+<resources>
+    <string name="app_name">بابک‌پلیر</string>
+
+    <string name="tab_player">پخش‌کننده</string>
+    <string name="tab_settings">تنظیمات</string>
+    <string name="tab_about">درباره</string>
+
+    <string name="player_header">بابک‌پلیر</string>
+    <string name="player_subtitle">از واتس‌اپ وارد کنید و به ترتیب دریافت پخش کنید.</string>
+    <string name="player_importing">در حال وارد کردن فایل‌های اشتراک‌گذاری‌شده...</string>
+    <string name="empty_playlists">هنوز پلی‌لیستی وجود ندارد. فایل‌ها را از واتس‌اپ به بابک‌پلیر ارسال کنید.</string>
+    <string name="dismiss_summary">بستن خلاصه</string>
+
+    <string name="summary_title">وارد شد: %1$s</string>
+    <string name="summary_imported">وارد شده</string>
+    <string name="summary_skipped">رد شده</string>
+    <string name="summary_unsupported">پشتیبانی‌نشده</string>
+    <string name="summary_total_size">حجم کل</string>
+
+    <string name="playlist_files_size">%1$d فایل · %2$s</string>
+    <string name="status_ready">آماده</string>
+    <string name="status_decode_failed">خطای Decode</string>
+    <string name="status_deleted">حذف‌شده</string>
+    <string name="item_status_size">%1$s · %2$s</string>
+
+    <string name="current_playing_title">در حال پخش</string>
+    <string name="content_play_playlist">پخش پلی‌لیست</string>
+    <string name="content_delete_playlist">حذف پلی‌لیست</string>
+    <string name="content_delete_file">حذف فایل</string>
+    <string name="content_previous">قبلی</string>
+    <string name="content_next">بعدی</string>
+    <string name="content_play">پخش</string>
+    <string name="content_pause">توقف</string>
+    <string name="content_seek_back">عقب بردن</string>
+    <string name="content_seek_forward">جلو بردن</string>
+
+    <string name="dialog_delete_file_title">حذف فایل</string>
+    <string name="dialog_delete_file_message">فایل %1$s حذف شود؟ این کار فایل محلی را برای همیشه حذف می‌کند.</string>
+    <string name="dialog_delete_playlist_title">حذف پلی‌لیست</string>
+    <string name="dialog_delete_playlist_message">%1$d فایل از %2$s حذف شود؟ این کار قابل بازگشت نیست.</string>
+    <string name="action_delete">حذف</string>
+    <string name="action_delete_all">حذف همه</string>
+    <string name="action_cancel">انصراف</string>
+
+    <string name="notice_file_deleted">فایل برای همیشه حذف شد</string>
+    <string name="notice_playlist_deleted">پلی‌لیست برای همیشه حذف شد</string>
+    <string name="notice_decode_skip">یکی از فایل‌ها Decode نشد و رد شد</string>
+
+    <string name="settings_title">تنظیمات</string>
+    <string name="settings_section_appearance">ظاهر</string>
+    <string name="settings_section_language">زبان</string>
+    <string name="settings_section_playback">پخش</string>
+    <string name="settings_section_import">ورود فایل</string>
+    <string name="settings_theme_mode">حالت نمایش</string>
+    <string name="theme_system">سیستم</string>
+    <string name="theme_dark">تیره</string>
+    <string name="theme_light">روشن</string>
+    <string name="settings_language">زبان برنامه</string>
+    <string name="language_english">انگلیسی</string>
+    <string name="language_persian">فارسی</string>
+    <string name="settings_autoplay_next">پخش خودکار مورد بعدی</string>
+    <string name="settings_autoplay_next_desc">پس از پایان هر فایل، مورد بعدی پلی‌لیست به‌صورت خودکار پخش شود.</string>
+    <string name="settings_seek_interval">بازه جابجایی</string>
+    <string name="settings_seek_interval_value">%1$d ثانیه</string>
+    <string name="settings_auto_dismiss">بستن خودکار خلاصه ورود</string>
+    <string name="settings_auto_dismiss_desc">خلاصه ورود پس از چند ثانیه به‌صورت خودکار بسته شود.</string>
+    <string name="settings_reset">بازنشانی تنظیمات</string>
+    <string name="settings_reset_desc">تنظیمات ظاهر، زبان و پخش به حالت پیش‌فرض برگردد.</string>
+    <string name="settings_reset_confirm">بازنشانی</string>
+    <string name="dialog_reset_settings_title">بازنشانی تنظیمات</string>
+    <string name="dialog_reset_settings_message">همه تنظیمات به حالت پیش‌فرض برگردد؟</string>
+
+    <string name="about_title">درباره</string>
+    <string name="about_purpose">بابک‌پلیر یک برنامه محلی برای دریافت فایل‌های چندبخشی رسانه است.</string>
+    <string name="about_companion">همراه بابک‌کست: فایل‌های بخش‌بندی‌شده را وارد کنید و پیوسته پخش کنید.</string>
+    <string name="about_local_first">بدون حساب کاربری، بدون همگام‌سازی ابری و بدون رهگیری پیش‌فرض.</string>
+    <string name="about_supported_formats">فرمت‌های پشتیبانی‌شده: mp3, mp4, mkv, mov, webm (وابسته به کدک دستگاه).</string>
+    <string name="about_license">مجوز: Apache-2.0</string>
+    <string name="about_version">نسخه %1$s</string>
+    <string name="about_open_website">باز کردن وب‌سایت</string>
+    <string name="about_open_repo">باز کردن مخزن</string>
+    <string name="about_website_url">https://cocodedk.github.io/</string>
+    <string name="about_repo_url">https://github.com/cocodedk</string>
+</resources>
