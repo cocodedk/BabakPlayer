@@ -173,6 +173,7 @@ class PlaybackController(
     }
 
     private fun resolveMediaUri(pathOrUri: String): Uri {
+        require(pathOrUri.isNotBlank()) { "Media path/URI must not be blank" }
         val parsed = Uri.parse(pathOrUri)
         return if (parsed.scheme.isNullOrBlank()) Uri.fromFile(java.io.File(pathOrUri)) else parsed
     }

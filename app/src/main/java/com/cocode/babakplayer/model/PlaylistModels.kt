@@ -24,6 +24,7 @@ data class Playlist(
     val title: String,
     val createdAt: Long,
     val sourceApp: String? = null,
+    val captionKey: String? = null,
     val itemCount: Int,
     val totalBytes: Long,
     val items: List<PlaylistItem>,

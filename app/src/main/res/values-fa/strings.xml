@@ -1,15 +1,30 @@
 <resources>
     <string name="app_name">بابک‌پلیر</string>
 
-    <string name="tab_player">پخش‌کننده</string>
+    <string name="tab_player">بابک‌پلیر</string>
     <string name="tab_settings">تنظیمات</string>
     <string name="tab_about">درباره</string>
+    <string name="nav_add">افزودن</string>
 
     <string name="player_header">بابک‌پلیر</string>
     <string name="player_subtitle">از واتس‌اپ یا حافظه دستگاه وارد کنید و به ترتیب دریافت پخش کنید.</string>
     <string name="player_importing">در حال وارد کردن فایل‌های اشتراک‌گذاری‌شده...</string>
     <string name="player_import_from_device_action">ورود از گالری/فایل‌ها</string>
     <string name="player_import_from_device_hint">چند فایل صوتی/ویدیویی را از گالری یا فایل‌ها انتخاب کنید تا یک پلی‌لیست ساخته شود.</string>
+    <string name="import_menu_title">ورود رسانه از</string>
+    <string name="import_option_videos">ویدیوها</string>
+    <string name="import_option_audio">فایل‌های صوتی</string>
+    <string name="import_option_whatsapp">رسانه واتس‌اپ</string>
+    <string name="import_option_downloads">دانلودها</string>
+    <string name="import_option_manual">انتخاب دستی فایل‌ها</string>
+    <string name="media_category_audio">فایل‌های صوتی</string>
+    <string name="media_category_whatsapp">رسانه واتس‌اپ</string>
+    <string name="media_category_downloads">دانلودها</string>
+    <string name="media_loading">در حال بارگذاری رسانه‌ها...</string>
+    <string name="media_empty">در این بخش فایل رسانه‌ای پیدا نشد.</string>
+    <string name="media_create_playlist">ساخت پلی‌لیست</string>
+    <string name="media_permission_denied_title">نیاز به دسترسی</string>
+    <string name="media_permission_denied_message">برای مرور این بخش دسترسی رسانه را بدهید، یا از انتخاب دستی فایل استفاده کنید.</string>
     <string name="empty_playlists">هنوز پلی‌لیستی وجود ندارد. فایل را اشتراک‌گذاری کنید یا از گالری/فایل‌ها وارد کنید.</string>
     <string name="dismiss_summary">بستن خلاصه</string>
 
@@ -20,6 +35,7 @@
     <string name="summary_total_size">حجم کل</string>
 
     <string name="playlist_files_size">%1$d فایل · %2$s</string>
+    <string name="playlist_collapsed_hint">بسته است. برای نمایش فایل‌ها فلش را بزنید.</string>
     <string name="status_ready">آماده</string>
     <string name="status_decode_failed">خطای Decode</string>
     <string name="status_deleted">حذف‌شده</string>
@@ -27,6 +43,8 @@
 
     <string name="current_playing_title">در حال پخش</string>
     <string name="content_play_playlist">پخش پلی‌لیست</string>
+    <string name="content_expand_playlist">باز کردن پلی‌لیست</string>
+    <string name="content_collapse_playlist">بستن پلی‌لیست</string>
     <string name="content_delete_playlist">حذف پلی‌لیست</string>
     <string name="content_delete_file">حذف فایل</string>
     <string name="content_previous">قبلی</string>
@@ -43,6 +61,7 @@
     <string name="action_delete">حذف</string>
     <string name="action_delete_all">حذف همه</string>
     <string name="action_cancel">انصراف</string>
+    <string name="action_ok">باشه</string>
 
     <string name="notice_file_deleted">فایل از پلی‌لیست حذف شد</string>
     <string name="notice_playlist_deleted">پلی‌لیست حذف شد. فایل‌های اصلی تغییر نکردند.</string>
@@ -81,6 +100,6 @@
     <string name="about_version">نسخه %1$s</string>
     <string name="about_open_website">باز کردن وب‌سایت</string>
     <string name="about_open_repo">باز کردن مخزن</string>
-    <string name="about_website_url">https://cocodedk.github.io/</string>
-    <string name="about_repo_url">https://github.com/cocodedk</string>
+    <string name="about_website_url">https://cocodedk.github.io/BabakPlayer/</string>
+    <string name="about_repo_url">https://github.com/cocodedk/BabakPlayer</string>
 </resources>

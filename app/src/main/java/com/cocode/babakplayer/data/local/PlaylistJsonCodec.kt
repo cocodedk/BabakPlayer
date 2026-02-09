@@ -32,6 +32,7 @@ object PlaylistJsonCodec {
             put("title", title)
             put("createdAt", createdAt)
             put("sourceApp", sourceApp)
+            put("captionKey", captionKey)
             put("itemCount", itemCount)
             put("totalBytes", totalBytes)
             put("items", JSONArray().apply {
@@ -71,6 +72,7 @@ object PlaylistJsonCodec {
             title = title,
             createdAt = optLong("createdAt"),
             sourceApp = optString("sourceApp").takeIf { it.isNotBlank() && it != "null" },
+            captionKey = optString("captionKey").takeIf { it.isNotBlank() && it != "null" },
             itemCount = optInt("itemCount", items.size),
             totalBytes = optLong("totalBytes"),
             items = items,

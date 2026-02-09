@@ -5,12 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.OpenableColumns
+import android.util.Log
 import com.cocode.babakplayer.domain.StorageReferencePolicy
 import com.cocode.babakplayer.model.PlaylistItem
 import com.cocode.babakplayer.util.SharePayload
 import com.cocode.babakplayer.util.detectSupportedMedia
 import com.cocode.babakplayer.util.extractDisplayName
 import java.io.File
+import java.util.UUID
 
 class ImportService(private val context: Context) {
     data class ImportDraft(
@@ -48,14 +50,18 @@ class ImportService(private val context: Context) {
                 return@forEachIndexed
             }
 
-            persistReadPermissionIfPossible(resolver, uri)
-            val referencePath = StorageReferencePolicy.referencePathFromSource(uri.toString())
+            val localPath = resolveLocalPath(resolver, uri, displayName)
+            if (localPath == null) {
+                skipped++
+                return@forEachIndexed
+            }
+
             totalBytes += bytes
             imported += PlaylistItem(
                 importOrderIndex = index,
                 originalDisplayName = displayName,
                 mimeType = validation.mimeType,
-                localPath = referencePath,
+                localPath = localPath,
                 bytes = bytes,
             )
         }
@@ -70,10 +76,76 @@ class ImportService(private val context: Context) {
         )
     }
 
-    private fun persistReadPermissionIfPossible(resolver: ContentResolver, uri: Uri) {
-        runCatching {
-            resolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    private fun resolveLocalPath(
+        resolver: ContentResolver,
+        uri: Uri,
+        displayName: String,
+    ): String? {
+        if (persistReadPermissionIfPossible(resolver, uri)) {
+            return StorageReferencePolicy.referencePathFromSource(uri.toString())
         }
+        return copyUriIntoAppStorage(resolver, uri, displayName)
+    }
+
+    private fun persistReadPermissionIfPossible(resolver: ContentResolver, uri: Uri): Boolean {
+        return runCatching {
+            resolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            true
+        }.onFailure { error ->
+            Log.w(
+                TAG,
+                "Failed to persist read permission for uri=$uri. " +
+                    "Item may be removed later during PlaylistRepository.loadPlaylists() " +
+                    "reconciliation unless fallback copy succeeds. error=${error.message}",
+                error,
+            )
+        }.getOrDefault(false)
+    }
+
+    private fun copyUriIntoAppStorage(
+        resolver: ContentResolver,
+        uri: Uri,
+        displayName: String,
+    ): String? {
+        val fallbackDir = File(context.filesDir, FALLBACK_IMPORT_DIR).apply { mkdirs() }
+        val safeName = sanitizeFileName(displayName)
+        val target = File(
+            fallbackDir,
+            "${System.currentTimeMillis()}-${UUID.randomUUID()}-$safeName",
+        )
+
+        return runCatching {
+            val input = resolver.openInputStream(uri)
+                ?: error("openInputStream returned null")
+            input.use { source ->
+                target.outputStream().use { destination ->
+                    source.copyTo(destination)
+                }
+            }
+            target.absolutePath
+        }.onSuccess {
+            Log.w(
+                TAG,
+                "Persistable URI permission unavailable for uri=$uri. " +
+                    "Stored fallback copy at ${target.absolutePath}",
+            )
+        }.onFailure { error ->
+            target.delete()
+            Log.e(
+                TAG,
+                "Failed fallback copy for uri=$uri. " +
+                    "Import entry will be skipped to avoid later broken references. " +
+                    "error=${error.message}",
+                error,
+            )
+        }.getOrNull()
+    }
+
+    private fun sanitizeFileName(name: String): String {
+        return name
+            .replace(Regex("[\\\\/:*?\"<>|]"), "_")
+            .trim()
+            .ifEmpty { "imported-media" }
     }
 
     private fun queryDisplayName(resolver: ContentResolver, uri: Uri): String? {
@@ -115,5 +187,10 @@ class ImportService(private val context: Context) {
         }
 
         return 0L
+    }
+
+    companion object {
+        private const val TAG = "ImportService"
+        private const val FALLBACK_IMPORT_DIR = "imported_media"
     }
 }

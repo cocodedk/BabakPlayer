@@ -4,6 +4,7 @@ import com.cocode.babakplayer.model.Playlist
 import com.cocode.babakplayer.model.PlaylistItem
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertSame
 import org.junit.Test
 
 class PlaylistAdjusterTest {
@@ -28,6 +29,18 @@ class PlaylistAdjusterTest {
         val playlist = playlistOf(item(order = 0, id = "x", bytes = 42))
         val adjusted = PlaylistAdjuster.reconcile(playlist) { false }
         assertNull(adjusted)
+    }
+
+    @Test
+    fun reconcile_returns_same_playlist_when_nothing_removed() {
+        val playlist = playlistOf(
+            item(order = 0, id = "a", bytes = 100),
+            item(order = 1, id = "b", bytes = 200),
+        )
+
+        val result = PlaylistAdjuster.reconcile(playlist) { true }
+
+        assertSame(playlist, result)
     }
 
     private fun playlistOf(vararg items: PlaylistItem): Playlist {

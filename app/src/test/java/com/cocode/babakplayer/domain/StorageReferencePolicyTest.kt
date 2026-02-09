@@ -28,4 +28,19 @@ class StorageReferencePolicyTest {
         val targets = StorageReferencePolicy.physicalDeleteTargetsOnPlaylistDelete(items)
         assertTrue(targets.isEmpty())
     }
+
+    @Test
+    fun delete_item_has_no_file_purge_targets() {
+        val item = PlaylistItem(
+            itemId = "1",
+            importOrderIndex = 0,
+            originalDisplayName = "part1.mp4",
+            mimeType = "video/mp4",
+            localPath = "content://media/1",
+            bytes = 10,
+        )
+
+        val targets = StorageReferencePolicy.physicalDeleteTargetsOnItemDelete(item)
+        assertTrue(targets.isEmpty())
+    }
 }

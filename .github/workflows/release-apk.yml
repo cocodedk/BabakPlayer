@@ -14,9 +14,6 @@ permissions:
 
 env:
   KEYSTORE_PATH: ${{ github.workspace }}/app/release.keystore
-  KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-  KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-  KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
   # Bump version per build: versionCode = run number, versionName = 1.0.<run>
   VERSION_CODE: ${{ github.run_number }}
   VERSION_NAME: "1.0.${{ github.run_number }}"
@@ -36,21 +33,30 @@ jobs:
           cache: gradle
 
       - name: Verify signing secrets
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           missing=0
-          if [ -z "${{ secrets.KEYSTORE_BASE64 }}" ]; then echo "Missing or empty secret: KEYSTORE_BASE64"; missing=1; fi
-          if [ -z "${{ secrets.KEYSTORE_PASSWORD }}" ]; then echo "Missing or empty secret: KEYSTORE_PASSWORD"; missing=1; fi
-          if [ -z "${{ secrets.KEY_ALIAS }}" ]; then echo "Missing or empty secret: KEY_ALIAS"; missing=1; fi
-          if [ -z "${{ secrets.KEY_PASSWORD }}" ]; then echo "Missing or empty secret: KEY_PASSWORD"; missing=1; fi
+          if [ -z "$KEYSTORE_BASE64" ]; then echo "Missing or empty secret: KEYSTORE_BASE64"; missing=1; fi
+          if [ -z "$KEYSTORE_PASSWORD" ]; then echo "Missing or empty secret: KEYSTORE_PASSWORD"; missing=1; fi
+          if [ -z "$KEY_ALIAS" ]; then echo "Missing or empty secret: KEY_ALIAS"; missing=1; fi
+          if [ -z "$KEY_PASSWORD" ]; then echo "Missing or empty secret: KEY_PASSWORD"; missing=1; fi
           if [ "$missing" -ne 0 ]; then exit 1; fi
 
       - name: Decode keystore
-        run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > "$KEYSTORE_PATH"
         env:
-          KEYSTORE_PATH: ${{ env.KEYSTORE_PATH }}
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > "$KEYSTORE_PATH"
 
       - name: Build release APK
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: ./gradlew assembleRelease --no-daemon --no-configuration-cache
 
       - name: Upload APK artifact
@@ -70,5 +76,3 @@ jobs:
           files: BabakPlayer.apk
           draft: false
           generate_release_notes: true
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,18 +1,13 @@
 package com.cocode.babakplayer.ui.screens
 
-import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts.OpenMultipleDocuments
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,8 +22,8 @@ import com.cocode.babakplayer.model.Playlist
 import com.cocode.babakplayer.model.PlaylistItem
 import com.cocode.babakplayer.player.PlaybackUiState
 import com.cocode.babakplayer.ui.MainUiState
-import com.cocode.babakplayer.ui.components.ImportSummaryCard
-import com.cocode.babakplayer.ui.components.PlayerHeroCard
+import com.cocode.babakplayer.ui.components.DeleteItemDialog
+import com.cocode.babakplayer.ui.components.DeletePlaylistDialog
 import com.cocode.babakplayer.ui.components.PlayerPanel
 import com.cocode.babakplayer.ui.components.PlaylistCard
 import com.cocode.babakplayer.ui.components.createPlayerView
@@ -40,7 +35,6 @@ fun PlayerScreen(
     player: ExoPlayer,
     seekIntervalSec: Int,
     onSelectPlaylist: (String, Boolean) -> Unit,
-    onImportFromDevice: (List<Uri>) -> Unit,
     onTogglePlayPause: () -> Unit,
     onSeekBy: (Long) -> Unit,
     onSeekTo: (Long) -> Unit,
@@ -48,109 +42,85 @@ fun PlayerScreen(
     onPrevious: () -> Unit,
     onDeleteItem: (String, String) -> Unit,
     onDeletePlaylist: (String) -> Unit,
-    onDismissSummary: () -> Unit,
 ) {
     val selectedPlaylist = uiState.playlists.firstOrNull { it.playlistId == uiState.selectedPlaylistId }
     val currentItem = selectedPlaylist?.items?.firstOrNull { it.itemId == playbackState.currentItemId }
+    var expandedPlaylistIds by remember { mutableStateOf<Set<String>>(emptySet()) }
     var pendingDeleteItem by remember { mutableStateOf<Pair<Playlist, PlaylistItem>?>(null) }
     var pendingDeletePlaylist by remember { mutableStateOf<Playlist?>(null) }
 
-    val importLauncher = rememberLauncherForActivityResult(OpenMultipleDocuments()) { uris ->
-        if (uris.isNotEmpty()) onImportFromDevice(uris)
-    }
-
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
-        item {
-            PlayerHeroCard(
-                isImporting = uiState.isImporting,
-                onImportFromDevice = { importLauncher.launch(arrayOf("audio/*", "video/*")) },
+        if (selectedPlaylist != null) {
+            PlayerPanel(
+                playerViewFactory = { context -> createPlayerView(context, player) },
+                playback = playbackState,
+                currentTitle = currentItem?.originalDisplayName ?: selectedPlaylist.title,
+                onTogglePlayPause = onTogglePlayPause,
+                onSeekBackward = { onSeekBy(-(seekIntervalSec * 1000L)) },
+                onSeekForward = { onSeekBy(seekIntervalSec * 1000L) },
+                onPrevious = onPrevious,
+                onNext = onNext,
+                onSeekTo = onSeekTo,
             )
         }
 
-        uiState.importSummary?.let { summary ->
-            item {
-                ImportSummaryCard(summary = summary)
-            }
-            item {
-                TextButton(onClick = onDismissSummary) {
-                    Text(stringResource(R.string.dismiss_summary))
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
+        ) {
+            if (uiState.playlists.isEmpty()) {
+                item {
+                    Text(
+                        text = stringResource(R.string.empty_playlists),
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
                 }
             }
-        }
 
-        if (selectedPlaylist != null) {
-            item {
-                PlayerPanel(
-                    playerViewFactory = { context -> createPlayerView(context, player) },
-                    playback = playbackState,
-                    currentTitle = currentItem?.originalDisplayName ?: selectedPlaylist.title,
-                    onTogglePlayPause = onTogglePlayPause,
-                    onSeekBackward = { onSeekBy(-(seekIntervalSec * 1000L)) },
-                    onSeekForward = { onSeekBy(seekIntervalSec * 1000L) },
-                    onPrevious = onPrevious,
-                    onNext = onNext,
-                    onSeekTo = onSeekTo,
+            items(items = uiState.playlists, key = { it.playlistId }) { playlist ->
+                val isExpanded = expandedPlaylistIds.contains(playlist.playlistId)
+                PlaylistCard(
+                    playlist = playlist,
+                    selected = playlist.playlistId == selectedPlaylist?.playlistId,
+                    expanded = isExpanded,
+                    currentItemId = playbackState.currentItemId,
+                    onSelect = { onSelectPlaylist(playlist.playlistId, false) },
+                    onPlay = { onSelectPlaylist(playlist.playlistId, true) },
+                    onToggleExpanded = {
+                        expandedPlaylistIds = if (isExpanded) {
+                            expandedPlaylistIds - playlist.playlistId
+                        } else {
+                            expandedPlaylistIds + playlist.playlistId
+                        }
+                    },
+                    onDeletePlaylist = { pendingDeletePlaylist = playlist },
+                    onDeleteItem = { item -> pendingDeleteItem = playlist to item },
                 )
             }
-        }
-
-        if (uiState.playlists.isEmpty()) {
-            item {
-                Text(
-                    text = stringResource(R.string.empty_playlists),
-                    style = MaterialTheme.typography.bodyLarge,
-                )
-            }
-        }
-
-        items(items = uiState.playlists, key = { it.playlistId }) { playlist ->
-            PlaylistCard(
-                playlist = playlist,
-                selected = playlist.playlistId == selectedPlaylist?.playlistId,
-                currentItemId = playbackState.currentItemId,
-                onSelect = { onSelectPlaylist(playlist.playlistId, false) },
-                onPlay = { onSelectPlaylist(playlist.playlistId, true) },
-                onDeletePlaylist = { pendingDeletePlaylist = playlist },
-                onDeleteItem = { item -> pendingDeleteItem = playlist to item },
-            )
         }
     }
 
     pendingDeleteItem?.let { (playlist, item) ->
-        AlertDialog(
-            onDismissRequest = { pendingDeleteItem = null },
-            title = { Text(stringResource(R.string.dialog_delete_file_title)) },
-            text = { Text(stringResource(R.string.dialog_delete_file_message, item.originalDisplayName)) },
-            confirmButton = {
-                Button(onClick = {
-                    onDeleteItem(playlist.playlistId, item.itemId)
-                    pendingDeleteItem = null
-                }) { Text(stringResource(R.string.action_delete)) }
-            },
-            dismissButton = {
-                TextButton(onClick = { pendingDeleteItem = null }) { Text(stringResource(R.string.action_cancel)) }
-            },
+        DeleteItemDialog(
+            playlist = playlist,
+            item = item,
+            onDismiss = { pendingDeleteItem = null },
+            onDelete = onDeleteItem,
         )
     }
 
     pendingDeletePlaylist?.let { playlist ->
-        AlertDialog(
-            onDismissRequest = { pendingDeletePlaylist = null },
-            title = { Text(stringResource(R.string.dialog_delete_playlist_title)) },
-            text = { Text(stringResource(R.string.dialog_delete_playlist_message, playlist.itemCount, playlist.title)) },
-            confirmButton = {
-                Button(onClick = {
-                    onDeletePlaylist(playlist.playlistId)
-                    pendingDeletePlaylist = null
-                }) { Text(stringResource(R.string.action_delete_all)) }
-            },
-            dismissButton = {
-                TextButton(onClick = { pendingDeletePlaylist = null }) { Text(stringResource(R.string.action_cancel)) }
-            },
+        DeletePlaylistDialog(
+            playlist = playlist,
+            onDismiss = { pendingDeletePlaylist = null },
+            onDelete = onDeletePlaylist,
         )
     }
 }

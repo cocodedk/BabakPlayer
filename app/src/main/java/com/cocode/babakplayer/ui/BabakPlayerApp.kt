@@ -1,10 +1,13 @@
 package com.cocode.babakplayer.ui
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -24,8 +27,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import com.cocode.babakplayer.R
 import com.cocode.babakplayer.ui.screens.AboutScreen
 import com.cocode.babakplayer.ui.screens.PlayerScreen
+import com.cocode.babakplayer.ui.screens.rememberImportFromDeviceAction
 import com.cocode.babakplayer.ui.screens.SettingsScreen
 import com.cocode.babakplayer.ui.theme.Night
 import com.cocode.babakplayer.ui.theme.NeonBlue
@@ -42,6 +47,7 @@ fun BabakPlayerApp(mainViewModel: MainViewModel, appViewModel: AppViewModel) {
     val appState by appViewModel.uiState.collectAsState()
     val context = LocalContext.current
     val snackbarHost = remember { SnackbarHostState() }
+    val onOpenImport = rememberImportFromDeviceAction(mainViewModel::importFromDeviceUris)
 
     LaunchedEffect(mainState.noticeResId) {
         val messageRes = mainState.noticeResId ?: return@LaunchedEffect
@@ -85,6 +91,27 @@ fun BabakPlayerApp(mainViewModel: MainViewModel, appViewModel: AppViewModel) {
                         label = { Text(stringResource(tab.titleRes)) },
                     )
                 }
+                NavigationBarItem(
+                    selected = false,
+                    onClick = {
+                        appViewModel.selectTab(AppTab.PLAYER)
+                        onOpenImport()
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Filled.AddCircle,
+                            contentDescription = stringResource(R.string.nav_add),
+                        )
+                    },
+                    label = { Text(stringResource(R.string.nav_add)) },
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = NeonPink,
+                        unselectedIconColor = NeonPink,
+                        selectedTextColor = NeonPink,
+                        unselectedTextColor = NeonPink,
+                        indicatorColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.2f),
+                    ),
+                )
             }
         },
         snackbarHost = { SnackbarHost(snackbarHost) },
@@ -107,7 +134,6 @@ fun BabakPlayerApp(mainViewModel: MainViewModel, appViewModel: AppViewModel) {
                     player = mainViewModel.player,
                     seekIntervalSec = appState.settings.seekIntervalSec,
                     onSelectPlaylist = mainViewModel::selectPlaylist,
-                    onImportFromDevice = mainViewModel::importFromDeviceUris,
                     onTogglePlayPause = mainViewModel::togglePlayPause,
                     onSeekBy = mainViewModel::seekBy,
                     onSeekTo = mainViewModel::seekTo,
@@ -115,7 +141,6 @@ fun BabakPlayerApp(mainViewModel: MainViewModel, appViewModel: AppViewModel) {
                     onPrevious = mainViewModel::previous,
                     onDeleteItem = mainViewModel::deleteItem,
                     onDeletePlaylist = mainViewModel::deletePlaylist,
-                    onDismissSummary = mainViewModel::clearImportSummary,
                 )
 
                 AppTab.SETTINGS -> SettingsScreen(

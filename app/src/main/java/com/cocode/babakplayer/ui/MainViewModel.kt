@@ -66,7 +66,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 uris = uris,
                 caption = null,
                 firstDescription = null,
-                sourceApp = "device_storage",
+                sourceApp = DEVICE_STORAGE_SOURCE_APP,
             ),
         )
     }
@@ -167,5 +167,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     override fun onCleared() {
         playbackController.release()
         super.onCleared()
+    }
+
+    private companion object {
+        private const val DEVICE_STORAGE_SOURCE_APP = "device_storage"
     }
 }
