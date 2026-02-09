@@ -1,8 +1,11 @@
 package com.cocode.babakplayer.data
 
+import android.content.ContentResolver
 import android.content.Context
+import android.net.Uri
 import com.cocode.babakplayer.data.local.ImportService
 import com.cocode.babakplayer.data.local.PlaylistStore
+import com.cocode.babakplayer.domain.PlaylistAdjuster
 import com.cocode.babakplayer.model.ImportResult
 import com.cocode.babakplayer.model.ImportSummary
 import com.cocode.babakplayer.model.ItemStatus
@@ -13,17 +16,26 @@ import com.cocode.babakplayer.util.TitleResolver
 import java.io.File
 import java.util.UUID
 
-class PlaylistRepository(context: Context) {
+class PlaylistRepository(private val context: Context) {
     private val store = PlaylistStore(context)
     private val importService = ImportService(context)
 
-    suspend fun loadPlaylists(): List<Playlist> = store.loadPlaylists()
+    suspend fun loadPlaylists(): List<Playlist> {
+        val current = store.loadPlaylists()
+        val reconciled = current.mapNotNull { playlist ->
+            PlaylistAdjuster.reconcile(playlist, ::storageReferenceExists)
+        }
+
+        if (reconciled != current) {
+            store.replacePlaylists(reconciled)
+        }
+        return reconciled
+    }
 
     suspend fun importPayload(payload: SharePayload): ImportResult {
         val createdAt = System.currentTimeMillis()
         val playlistId = UUID.randomUUID().toString()
-        val playlistDir = store.playlistDir(playlistId)
-        val draft = importService.importPayload(payload, playlistDir)
+        val draft = importService.importPayload(payload)
         val title = TitleResolver.resolve(
             firstDescription = payload.firstDescription,
             caption = payload.caption,
@@ -32,7 +44,6 @@ class PlaylistRepository(context: Context) {
         )
 
         if (draft.items.isEmpty()) {
-            playlistDir.deleteRecursively()
             return ImportResult(
                 playlist = null,
                 summary = ImportSummary(
@@ -69,22 +80,15 @@ class PlaylistRepository(context: Context) {
     }
 
     suspend fun deletePlaylist(playlistId: String) {
-        val playlists = store.loadPlaylists()
-        val target = playlists.firstOrNull { it.playlistId == playlistId } ?: return
-        target.items.forEach { File(it.localPath).delete() }
-        store.playlistDir(playlistId).deleteRecursively()
         store.removePlaylist(playlistId)
     }
 
     suspend fun deleteItem(playlistId: String, itemId: String) {
-        val playlists = store.loadPlaylists()
+        val playlists = loadPlaylists()
         val playlist = playlists.firstOrNull { it.playlistId == playlistId } ?: return
-        val item = playlist.items.firstOrNull { it.itemId == itemId } ?: return
-        File(item.localPath).delete()
-
         val remaining = playlist.items.filterNot { it.itemId == itemId }
+
         if (remaining.isEmpty()) {
-            store.playlistDir(playlistId).deleteRecursively()
             store.removePlaylist(playlistId)
             return
         }
@@ -98,7 +102,7 @@ class PlaylistRepository(context: Context) {
     }
 
     suspend fun markItemDecodeFailed(playlistId: String, itemId: String) {
-        val playlists = store.loadPlaylists()
+        val playlists = loadPlaylists()
         val target = playlists.firstOrNull { it.playlistId == playlistId } ?: return
         val updated = target.items.map {
             if (it.itemId == itemId) it.copy(status = ItemStatus.DECODE_FAILED) else it
@@ -107,7 +111,7 @@ class PlaylistRepository(context: Context) {
     }
 
     suspend fun savePlaylistDurations(playlistId: String, durations: Map<String, Long>) {
-        val playlists = store.loadPlaylists()
+        val playlists = loadPlaylists()
         val target = playlists.firstOrNull { it.playlistId == playlistId } ?: return
         val updatedItems = target.items.map { item ->
             val duration = durations[item.itemId] ?: return@map item
@@ -116,5 +120,31 @@ class PlaylistRepository(context: Context) {
         store.upsertPlaylist(target.copy(items = updatedItems))
     }
 
-    fun localFileExists(item: PlaylistItem): Boolean = File(item.localPath).exists()
+    fun localFileExists(item: PlaylistItem): Boolean = storageReferenceExists(item)
+
+    private fun storageReferenceExists(item: PlaylistItem): Boolean {
+        val raw = item.localPath
+        val parsed = Uri.parse(raw)
+
+        return when (parsed.scheme?.lowercase()) {
+            null, "" -> File(raw).exists()
+            "file" -> parsed.path?.let { File(it).exists() } == true
+            "content" -> contentUriExists(context.contentResolver, parsed)
+            else -> false
+        }
+    }
+
+    private fun contentUriExists(resolver: ContentResolver, uri: Uri): Boolean {
+        val byDescriptor = runCatching {
+            resolver.openAssetFileDescriptor(uri, "r")?.use { descriptor ->
+                descriptor.length != 0L
+            }
+        }.getOrNull()
+
+        if (byDescriptor != null) return byDescriptor
+
+        return runCatching {
+            resolver.openInputStream(uri)?.use { true } ?: false
+        }.getOrDefault(false)
+    }
 }

@@ -107,6 +107,7 @@ fun BabakPlayerApp(mainViewModel: MainViewModel, appViewModel: AppViewModel) {
                     player = mainViewModel.player,
                     seekIntervalSec = appState.settings.seekIntervalSec,
                     onSelectPlaylist = mainViewModel::selectPlaylist,
+                    onImportFromDevice = mainViewModel::importFromDeviceUris,
                     onTogglePlayPause = mainViewModel::togglePlayPause,
                     onSeekBy = mainViewModel::seekBy,
                     onSeekTo = mainViewModel::seekTo,

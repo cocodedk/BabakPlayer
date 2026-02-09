@@ -6,9 +6,11 @@
     <string name="tab_about">درباره</string>
 
     <string name="player_header">بابک‌پلیر</string>
-    <string name="player_subtitle">از واتس‌اپ وارد کنید و به ترتیب دریافت پخش کنید.</string>
+    <string name="player_subtitle">از واتس‌اپ یا حافظه دستگاه وارد کنید و به ترتیب دریافت پخش کنید.</string>
     <string name="player_importing">در حال وارد کردن فایل‌های اشتراک‌گذاری‌شده...</string>
-    <string name="empty_playlists">هنوز پلی‌لیستی وجود ندارد. فایل‌ها را از واتس‌اپ به بابک‌پلیر ارسال کنید.</string>
+    <string name="player_import_from_device_action">ورود از گالری/فایل‌ها</string>
+    <string name="player_import_from_device_hint">چند فایل صوتی/ویدیویی را از گالری یا فایل‌ها انتخاب کنید تا یک پلی‌لیست ساخته شود.</string>
+    <string name="empty_playlists">هنوز پلی‌لیستی وجود ندارد. فایل را اشتراک‌گذاری کنید یا از گالری/فایل‌ها وارد کنید.</string>
     <string name="dismiss_summary">بستن خلاصه</string>
 
     <string name="summary_title">وارد شد: %1$s</string>
@@ -35,15 +37,15 @@
     <string name="content_seek_forward">جلو بردن</string>
 
     <string name="dialog_delete_file_title">حذف فایل</string>
-    <string name="dialog_delete_file_message">فایل %1$s حذف شود؟ این کار فایل محلی را برای همیشه حذف می‌کند.</string>
+    <string name="dialog_delete_file_message">فایل %1$s از این پلی‌لیست حذف شود؟ فایل اصلی در حافظه دستگاه باقی می‌ماند.</string>
     <string name="dialog_delete_playlist_title">حذف پلی‌لیست</string>
-    <string name="dialog_delete_playlist_message">%1$d فایل از %2$s حذف شود؟ این کار قابل بازگشت نیست.</string>
+    <string name="dialog_delete_playlist_message">پلی‌لیست %2$s با %1$d فایل حذف شود؟ فایل‌های اصلی در حافظه دستگاه باقی می‌مانند.</string>
     <string name="action_delete">حذف</string>
     <string name="action_delete_all">حذف همه</string>
     <string name="action_cancel">انصراف</string>
 
-    <string name="notice_file_deleted">فایل برای همیشه حذف شد</string>
-    <string name="notice_playlist_deleted">پلی‌لیست برای همیشه حذف شد</string>
+    <string name="notice_file_deleted">فایل از پلی‌لیست حذف شد</string>
+    <string name="notice_playlist_deleted">پلی‌لیست حذف شد. فایل‌های اصلی تغییر نکردند.</string>
     <string name="notice_decode_skip">یکی از فایل‌ها Decode نشد و رد شد</string>
 
     <string name="settings_title">تنظیمات</string>

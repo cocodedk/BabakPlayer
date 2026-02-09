@@ -2,15 +2,15 @@ package com.cocode.babakplayer.data.local
 
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.provider.OpenableColumns
+import com.cocode.babakplayer.domain.StorageReferencePolicy
 import com.cocode.babakplayer.model.PlaylistItem
 import com.cocode.babakplayer.util.SharePayload
 import com.cocode.babakplayer.util.detectSupportedMedia
 import com.cocode.babakplayer.util.extractDisplayName
-import com.cocode.babakplayer.util.safeImportFileName
 import java.io.File
-import java.io.FileOutputStream
 
 class ImportService(private val context: Context) {
     data class ImportDraft(
@@ -22,10 +22,7 @@ class ImportService(private val context: Context) {
         val firstDisplayName: String?,
     )
 
-    suspend fun importPayload(
-        payload: SharePayload,
-        playlistDir: File,
-    ): ImportDraft {
+    suspend fun importPayload(payload: SharePayload): ImportDraft {
         val resolver = context.contentResolver
         val imported = mutableListOf<PlaylistItem>()
         var skipped = 0
@@ -39,28 +36,27 @@ class ImportService(private val context: Context) {
 
             val mimeType = resolver.getType(uri)
             val validation = detectSupportedMedia(mimeType = mimeType, fileName = displayName)
-            if (!validation.isSupported || validation.mimeType == null || validation.extension == null) {
+            if (!validation.isSupported || validation.mimeType == null) {
                 skipped++
                 unsupported++
                 return@forEachIndexed
             }
 
-            val targetName = safeImportFileName(index, displayName, validation.extension)
-            val targetFile = File(playlistDir, targetName)
-            val copiedBytes = copyUriToFile(resolver, uri, targetFile)
-            if (copiedBytes <= 0L) {
-                targetFile.delete()
+            val bytes = querySize(resolver, uri)
+            if (bytes <= 0L) {
                 skipped++
                 return@forEachIndexed
             }
 
-            totalBytes += copiedBytes
+            persistReadPermissionIfPossible(resolver, uri)
+            val referencePath = StorageReferencePolicy.referencePathFromSource(uri.toString())
+            totalBytes += bytes
             imported += PlaylistItem(
                 importOrderIndex = index,
                 originalDisplayName = displayName,
                 mimeType = validation.mimeType,
-                localPath = targetFile.absolutePath,
-                bytes = copiedBytes,
+                localPath = referencePath,
+                bytes = bytes,
             )
         }
 
@@ -74,33 +70,50 @@ class ImportService(private val context: Context) {
         )
     }
 
-    private fun copyUriToFile(resolver: ContentResolver, uri: Uri, targetFile: File): Long {
-        val input = runCatching { resolver.openInputStream(uri) }.getOrNull() ?: return 0L
-        input.use { stream ->
-            FileOutputStream(targetFile).use { output ->
-                val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-                var total = 0L
-                while (true) {
-                    val read = stream.read(buffer)
-                    if (read <= 0) break
-                    output.write(buffer, 0, read)
-                    total += read
-                }
-                return total
-            }
+    private fun persistReadPermissionIfPossible(resolver: ContentResolver, uri: Uri) {
+        runCatching {
+            resolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
     }
 
     private fun queryDisplayName(resolver: ContentResolver, uri: Uri): String? {
-        val projection = arrayOf(OpenableColumns.DISPLAY_NAME)
         val cursor = runCatching {
-            resolver.query(uri, projection, null, null, null)
+            resolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)
         }.getOrNull() ?: return null
+
         cursor.use {
             if (!it.moveToFirst()) return null
-            val columnIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-            if (columnIndex < 0) return null
-            return it.getString(columnIndex)
+            val column = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            if (column < 0) return null
+            return it.getString(column)
         }
+    }
+
+    private fun querySize(resolver: ContentResolver, uri: Uri): Long {
+        val fromMetadata = runCatching {
+            resolver.query(uri, arrayOf(OpenableColumns.SIZE), null, null, null)
+        }.getOrNull()?.use { cursor ->
+            if (!cursor.moveToFirst()) return@use null
+            val column = cursor.getColumnIndex(OpenableColumns.SIZE)
+            if (column < 0 || cursor.isNull(column)) return@use null
+            cursor.getLong(column)
+        }
+
+        if (fromMetadata != null && fromMetadata > 0L) return fromMetadata
+
+        val fromAssetDescriptor = runCatching {
+            resolver.openAssetFileDescriptor(uri, "r")?.use { descriptor ->
+                descriptor.length.takeIf { it > 0L }
+            }
+        }.getOrNull()
+
+        if (fromAssetDescriptor != null) return fromAssetDescriptor
+
+        if (uri.scheme == "file") {
+            val path = uri.path ?: return 0L
+            return File(path).length().takeIf { it > 0L } ?: 0L
+        }
+
+        return 0L
     }
 }

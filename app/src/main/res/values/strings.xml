@@ -6,9 +6,11 @@
     <string name="tab_about">About</string>
 
     <string name="player_header">BabakPlayer</string>
-    <string name="player_subtitle">Import from WhatsApp and play in receive order.</string>
+    <string name="player_subtitle">Import from WhatsApp or device storage and play in receive order.</string>
     <string name="player_importing">Importing shared files...</string>
-    <string name="empty_playlists">No playlists yet. Share media files to BabakPlayer from WhatsApp.</string>
+    <string name="player_import_from_device_action">Import from gallery/files</string>
+    <string name="player_import_from_device_hint">Pick multiple audio/video files from gallery or file locations to create one playlist.</string>
+    <string name="empty_playlists">No playlists yet. Share media or import from gallery/files.</string>
     <string name="dismiss_summary">Dismiss summary</string>
 
     <string name="summary_title">Imported: %1$s</string>
@@ -35,15 +37,15 @@
     <string name="content_seek_forward">Seek forward</string>
 
     <string name="dialog_delete_file_title">Delete file</string>
-    <string name="dialog_delete_file_message">Delete %1$s? This permanently removes the local file.</string>
+    <string name="dialog_delete_file_message">Remove %1$s from this playlist? The original file stays in device storage.</string>
     <string name="dialog_delete_playlist_title">Delete playlist</string>
-    <string name="dialog_delete_playlist_message">Delete %1$d files from %2$s? This cannot be undone.</string>
+    <string name="dialog_delete_playlist_message">Remove playlist %2$s with %1$d items? Original files stay in device storage.</string>
     <string name="action_delete">Delete</string>
     <string name="action_delete_all">Delete all</string>
     <string name="action_cancel">Cancel</string>
 
-    <string name="notice_file_deleted">File deleted permanently</string>
-    <string name="notice_playlist_deleted">Playlist deleted permanently</string>
+    <string name="notice_file_deleted">File removed from playlist</string>
+    <string name="notice_playlist_deleted">Playlist removed. Original files unchanged.</string>
     <string name="notice_decode_skip">One file failed decoding and was skipped</string>
 
     <string name="settings_title">Settings</string>
