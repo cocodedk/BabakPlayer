@@ -1,0 +1,161 @@
+package com.cocode.babakplayer.data
+
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import com.cocode.babakplayer.data.local.PlaylistStore
+import com.cocode.babakplayer.model.ItemStatus
+import java.io.File
+import kotlinx.coroutines.runBlocking
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Assert.assertFalse
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+
+@RunWith(AndroidJUnit4::class)
+class PlaylistPersistenceAcrossUpdateTest {
+    private val context by lazy { InstrumentationRegistry.getInstrumentation().targetContext }
+    private val playlistsRoot by lazy { File(context.filesDir, "playlists") }
+
+    @Before
+    fun setUp() {
+        resetPlaylistsRoot()
+    }
+
+    @After
+    fun tearDown() {
+        resetPlaylistsRoot()
+    }
+
+    @Test
+    fun existing_playlists_survive_app_update_startup_path() = runBlocking {
+        val existingMediaFile = File(context.filesDir, "update-survival-media.mp4").apply {
+            writeBytes(byteArrayOf(1, 2, 3))
+        }
+        try {
+            val indexFile = File(playlistsRoot, "index.json").apply {
+                parentFile?.mkdirs()
+                writeText(legacyIndexJson(existingMediaFile.absolutePath))
+            }
+
+            // Simulate opening the app after an update (fresh repository instance, same app files).
+            val firstBoot = PlaylistRepository(context).loadPlaylists()
+            val secondBoot = PlaylistRepository(context).loadPlaylists()
+
+            assertEquals(1, firstBoot.size)
+            assertEquals(firstBoot, secondBoot)
+
+            val restored = firstBoot.first()
+            assertEquals("legacy-playlist", restored.playlistId)
+            assertEquals(2, restored.items.size)
+            assertEquals(listOf("legacy-content-item", "legacy-file-item"), restored.items.map { it.itemId })
+            assertEquals(ItemStatus.READY, restored.items.first().status)
+            assertTrue(indexFile.exists())
+
+            // Ensure on-disk metadata remains readable after repository reconciliation pass.
+            val persisted = PlaylistStore(context).loadPlaylists()
+            assertEquals(1, persisted.size)
+            assertEquals("legacy-playlist", persisted.first().playlistId)
+            assertEquals(2, persisted.first().items.size)
+        } finally {
+            existingMediaFile.delete()
+        }
+    }
+
+    @Test
+    fun reconciliation_drops_items_when_content_provider_is_missing() = runBlocking {
+        val existingMediaFile = File(context.filesDir, "provider-missing-survival.mp4").apply {
+            writeBytes(byteArrayOf(7, 8, 9))
+        }
+        try {
+            File(playlistsRoot, "index.json").apply {
+                parentFile?.mkdirs()
+                writeText(indexJsonWithMissingProvider(filePath = existingMediaFile.absolutePath))
+            }
+
+            val restored = PlaylistRepository(context).loadPlaylists()
+            assertEquals(1, restored.size)
+            assertEquals(listOf("legacy-file-item"), restored.first().items.map { it.itemId })
+            assertFalse(restored.first().items.any { it.localPath.startsWith("content://com.missing.provider/") })
+            assertEquals(1, restored.first().itemCount)
+        } finally {
+            existingMediaFile.delete()
+        }
+    }
+
+    private fun legacyIndexJson(filePath: String): String {
+        val escapedPath = filePath.replace("\\", "\\\\").replace("\"", "\\\"")
+        return """
+        {
+          "playlists": [
+            {
+              "playlistId": "legacy-playlist",
+              "title": "Legacy Playlist",
+              "createdAt": 1735689600000,
+              "itemCount": 2,
+              "totalBytes": 13,
+              "items": [
+                {
+                  "itemId": "legacy-content-item",
+                  "importOrderIndex": 0,
+                  "originalDisplayName": "part-1.mp4",
+                  "mimeType": "video/mp4",
+                  "localPath": "content://media/external/video/media/123",
+                  "bytes": 10
+                },
+                {
+                  "itemId": "legacy-file-item",
+                  "importOrderIndex": 1,
+                  "originalDisplayName": "part-2.mp4",
+                  "mimeType": "video/mp4",
+                  "localPath": "$escapedPath",
+                  "bytes": 3
+                }
+              ]
+            }
+          ]
+        }
+        """.trimIndent()
+    }
+
+    private fun resetPlaylistsRoot() {
+        if (playlistsRoot.exists()) playlistsRoot.deleteRecursively()
+    }
+
+    private fun indexJsonWithMissingProvider(filePath: String): String {
+        val escapedPath = filePath.replace("\\", "\\\\").replace("\"", "\\\"")
+        return """
+        {
+          "playlists": [
+            {
+              "playlistId": "legacy-playlist",
+              "title": "Legacy Playlist",
+              "createdAt": 1735689600000,
+              "itemCount": 2,
+              "totalBytes": 13,
+              "items": [
+                {
+                  "itemId": "legacy-missing-provider-item",
+                  "importOrderIndex": 0,
+                  "originalDisplayName": "part-missing.mp4",
+                  "mimeType": "video/mp4",
+                  "localPath": "content://com.missing.provider/media/123",
+                  "bytes": 10
+                },
+                {
+                  "itemId": "legacy-file-item",
+                  "importOrderIndex": 1,
+                  "originalDisplayName": "part-ok.mp4",
+                  "mimeType": "video/mp4",
+                  "localPath": "$escapedPath",
+                  "bytes": 3
+                }
+              ]
+            }
+          ]
+        }
+        """.trimIndent()
+    }
+}

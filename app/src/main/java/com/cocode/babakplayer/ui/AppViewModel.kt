@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.update
 data class AppUiState(
     val selectedTab: AppTab = AppTab.PLAYER,
     val settings: AppSettings = AppSettings(),
+    val isFullscreen: Boolean = false,
 )
 
 class AppViewModel(application: Application) : AndroidViewModel(application) {
@@ -29,6 +30,10 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     fun selectTab(tab: AppTab) {
         _uiState.update { it.copy(selectedTab = tab) }
+    }
+
+    fun setFullscreen(fullscreen: Boolean) {
+        _uiState.update { it.copy(isFullscreen = fullscreen) }
     }
 
     fun setThemeMode(mode: ThemeMode) {

@@ -7,7 +7,6 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.cocode.babakplayer.model.PlaylistItem
-import java.io.File
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -77,7 +76,7 @@ class PlaybackController(
             MediaItem.Builder()
                 .setMediaId(item.itemId)
                 .setMimeType(item.mimeType)
-                .setUri(Uri.fromFile(File(item.localPath)))
+                .setUri(resolveMediaUri(item.localPath))
                 .build()
         }
         player.setMediaItems(mediaItems, false)
@@ -171,5 +170,11 @@ class PlaybackController(
             positionMs = player.currentPosition.coerceAtLeast(0L),
             durationMs = duration,
         )
+    }
+
+    private fun resolveMediaUri(pathOrUri: String): Uri {
+        require(pathOrUri.isNotBlank()) { "Media path/URI must not be blank" }
+        val parsed = Uri.parse(pathOrUri)
+        return if (parsed.scheme.isNullOrBlank()) Uri.fromFile(java.io.File(pathOrUri)) else parsed
     }
 }

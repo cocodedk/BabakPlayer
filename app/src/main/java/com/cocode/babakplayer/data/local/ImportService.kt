@@ -2,15 +2,17 @@ package com.cocode.babakplayer.data.local
 
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.provider.OpenableColumns
+import android.util.Log
+import com.cocode.babakplayer.domain.StorageReferencePolicy
 import com.cocode.babakplayer.model.PlaylistItem
 import com.cocode.babakplayer.util.SharePayload
 import com.cocode.babakplayer.util.detectSupportedMedia
 import com.cocode.babakplayer.util.extractDisplayName
-import com.cocode.babakplayer.util.safeImportFileName
 import java.io.File
-import java.io.FileOutputStream
+import java.util.UUID
 
 class ImportService(private val context: Context) {
     data class ImportDraft(
@@ -22,10 +24,7 @@ class ImportService(private val context: Context) {
         val firstDisplayName: String?,
     )
 
-    suspend fun importPayload(
-        payload: SharePayload,
-        playlistDir: File,
-    ): ImportDraft {
+    suspend fun importPayload(payload: SharePayload): ImportDraft {
         val resolver = context.contentResolver
         val imported = mutableListOf<PlaylistItem>()
         var skipped = 0
@@ -39,28 +38,31 @@ class ImportService(private val context: Context) {
 
             val mimeType = resolver.getType(uri)
             val validation = detectSupportedMedia(mimeType = mimeType, fileName = displayName)
-            if (!validation.isSupported || validation.mimeType == null || validation.extension == null) {
+            if (!validation.isSupported || validation.mimeType == null) {
                 skipped++
                 unsupported++
                 return@forEachIndexed
             }
 
-            val targetName = safeImportFileName(index, displayName, validation.extension)
-            val targetFile = File(playlistDir, targetName)
-            val copiedBytes = copyUriToFile(resolver, uri, targetFile)
-            if (copiedBytes <= 0L) {
-                targetFile.delete()
+            val bytes = querySize(resolver, uri)
+            if (bytes <= 0L) {
                 skipped++
                 return@forEachIndexed
             }
 
-            totalBytes += copiedBytes
+            val localPath = resolveLocalPath(resolver, uri, displayName)
+            if (localPath == null) {
+                skipped++
+                return@forEachIndexed
+            }
+
+            totalBytes += bytes
             imported += PlaylistItem(
                 importOrderIndex = index,
                 originalDisplayName = displayName,
                 mimeType = validation.mimeType,
-                localPath = targetFile.absolutePath,
-                bytes = copiedBytes,
+                localPath = localPath,
+                bytes = bytes,
             )
         }
 
@@ -74,33 +76,139 @@ class ImportService(private val context: Context) {
         )
     }
 
-    private fun copyUriToFile(resolver: ContentResolver, uri: Uri, targetFile: File): Long {
-        val input = runCatching { resolver.openInputStream(uri) }.getOrNull() ?: return 0L
-        input.use { stream ->
-            FileOutputStream(targetFile).use { output ->
-                val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-                var total = 0L
-                while (true) {
-                    val read = stream.read(buffer)
-                    if (read <= 0) break
-                    output.write(buffer, 0, read)
-                    total += read
-                }
-                return total
-            }
+    private fun resolveLocalPath(
+        resolver: ContentResolver,
+        uri: Uri,
+        displayName: String,
+    ): String? {
+        if (shouldForceLocalCopy(uri)) {
+            Log.w(
+                TAG,
+                "Using forced local copy for unstable external content uri=$uri",
+            )
+            return copyUriIntoAppStorage(resolver, uri, displayName)
         }
+
+        if (persistReadPermissionIfPossible(resolver, uri)) {
+            return StorageReferencePolicy.referencePathFromSource(uri.toString())
+        }
+        return copyUriIntoAppStorage(resolver, uri, displayName)
+    }
+
+    private fun persistReadPermissionIfPossible(resolver: ContentResolver, uri: Uri): Boolean {
+        return runCatching {
+            resolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            true
+        }.onFailure { error ->
+            Log.w(
+                TAG,
+                "Failed to persist read permission for uri=$uri. " +
+                    "Item may be removed later during PlaylistRepository.loadPlaylists() " +
+                    "reconciliation unless fallback copy succeeds. error=${error.message}",
+                error,
+            )
+        }.getOrDefault(false)
+    }
+
+    private fun copyUriIntoAppStorage(
+        resolver: ContentResolver,
+        uri: Uri,
+        displayName: String,
+    ): String? {
+        val fallbackDir = File(context.filesDir, FALLBACK_IMPORT_DIR).apply { mkdirs() }
+        val safeName = sanitizeFileName(displayName)
+        val target = File(
+            fallbackDir,
+            "${System.currentTimeMillis()}-${UUID.randomUUID()}-$safeName",
+        )
+
+        return runCatching {
+            val input = resolver.openInputStream(uri)
+                ?: error("openInputStream returned null")
+            input.use { source ->
+                target.outputStream().use { destination ->
+                    source.copyTo(destination)
+                }
+            }
+            target.absolutePath
+        }.onSuccess {
+            Log.w(
+                TAG,
+                "Persistable URI permission unavailable for uri=$uri. " +
+                    "Stored fallback copy at ${target.absolutePath}",
+            )
+        }.onFailure { error ->
+            target.delete()
+            Log.e(
+                TAG,
+                "Failed fallback copy for uri=$uri. " +
+                    "Import entry will be skipped to avoid later broken references. " +
+                    "error=${error.message}",
+                error,
+            )
+        }.getOrNull()
+    }
+
+    private fun sanitizeFileName(name: String): String {
+        return name
+            .replace(Regex("[\\\\/:*?\"<>|]"), "_")
+            .trim()
+            .ifEmpty { "imported-media" }
+    }
+
+    private fun shouldForceLocalCopy(uri: Uri): Boolean {
+        if (uri.scheme?.lowercase() != ContentResolver.SCHEME_CONTENT) return false
+        val authority = uri.authority?.lowercase() ?: return false
+        return UNSTABLE_FORCE_COPY_AUTHORITIES.any { authority == it || authority.startsWith("$it.") }
     }
 
     private fun queryDisplayName(resolver: ContentResolver, uri: Uri): String? {
-        val projection = arrayOf(OpenableColumns.DISPLAY_NAME)
         val cursor = runCatching {
-            resolver.query(uri, projection, null, null, null)
+            resolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)
         }.getOrNull() ?: return null
+
         cursor.use {
             if (!it.moveToFirst()) return null
-            val columnIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-            if (columnIndex < 0) return null
-            return it.getString(columnIndex)
+            val column = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            if (column < 0) return null
+            return it.getString(column)
         }
+    }
+
+    private fun querySize(resolver: ContentResolver, uri: Uri): Long {
+        val fromMetadata = runCatching {
+            resolver.query(uri, arrayOf(OpenableColumns.SIZE), null, null, null)
+        }.getOrNull()?.use { cursor ->
+            if (!cursor.moveToFirst()) return@use null
+            val column = cursor.getColumnIndex(OpenableColumns.SIZE)
+            if (column < 0 || cursor.isNull(column)) return@use null
+            cursor.getLong(column)
+        }
+
+        if (fromMetadata != null && fromMetadata > 0L) return fromMetadata
+
+        val fromAssetDescriptor = runCatching {
+            resolver.openAssetFileDescriptor(uri, "r")?.use { descriptor ->
+                descriptor.length.takeIf { it > 0L }
+            }
+        }.getOrNull()
+
+        if (fromAssetDescriptor != null) return fromAssetDescriptor
+
+        if (uri.scheme == "file") {
+            val path = uri.path ?: return 0L
+            return File(path).length().takeIf { it > 0L } ?: 0L
+        }
+
+        return 0L
+    }
+
+    companion object {
+        private const val TAG = "ImportService"
+        private const val FALLBACK_IMPORT_DIR = "imported_media"
+        private val UNSTABLE_FORCE_COPY_AUTHORITIES = setOf(
+            "com.whatsapp.provider.media",
+            "com.whatsapp.w4b.provider.media",
+        )
     }
 }

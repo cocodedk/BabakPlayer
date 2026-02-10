@@ -6,8 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.collectAsState
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.cocode.babakplayer.ui.BabakPlayerApp
 import com.cocode.babakplayer.ui.AppViewModel
 import com.cocode.babakplayer.ui.AppTab
@@ -26,6 +30,15 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val appState by appViewModel.uiState.collectAsState()
             BabakPlayerTheme(themeMode = appState.settings.themeMode) {
+                LaunchedEffect(appState.isFullscreen) {
+                    val insetsController = WindowCompat.getInsetsController(window, window.decorView)
+                    if (appState.isFullscreen) {
+                        insetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                        insetsController.hide(WindowInsetsCompat.Type.systemBars())
+                    } else {
+                        insetsController.show(WindowInsetsCompat.Type.systemBars())
+                    }
+                }
                 BabakPlayerApp(mainViewModel = viewModel, appViewModel = appViewModel)
             }
         }

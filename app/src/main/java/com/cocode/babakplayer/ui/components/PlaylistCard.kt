@@ -1,6 +1,5 @@
 package com.cocode.babakplayer.ui.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material3.Card
@@ -21,7 +22,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -37,9 +37,11 @@ import com.cocode.babakplayer.util.asReadableSize
 fun PlaylistCard(
     playlist: Playlist,
     selected: Boolean,
+    expanded: Boolean,
     currentItemId: String?,
     onSelect: () -> Unit,
     onPlay: () -> Unit,
+    onToggleExpanded: () -> Unit,
     onDeletePlaylist: () -> Unit,
     onDeleteItem: (PlaylistItem) -> Unit,
     modifier: Modifier = Modifier,
@@ -67,17 +69,27 @@ fun PlaylistCard(
                 title = playlist.title,
                 bytes = playlist.totalBytes,
                 count = playlist.itemCount,
+                expanded = expanded,
                 onPlay = onPlay,
+                onToggleExpanded = onToggleExpanded,
                 onDeletePlaylist = onDeletePlaylist,
             )
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                playlist.items.forEach { item ->
-                    ItemRow(
-                        item = item,
-                        selected = item.itemId == currentItemId,
-                        onDelete = { onDeleteItem(item) },
-                    )
+            if (expanded) {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    playlist.items.forEach { item ->
+                        ItemRow(
+                            item = item,
+                            selected = item.itemId == currentItemId,
+                            onDelete = { onDeleteItem(item) },
+                        )
+                    }
                 }
+            } else {
+                Text(
+                    text = stringResource(R.string.playlist_collapsed_hint),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.secondary,
+                )
             }
         }
     }
@@ -88,7 +100,9 @@ private fun HeaderRow(
     title: String,
     bytes: Long,
     count: Int,
+    expanded: Boolean,
     onPlay: () -> Unit,
+    onToggleExpanded: () -> Unit,
     onDeletePlaylist: () -> Unit,
 ) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -101,6 +115,16 @@ private fun HeaderRow(
             )
         }
         Row {
+            IconButton(onClick = onToggleExpanded) {
+                Icon(
+                    imageVector = if (expanded) Icons.Filled.KeyboardArrowDown else Icons.Filled.KeyboardArrowRight,
+                    contentDescription = if (expanded) {
+                        stringResource(R.string.content_collapse_playlist)
+                    } else {
+                        stringResource(R.string.content_expand_playlist)
+                    },
+                )
+            }
             IconButton(onClick = onPlay) {
                 Icon(Icons.Outlined.PlayArrow, contentDescription = stringResource(R.string.content_play_playlist))
             }
@@ -120,7 +144,7 @@ private fun ItemRow(item: PlaylistItem, selected: Boolean, onDelete: () -> Unit)
     }
 
     Surface(
-        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(10.dp)).background(bgColor),
+        modifier = Modifier.fillMaxWidth(),
         color = bgColor,
         shape = RoundedCornerShape(10.dp),
     ) {

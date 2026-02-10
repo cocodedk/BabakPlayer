@@ -1,6 +1,7 @@
 package com.cocode.babakplayer.ui
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.cocode.babakplayer.R
@@ -56,6 +57,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
             result.playlist?.let { preparePlaylist(it, autoPlay = true) }
         }
+    }
+
+    fun importFromDeviceUris(uris: List<Uri>) {
+        if (uris.isEmpty()) return
+        importSharePayload(
+            SharePayload(
+                uris = uris,
+                caption = null,
+                firstDescription = null,
+                sourceApp = DEVICE_STORAGE_SOURCE_APP,
+            ),
+        )
     }
 
     fun refreshPlaylists() {
@@ -154,5 +167,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     override fun onCleared() {
         playbackController.release()
         super.onCleared()
+    }
+
+    private companion object {
+        private const val DEVICE_STORAGE_SOURCE_APP = "device_storage"
     }
 }
