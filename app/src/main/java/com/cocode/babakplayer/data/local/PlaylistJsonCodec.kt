@@ -31,6 +31,7 @@ object PlaylistJsonCodec {
             put("playlistId", playlistId)
             put("title", title)
             put("createdAt", createdAt)
+            put("updatedAt", updatedAt)
             put("sourceApp", sourceApp)
             put("captionKey", captionKey)
             put("itemCount", itemCount)
@@ -71,6 +72,7 @@ object PlaylistJsonCodec {
             playlistId = playlistId,
             title = title,
             createdAt = optLong("createdAt"),
+            updatedAt = if (isNull("updatedAt")) null else optLong("updatedAt").takeIf { it > 0L },
             sourceApp = optString("sourceApp").takeIf { it.isNotBlank() && it != "null" },
             captionKey = optString("captionKey").takeIf { it.isNotBlank() && it != "null" },
             itemCount = optInt("itemCount", items.size),

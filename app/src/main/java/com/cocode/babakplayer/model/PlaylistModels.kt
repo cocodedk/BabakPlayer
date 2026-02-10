@@ -23,6 +23,7 @@ data class Playlist(
     val playlistId: String = UUID.randomUUID().toString(),
     val title: String,
     val createdAt: Long,
+    val updatedAt: Long? = null,
     val sourceApp: String? = null,
     val captionKey: String? = null,
     val itemCount: Int,

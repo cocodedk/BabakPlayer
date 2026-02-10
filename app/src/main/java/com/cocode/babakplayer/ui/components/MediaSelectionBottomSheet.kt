@@ -49,7 +49,10 @@ fun MediaSelectionBottomSheet(
                 loading -> Text(text = stringResource(R.string.media_loading), style = MaterialTheme.typography.bodyMedium)
                 mediaItems.isEmpty() -> Text(text = stringResource(R.string.media_empty), style = MaterialTheme.typography.bodyMedium)
                 else -> {
-                    LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    LazyColumn(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
                         items(mediaItems, key = { it.uri.toString() }) { item ->
                             MediaRow(
                                 item = item,

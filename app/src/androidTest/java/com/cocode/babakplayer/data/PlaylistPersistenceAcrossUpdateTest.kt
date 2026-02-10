@@ -34,33 +34,34 @@ class PlaylistPersistenceAcrossUpdateTest {
         val existingMediaFile = File(context.filesDir, "update-survival-media.mp4").apply {
             writeBytes(byteArrayOf(1, 2, 3))
         }
+        try {
+            val indexFile = File(playlistsRoot, "index.json").apply {
+                parentFile?.mkdirs()
+                writeText(legacyIndexJson(existingMediaFile.absolutePath))
+            }
 
-        val indexFile = File(playlistsRoot, "index.json").apply {
-            parentFile?.mkdirs()
-            writeText(legacyIndexJson(existingMediaFile.absolutePath))
+            // Simulate opening the app after an update (fresh repository instance, same app files).
+            val firstBoot = PlaylistRepository(context).loadPlaylists()
+            val secondBoot = PlaylistRepository(context).loadPlaylists()
+
+            assertEquals(1, firstBoot.size)
+            assertEquals(firstBoot, secondBoot)
+
+            val restored = firstBoot.first()
+            assertEquals("legacy-playlist", restored.playlistId)
+            assertEquals(2, restored.items.size)
+            assertEquals(listOf("legacy-content-item", "legacy-file-item"), restored.items.map { it.itemId })
+            assertEquals(ItemStatus.READY, restored.items.first().status)
+            assertTrue(indexFile.exists())
+
+            // Ensure on-disk metadata remains readable after repository reconciliation pass.
+            val persisted = PlaylistStore(context).loadPlaylists()
+            assertEquals(1, persisted.size)
+            assertEquals("legacy-playlist", persisted.first().playlistId)
+            assertEquals(2, persisted.first().items.size)
+        } finally {
+            existingMediaFile.delete()
         }
-
-        // Simulate opening the app after an update (fresh repository instance, same app files).
-        val firstBoot = PlaylistRepository(context).loadPlaylists()
-        val secondBoot = PlaylistRepository(context).loadPlaylists()
-
-        assertEquals(1, firstBoot.size)
-        assertEquals(firstBoot, secondBoot)
-
-        val restored = firstBoot.first()
-        assertEquals("legacy-playlist", restored.playlistId)
-        assertEquals(2, restored.items.size)
-        assertEquals(listOf("legacy-content-item", "legacy-file-item"), restored.items.map { it.itemId })
-        assertEquals(ItemStatus.READY, restored.items.first().status)
-        assertTrue(indexFile.exists())
-
-        // Ensure on-disk metadata remains readable after repository reconciliation pass.
-        val persisted = PlaylistStore(context).loadPlaylists()
-        assertEquals(1, persisted.size)
-        assertEquals("legacy-playlist", persisted.first().playlistId)
-        assertEquals(2, persisted.first().items.size)
-
-        existingMediaFile.delete()
     }
 
     @Test
@@ -68,19 +69,20 @@ class PlaylistPersistenceAcrossUpdateTest {
         val existingMediaFile = File(context.filesDir, "provider-missing-survival.mp4").apply {
             writeBytes(byteArrayOf(7, 8, 9))
         }
+        try {
+            File(playlistsRoot, "index.json").apply {
+                parentFile?.mkdirs()
+                writeText(indexJsonWithMissingProvider(filePath = existingMediaFile.absolutePath))
+            }
 
-        File(playlistsRoot, "index.json").apply {
-            parentFile?.mkdirs()
-            writeText(indexJsonWithMissingProvider(filePath = existingMediaFile.absolutePath))
+            val restored = PlaylistRepository(context).loadPlaylists()
+            assertEquals(1, restored.size)
+            assertEquals(listOf("legacy-file-item"), restored.first().items.map { it.itemId })
+            assertFalse(restored.first().items.any { it.localPath.startsWith("content://com.missing.provider/") })
+            assertEquals(1, restored.first().itemCount)
+        } finally {
+            existingMediaFile.delete()
         }
-
-        val restored = PlaylistRepository(context).loadPlaylists()
-        assertEquals(1, restored.size)
-        assertEquals(listOf("legacy-file-item"), restored.first().items.map { it.itemId })
-        assertFalse(restored.first().items.any { it.localPath.startsWith("content://com.missing.provider/") })
-        assertEquals(1, restored.first().itemCount)
-
-        existingMediaFile.delete()
     }
 
     private fun legacyIndexJson(filePath: String): String {

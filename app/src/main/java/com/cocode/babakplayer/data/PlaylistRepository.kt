@@ -50,7 +50,7 @@ class PlaylistRepository(private val context: Context) {
             firstFileName = draft.firstDisplayName,
             createdAtMs = createdAt,
         )
-        val current = store.loadPlaylists()
+        val current = loadPlaylistsForMutation()
         val grouped = CaptionPlaylistPolicy.mergeIntoCaptionPlaylist(
             existingPlaylists = current,
             incomingItems = draft.items,
@@ -151,7 +151,7 @@ class PlaylistRepository(private val context: Context) {
         val authority = uri.authority ?: return false
         val providerExists = context.packageManager.resolveContentProvider(authority, 0) != null
         if (!providerExists) {
-            Log.w(TAG, "Dropping inaccessible content URI (provider missing): $uri")
+            Log.w(TAG, "Dropping inaccessible content URI (provider missing): authority=$authority path=${redactPath(uri)}")
             return false
         }
 
@@ -163,7 +163,7 @@ class PlaylistRepository(private val context: Context) {
             }.getOrElse { error ->
                 Log.w(
                     TAG,
-                    "Dropping inaccessible unstable content URI: $uri. error=${error.message}",
+                    "Dropping inaccessible unstable content URI: authority=$authority path=${redactPath(uri)}. error=${error.message}",
                     error,
                 )
                 false
@@ -181,6 +181,13 @@ class PlaylistRepository(private val context: Context) {
             normalized.startsWith("com.whatsapp.provider.media.") ||
             normalized == "com.whatsapp.w4b.provider.media" ||
             normalized.startsWith("com.whatsapp.w4b.provider.media.")
+    }
+
+    private fun redactPath(uri: Uri): String {
+        val path = uri.path ?: return "?"
+        val hash = path.hashCode().toUInt().toString(16)
+        val truncated = if (path.length > 12) path.take(12) + "..." else path
+        return "$truncated[#$hash]"
     }
 
     private companion object {

@@ -49,8 +49,11 @@ fun rememberImportFromDeviceAction(onImportFromDevice: (List<Uri>) -> Unit): () 
         browseCategory = category
         selectedUris = emptySet()
         isLoading = true
-        mediaItems = browser.query(category)
-        isLoading = false
+        try {
+            mediaItems = browser.query(category)
+        } finally {
+            isLoading = false
+        }
     }
 
     fun closeBrowseSheet() {

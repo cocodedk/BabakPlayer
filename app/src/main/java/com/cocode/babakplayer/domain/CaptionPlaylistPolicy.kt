@@ -65,7 +65,8 @@ object CaptionPlaylistPolicy {
         val playlist = if (existing != null) {
             existing.copy(
                 title = title,
-                createdAt = createdAt,
+                createdAt = existing.createdAt,
+                updatedAt = createdAt,
                 sourceApp = sourceApp ?: existing.sourceApp,
                 captionKey = key,
                 itemCount = mergedItems.size,
