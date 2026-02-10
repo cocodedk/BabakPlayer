@@ -9,6 +9,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Assert.assertFalse
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -62,6 +63,26 @@ class PlaylistPersistenceAcrossUpdateTest {
         existingMediaFile.delete()
     }
 
+    @Test
+    fun reconciliation_drops_items_when_content_provider_is_missing() = runBlocking {
+        val existingMediaFile = File(context.filesDir, "provider-missing-survival.mp4").apply {
+            writeBytes(byteArrayOf(7, 8, 9))
+        }
+
+        File(playlistsRoot, "index.json").apply {
+            parentFile?.mkdirs()
+            writeText(indexJsonWithMissingProvider(filePath = existingMediaFile.absolutePath))
+        }
+
+        val restored = PlaylistRepository(context).loadPlaylists()
+        assertEquals(1, restored.size)
+        assertEquals(listOf("legacy-file-item"), restored.first().items.map { it.itemId })
+        assertFalse(restored.first().items.any { it.localPath.startsWith("content://com.missing.provider/") })
+        assertEquals(1, restored.first().itemCount)
+
+        existingMediaFile.delete()
+    }
+
     private fun legacyIndexJson(filePath: String): String {
         val escapedPath = filePath.replace("\\", "\\\\").replace("\"", "\\\"")
         return """
@@ -99,5 +120,40 @@ class PlaylistPersistenceAcrossUpdateTest {
 
     private fun resetPlaylistsRoot() {
         if (playlistsRoot.exists()) playlistsRoot.deleteRecursively()
+    }
+
+    private fun indexJsonWithMissingProvider(filePath: String): String {
+        val escapedPath = filePath.replace("\\", "\\\\").replace("\"", "\\\"")
+        return """
+        {
+          "playlists": [
+            {
+              "playlistId": "legacy-playlist",
+              "title": "Legacy Playlist",
+              "createdAt": 1735689600000,
+              "itemCount": 2,
+              "totalBytes": 13,
+              "items": [
+                {
+                  "itemId": "legacy-missing-provider-item",
+                  "importOrderIndex": 0,
+                  "originalDisplayName": "part-missing.mp4",
+                  "mimeType": "video/mp4",
+                  "localPath": "content://com.missing.provider/media/123",
+                  "bytes": 10
+                },
+                {
+                  "itemId": "legacy-file-item",
+                  "importOrderIndex": 1,
+                  "originalDisplayName": "part-ok.mp4",
+                  "mimeType": "video/mp4",
+                  "localPath": "$escapedPath",
+                  "bytes": 3
+                }
+              ]
+            }
+          ]
+        }
+        """.trimIndent()
     }
 }

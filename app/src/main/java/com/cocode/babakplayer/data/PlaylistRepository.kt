@@ -2,6 +2,7 @@ package com.cocode.babakplayer.data
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import com.cocode.babakplayer.data.local.ImportService
 import com.cocode.babakplayer.data.local.PlaylistStore
 import com.cocode.babakplayer.domain.CaptionPlaylistPolicy
@@ -141,10 +142,48 @@ class PlaylistRepository(private val context: Context) {
         return when (parsed.scheme?.lowercase()) {
             null, "" -> File(raw).exists()
             "file" -> parsed.path?.let { File(it).exists() } == true
-            // Content URI reachability is not stable across updates/providers.
-            // Never auto-delete these on startup reconciliation.
-            "content" -> true
+            "content" -> contentReferenceExists(parsed)
             else -> false
         }
+    }
+
+    private fun contentReferenceExists(uri: Uri): Boolean {
+        val authority = uri.authority ?: return false
+        val providerExists = context.packageManager.resolveContentProvider(authority, 0) != null
+        if (!providerExists) {
+            Log.w(TAG, "Dropping inaccessible content URI (provider missing): $uri")
+            return false
+        }
+
+        if (isUnstableExternalContentAuthority(authority)) {
+            val readable = runCatching {
+                context.contentResolver.openAssetFileDescriptor(uri, "r")?.use {
+                    true
+                } ?: false
+            }.getOrElse { error ->
+                Log.w(
+                    TAG,
+                    "Dropping inaccessible unstable content URI: $uri. error=${error.message}",
+                    error,
+                )
+                false
+            }
+            return readable
+        }
+
+        // For stable providers (MediaStore/DocumentsProvider), avoid aggressive probing.
+        return true
+    }
+
+    private fun isUnstableExternalContentAuthority(authority: String): Boolean {
+        val normalized = authority.lowercase()
+        return normalized == "com.whatsapp.provider.media" ||
+            normalized.startsWith("com.whatsapp.provider.media.") ||
+            normalized == "com.whatsapp.w4b.provider.media" ||
+            normalized.startsWith("com.whatsapp.w4b.provider.media.")
+    }
+
+    private companion object {
+        private const val TAG = "PlaylistRepository"
     }
 }

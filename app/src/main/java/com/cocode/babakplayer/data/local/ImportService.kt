@@ -81,6 +81,14 @@ class ImportService(private val context: Context) {
         uri: Uri,
         displayName: String,
     ): String? {
+        if (shouldForceLocalCopy(uri)) {
+            Log.w(
+                TAG,
+                "Using forced local copy for unstable external content uri=$uri",
+            )
+            return copyUriIntoAppStorage(resolver, uri, displayName)
+        }
+
         if (persistReadPermissionIfPossible(resolver, uri)) {
             return StorageReferencePolicy.referencePathFromSource(uri.toString())
         }
@@ -148,6 +156,12 @@ class ImportService(private val context: Context) {
             .ifEmpty { "imported-media" }
     }
 
+    private fun shouldForceLocalCopy(uri: Uri): Boolean {
+        if (uri.scheme?.lowercase() != ContentResolver.SCHEME_CONTENT) return false
+        val authority = uri.authority?.lowercase() ?: return false
+        return UNSTABLE_FORCE_COPY_AUTHORITIES.any { authority == it || authority.startsWith("$it.") }
+    }
+
     private fun queryDisplayName(resolver: ContentResolver, uri: Uri): String? {
         val cursor = runCatching {
             resolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)
@@ -192,5 +206,9 @@ class ImportService(private val context: Context) {
     companion object {
         private const val TAG = "ImportService"
         private const val FALLBACK_IMPORT_DIR = "imported_media"
+        private val UNSTABLE_FORCE_COPY_AUTHORITIES = setOf(
+            "com.whatsapp.provider.media",
+            "com.whatsapp.w4b.provider.media",
+        )
     }
 }

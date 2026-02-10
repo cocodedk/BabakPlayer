@@ -2,6 +2,7 @@
     <string name="app_name">BabakPlayer</string>
 
     <string name="tab_player">BabakPlayer</string>
+    <string name="tab_playlists">Playlists</string>
     <string name="tab_settings">Settings</string>
     <string name="tab_about">About</string>
     <string name="nav_add">Add</string>
@@ -26,6 +27,8 @@
     <string name="media_permission_denied_title">Permission needed</string>
     <string name="media_permission_denied_message">Grant media access to browse this section, or use manual file picking.</string>
     <string name="empty_playlists">No playlists yet. Share media or import from gallery/files.</string>
+    <string name="playlists_empty">No playlists yet. Use + to import.</string>
+    <string name="player_part_label">Part %1$d of %2$d</string>
     <string name="dismiss_summary">Dismiss summary</string>
 
     <string name="summary_title">Imported: %1$s</string>
@@ -53,6 +56,8 @@
     <string name="content_pause">Pause</string>
     <string name="content_seek_back">Seek backward</string>
     <string name="content_seek_forward">Seek forward</string>
+    <string name="content_fullscreen">Full screen</string>
+    <string name="content_exit_fullscreen">Exit full screen</string>
 
     <string name="dialog_delete_file_title">Remove file</string>
     <string name="dialog_delete_file_message">Remove %1$s from this playlist? The original file stays in device storage.</string>
@@ -60,6 +65,8 @@
     <string name="dialog_delete_playlist_message">Remove playlist %2$s with %1$d items? Original files stay in device storage.</string>
     <string name="action_delete">Remove</string>
     <string name="action_delete_all">Remove all</string>
+    <string name="action_show_more">more\u2026</string>
+    <string name="action_show_less">less</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_ok">OK</string>
 
