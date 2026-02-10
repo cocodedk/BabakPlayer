@@ -24,8 +24,14 @@ android {
         applicationId = "com.cocode.babakplayer"
         minSdk = 24
         targetSdk = 36
-        versionCode = System.getenv("VERSION_CODE")?.toIntOrNull() ?: 1
-        versionName = System.getenv("VERSION_NAME") ?: "1.0"
+
+        // Read version from VERSION_NAME env var (CI), version.txt file, or default to "1"
+        val versionNumber = System.getenv("VERSION_NAME")
+            ?: file("../version.txt").takeIf { it.exists() }?.readText()?.trim()
+            ?: "1"
+
+        versionCode = versionNumber.toInt()
+        versionName = versionNumber
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
