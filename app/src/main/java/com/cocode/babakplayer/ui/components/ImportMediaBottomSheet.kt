@@ -3,7 +3,9 @@ package com.cocode.babakplayer.ui.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -44,7 +46,7 @@ fun ImportMediaBottomSheet(
             OptionRow(text = stringResource(R.string.import_option_whatsapp)) { onSelect(ImportOption.WHATSAPP) }
             OptionRow(text = stringResource(R.string.import_option_downloads)) { onSelect(ImportOption.DOWNLOADS) }
             OptionRow(text = stringResource(R.string.import_option_manual)) { onSelect(ImportOption.MANUAL) }
-            androidx.compose.foundation.layout.Spacer(modifier = Modifier.padding(bottom = 18.dp))
+            Spacer(modifier = Modifier.height(18.dp))
         }
     }
 }

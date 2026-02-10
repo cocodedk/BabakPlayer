@@ -33,8 +33,8 @@ class MainActivity : AppCompatActivity() {
                 LaunchedEffect(appState.isFullscreen) {
                     val insetsController = WindowCompat.getInsetsController(window, window.decorView)
                     if (appState.isFullscreen) {
-                        insetsController.hide(WindowInsetsCompat.Type.systemBars())
                         insetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                        insetsController.hide(WindowInsetsCompat.Type.systemBars())
                     } else {
                         insetsController.show(WindowInsetsCompat.Type.systemBars())
                     }

@@ -39,7 +39,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpSize
@@ -58,6 +57,7 @@ import com.cocode.babakplayer.ui.theme.NeonBlue
 import com.cocode.babakplayer.ui.theme.NeonPink
 import com.cocode.babakplayer.ui.theme.Night
 import com.cocode.babakplayer.util.asDurationText
+import com.cocode.babakplayer.util.asReadableSize
 
 @Composable
 fun PlayerScreen(
@@ -196,7 +196,7 @@ private fun PlaylistInfoSection(
                 )
             }
             Text(
-                text = stringResource(R.string.playlist_files_size, playlist.itemCount, com.cocode.babakplayer.util.asReadableSize(playlist.totalBytes)),
+                text = stringResource(R.string.playlist_files_size, playlist.itemCount, asReadableSize(playlist.totalBytes)),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.secondary,
             )
@@ -307,7 +307,7 @@ private fun PartsListSection(
             val isCurrent = item.itemId == currentItemId
             val bgColor = if (isCurrent) NeonBlue.copy(alpha = 0.26f) else MaterialTheme.colorScheme.background.copy(alpha = 0.45f)
             Surface(
-                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(10.dp)),
+                modifier = Modifier.fillMaxWidth(),
                 color = bgColor,
                 shape = RoundedCornerShape(10.dp),
             ) {

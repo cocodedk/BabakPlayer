@@ -3,8 +3,8 @@ package com.cocode.babakplayer.util
 import android.Manifest
 import android.content.Context
 import android.os.Build
+import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
-import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import com.cocode.babakplayer.data.local.MediaBrowseCategory
 
 fun requiredPermissionsFor(category: MediaBrowseCategory): Array<String> {
@@ -22,6 +22,6 @@ fun requiredPermissionsFor(category: MediaBrowseCategory): Array<String> {
 
 fun hasMediaPermissions(context: Context, category: MediaBrowseCategory): Boolean {
     return requiredPermissionsFor(category).all { permission ->
-        ContextCompat.checkSelfPermission(context, permission) == PERMISSION_GRANTED
+        ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
     }
 }

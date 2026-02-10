@@ -31,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -62,6 +63,7 @@ fun FullscreenVideoPlayer(
     var controlsVisible by remember { mutableStateOf(true) }
     var dragging by remember { mutableStateOf(false) }
     var dragValue by remember { mutableFloatStateOf(0f) }
+    var interactionKey by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(playback.positionMs, playback.durationMs, dragging) {
         if (!dragging) {
@@ -69,7 +71,7 @@ fun FullscreenVideoPlayer(
         }
     }
 
-    LaunchedEffect(controlsVisible, dragging) {
+    LaunchedEffect(controlsVisible, dragging, interactionKey) {
         if (controlsVisible && !dragging) {
             delay(3000)
             controlsVisible = false
@@ -117,7 +119,7 @@ fun FullscreenVideoPlayer(
 
                 // Center play/pause
                 IconButton(
-                    onClick = onTogglePlayPause,
+                    onClick = { interactionKey++; onTogglePlayPause() },
                     modifier = Modifier.align(Alignment.Center),
                 ) {
                     Icon(
@@ -167,23 +169,23 @@ fun FullscreenVideoPlayer(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center,
                     ) {
-                        IconButton(onClick = onPrevious) {
+                        IconButton(onClick = { interactionKey++; onPrevious() }) {
                             Icon(Icons.Outlined.SkipPrevious, contentDescription = stringResource(R.string.content_previous), tint = Color.White)
                         }
-                        IconButton(onClick = { onSeekBy(-(seekIntervalSec * 1000L)) }) {
+                        IconButton(onClick = { interactionKey++; onSeekBy(-(seekIntervalSec * 1000L)) }) {
                             Icon(Icons.Outlined.Replay, contentDescription = stringResource(R.string.content_seek_back), tint = Color.White)
                         }
-                        IconButton(onClick = onTogglePlayPause) {
+                        IconButton(onClick = { interactionKey++; onTogglePlayPause() }) {
                             Icon(
                                 imageVector = if (playback.isPlaying) Icons.Outlined.PauseCircle else Icons.Outlined.PlayCircle,
                                 contentDescription = if (playback.isPlaying) stringResource(R.string.content_pause) else stringResource(R.string.content_play),
                                 tint = NeonPink,
                             )
                         }
-                        IconButton(onClick = { onSeekBy(seekIntervalSec * 1000L) }) {
+                        IconButton(onClick = { interactionKey++; onSeekBy(seekIntervalSec * 1000L) }) {
                             Icon(Icons.Outlined.FastForward, contentDescription = stringResource(R.string.content_seek_forward), tint = Color.White)
                         }
-                        IconButton(onClick = onNext) {
+                        IconButton(onClick = { interactionKey++; onNext() }) {
                             Icon(Icons.Outlined.SkipNext, contentDescription = stringResource(R.string.content_next), tint = Color.White)
                         }
                     }
