@@ -2,6 +2,10 @@
 
 BabakPlayer is an Android companion app for BabakCast. It imports shared media parts (for example from WhatsApp), preserves receive order, and plays them continuously as one playlist.
 
+## Website
+- [English](https://cocodedk.github.io/BabakPlayer/)
+- [فارسی (Persian)](https://cocodedk.github.io/BabakPlayer/fa/)
+
 ## Relationship with BabakCast
 - `BabakCast`: splits and shares media parts.
 - `BabakPlayer`: receives and plays parts in strict import order.
@@ -64,3 +68,6 @@ Then build:
 - Local-first: no account, no cloud sync, no backend requirement.
 - Imported files are copied into app-private storage.
 - Deletion operations permanently remove local imported files.
+
+## License
+Apache-2.0 | © 2025 [Cocode](https://cocode.dk) | BabakPlayer

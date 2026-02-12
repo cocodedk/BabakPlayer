@@ -1,5 +1,7 @@
 # Contributing to BabakPlayer
 
+Built by [Cocode](https://cocode.dk).
+
 ## Local Setup
 1. Install Android Studio (latest stable) and Android SDK.
 2. Ensure Java 17 is available.
