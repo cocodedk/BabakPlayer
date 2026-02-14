@@ -135,20 +135,25 @@ p { margin: 0; color: var(--muted); line-height: 1.65; }
 }
 
 /* RTL overrides for Persian page */
+
 [dir="rtl"] body {
-  font-family: "Vazirmatn", "IBM Plex Sans", "Segoe UI", sans-serif;
+  font-family: Vazirmatn, "IBM Plex Sans", "Segoe UI", sans-serif;
 }
+
 [dir="rtl"] h1,
 [dir="rtl"] h2,
 [dir="rtl"] h3 {
-  font-family: "Vazirmatn", "Space Grotesk", "IBM Plex Sans", sans-serif;
+  font-family: Vazirmatn, "Space Grotesk", "IBM Plex Sans", sans-serif;
 }
+
 [dir="rtl"] .brand {
-  font-family: "Vazirmatn", "Space Grotesk", "IBM Plex Sans", sans-serif;
+  font-family: Vazirmatn, "Space Grotesk", "IBM Plex Sans", sans-serif;
 }
+
 [dir="rtl"] .step-number {
-  font-family: "Vazirmatn", "Space Grotesk", "IBM Plex Sans", sans-serif;
+  font-family: Vazirmatn, "Space Grotesk", "IBM Plex Sans", sans-serif;
 }
+
 [dir="rtl"] .kicker {
   letter-spacing: 0.04em;
 }

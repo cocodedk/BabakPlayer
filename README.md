@@ -70,4 +70,4 @@ Then build:
 - Deletion operations permanently remove local imported files.
 
 ## License
-Apache-2.0 | © 2025 [Cocode](https://cocode.dk) | BabakPlayer
+Apache-2.0 | © 2026 [Cocode](https://cocode.dk) | BabakPlayer
