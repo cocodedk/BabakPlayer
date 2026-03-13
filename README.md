@@ -27,6 +27,12 @@ BabakPlayer is an Android companion app for BabakCast. It imports shared media p
 - `Settings`: theme mode, language, autoplay-next, seek interval, and summary behavior.
 - `About`: app purpose, compatibility details, version, and project links.
 
+## Google Cast
+- Cast music and video to Google Nest speakers, Nest Mini, Chromecast, and other Cast-enabled devices on your local network.
+- A Cast button appears in the player screen when compatible devices are available.
+- Playback position and queue transfer seamlessly between your phone and the Cast device.
+- Requires the phone and Cast device to be on the same WiFi network.
+
 ## Playback Behavior
 - Queue order follows incoming share payload order.
 - Autoplay-next can be toggled in settings.
