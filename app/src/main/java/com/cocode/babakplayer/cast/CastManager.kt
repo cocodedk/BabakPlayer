@@ -117,6 +117,11 @@ class CastManager(private val context: Context) {
         castPlayer = null
         mediaServer.clearRegistry()
         mediaServer.stop()
+        onSessionStarted = null
+        onSessionEnded = null
+        castContext = null
+        sessionManager = null
+        _connectionState.value = CastConnectionState.NOT_AVAILABLE
     }
 
     private companion object {

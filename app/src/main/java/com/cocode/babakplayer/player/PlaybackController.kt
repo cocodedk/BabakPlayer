@@ -140,9 +140,17 @@ class PlaybackController(
             return
         }
 
+        // Map original index to filtered list; fall back to 0 if the item was dropped
+        val currentItemId = player.currentMediaItem?.mediaId
+        val castStartIndex = if (currentItemId != null) {
+            castMediaItems.indexOfFirst { it.mediaId == currentItemId }.coerceAtLeast(0)
+        } else {
+            0
+        }
+
         activePlayer = castPlayer
         castPlayer.addListener(playerListener)
-        castPlayer.setMediaItems(castMediaItems, currentIndex, currentPosition)
+        castPlayer.setMediaItems(castMediaItems, castStartIndex, currentPosition)
         castPlayer.prepare()
         if (wasPlaying) castPlayer.play()
         startTicker()
@@ -164,7 +172,9 @@ class PlaybackController(
         player.addListener(playerListener)
 
         if (player.mediaItemCount > 0) {
-            player.seekTo(currentIndex, currentPosition)
+            val clampedIndex = currentIndex.coerceIn(0, (player.mediaItemCount - 1).coerceAtLeast(0))
+            val clampedPosition = currentPosition.coerceAtLeast(0L)
+            player.seekTo(clampedIndex, clampedPosition)
             if (wasPlaying) player.play()
         }
         startTicker()
