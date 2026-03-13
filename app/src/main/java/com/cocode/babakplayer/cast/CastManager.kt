@@ -44,6 +44,7 @@ class CastManager(private val context: Context) {
                 Log.w(TAG, "castContext is null in onSessionStarted, cannot create CastPlayer")
                 return
             }
+            castPlayer?.release()
             castPlayer = CastPlayer(ctx)
             mediaServer.start()
             onSessionStarted?.invoke()
@@ -75,6 +76,7 @@ class CastManager(private val context: Context) {
                 Log.w(TAG, "castContext is null in onSessionResumed, cannot create CastPlayer")
                 return
             }
+            castPlayer?.release()
             castPlayer = CastPlayer(ctx)
             mediaServer.start()
             onSessionStarted?.invoke()

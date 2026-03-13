@@ -164,6 +164,7 @@ class PlaybackController(
             player.seekTo(currentIndex, currentPosition)
             if (wasPlaying) player.play()
         }
+        startTicker()
         publishState()
     }
 
@@ -223,6 +224,9 @@ class PlaybackController(
 
     fun release() {
         ticker?.cancel()
+        if (activePlayer !== player) {
+            activePlayer.removeListener(playerListener)
+        }
         player.release()
         scope.cancel()
         scopeJob.cancel()
