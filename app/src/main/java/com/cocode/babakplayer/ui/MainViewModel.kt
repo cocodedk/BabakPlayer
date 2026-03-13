@@ -5,6 +5,8 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.cocode.babakplayer.R
+import com.cocode.babakplayer.cast.CastConnectionState
+import com.cocode.babakplayer.cast.CastManager
 import com.cocode.babakplayer.data.PlaylistRepository
 import com.cocode.babakplayer.model.ImportSummary
 import com.cocode.babakplayer.model.Playlist
@@ -30,14 +32,20 @@ data class MainUiState(
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = PlaylistRepository(application)
     private val playbackController = PlaybackController(application, ::handleDecodeError)
+    val castManager = CastManager(application)
 
     val player = playbackController.player
     val playbackState: StateFlow<PlaybackUiState> = playbackController.uiState
+    val castConnectionState: StateFlow<CastConnectionState> = castManager.connectionState
 
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
 
     init {
+        castManager.initialize(
+            onStarted = { playbackController.switchToCast(castManager) },
+            onEnded = { playbackController.switchToLocal(castManager) },
+        )
         refreshPlaylists()
     }
 
@@ -152,6 +160,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private fun preparePlaylist(playlist: Playlist, autoPlay: Boolean, startItemId: String? = null) {
         playbackController.setQueue(playlist.items, startItemId)
         if (autoPlay) playbackController.play()
+        // If currently casting, also load queue on the cast player
+        if (castManager.isCasting) {
+            playbackController.switchToCast(castManager)
+        }
     }
 
     private fun handleDecodeError(itemId: String?) {
@@ -165,6 +177,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     override fun onCleared() {
+        castManager.release()
         playbackController.release()
         super.onCleared()
     }

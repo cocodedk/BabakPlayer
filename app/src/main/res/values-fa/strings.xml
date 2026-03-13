@@ -57,6 +57,9 @@
     <string name="content_seek_back">عقب بردن</string>
     <string name="content_seek_forward">جلو بردن</string>
     <string name="content_fullscreen">تمام صفحه</string>
+    <string name="content_cast">ارسال به دستگاه</string>
+    <string name="notice_cast_connected">در حال پخش روی بلندگو</string>
+    <string name="notice_cast_disconnected">اتصال Cast قطع شد</string>
     <string name="content_exit_fullscreen">خروج از تمام صفحه</string>
 
     <string name="dialog_delete_file_title">حذف فایل</string>

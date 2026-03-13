@@ -57,6 +57,9 @@
     <string name="content_seek_back">Seek backward</string>
     <string name="content_seek_forward">Seek forward</string>
     <string name="content_fullscreen">Full screen</string>
+    <string name="content_cast">Cast</string>
+    <string name="notice_cast_connected">Casting to speaker</string>
+    <string name="notice_cast_disconnected">Cast disconnected</string>
     <string name="content_exit_fullscreen">Exit full screen</string>
 
     <string name="dialog_delete_file_title">Remove file</string>
