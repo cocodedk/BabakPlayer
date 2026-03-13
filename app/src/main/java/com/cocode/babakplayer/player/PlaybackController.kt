@@ -2,11 +2,13 @@ package com.cocode.babakplayer.player
 
 import android.content.Context
 import android.net.Uri
+import androidx.annotation.OptIn
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.MimeTypes
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import com.cocode.babakplayer.cast.CastManager
 import com.cocode.babakplayer.model.PlaylistItem
@@ -31,6 +33,7 @@ data class PlaybackUiState(
     val isCasting: Boolean = false,
 )
 
+@OptIn(UnstableApi::class)
 class PlaybackController(
     context: Context,
     private val onDecodeError: (String?) -> Unit,

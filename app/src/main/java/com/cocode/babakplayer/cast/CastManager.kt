@@ -2,8 +2,10 @@ package com.cocode.babakplayer.cast
 
 import android.content.Context
 import android.util.Log
+import androidx.annotation.OptIn
 import androidx.media3.cast.CastPlayer
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import com.google.android.gms.cast.framework.CastContext
 import com.google.android.gms.cast.framework.CastSession
 import com.google.android.gms.cast.framework.SessionManager
@@ -19,6 +21,7 @@ enum class CastConnectionState {
     CONNECTED,
 }
 
+@OptIn(UnstableApi::class)
 class CastManager(private val context: Context) {
 
     private var castContext: CastContext? = null
