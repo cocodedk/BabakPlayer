@@ -65,18 +65,48 @@ class LocalMediaServer(private val context: Context) : NanoHTTPD(0) {
     private fun servePartial(served: ServedFile, fileSize: Long, rangeHeader: String): Response {
         val rangeValue = rangeHeader.replace("bytes=", "").trim()
         val parts = rangeValue.split("-")
-        val start = parts[0].toLongOrNull() ?: 0L
-        val end = if (parts.size > 1 && parts[1].isNotEmpty()) {
+        var start = parts[0].toLongOrNull() ?: 0L
+        var end = if (parts.size > 1 && parts[1].isNotEmpty()) {
             parts[1].toLongOrNull() ?: (fileSize - 1)
         } else {
             fileSize - 1
+        }
+
+        // Validate range bounds
+        if (start < 0) start = 0L
+        if (start >= fileSize) {
+            return newFixedLengthResponse(
+                Response.Status.lookup(416), MIME_PLAINTEXT, "Range Not Satisfiable",
+            )
+        }
+        end = end.coerceAtMost(fileSize - 1)
+        if (start > end) {
+            return newFixedLengthResponse(
+                Response.Status.lookup(416), MIME_PLAINTEXT, "Range Not Satisfiable",
+            )
         }
 
         val contentLength = end - start + 1
         val inputStream = openStream(served.pathOrUri)
             ?: return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, MIME_PLAINTEXT, "Cannot open file")
 
-        inputStream.skip(start)
+        // Fully advance stream to start position; skip() may return fewer bytes than requested
+        var remaining = start
+        while (remaining > 0) {
+            val skipped = inputStream.skip(remaining)
+            if (skipped > 0) {
+                remaining -= skipped
+            } else {
+                // skip returned 0; read and discard one byte to make progress
+                if (inputStream.read() == -1) {
+                    inputStream.close()
+                    return newFixedLengthResponse(
+                        Response.Status.INTERNAL_ERROR, MIME_PLAINTEXT, "Unexpected EOF during seek",
+                    )
+                }
+                remaining--
+            }
+        }
 
         return newFixedLengthResponse(
             Response.Status.PARTIAL_CONTENT,
@@ -94,7 +124,11 @@ class LocalMediaServer(private val context: Context) : NanoHTTPD(0) {
         return try {
             val parsed = Uri.parse(pathOrUri)
             if (parsed.scheme.isNullOrBlank() || parsed.scheme == "file") {
-                val filePath = if (parsed.scheme == "file") parsed.path!! else pathOrUri
+                val filePath = if (parsed.scheme == "file") {
+                    parsed.path ?: return null
+                } else {
+                    pathOrUri
+                }
                 FileInputStream(File(filePath))
             } else {
                 context.contentResolver.openInputStream(parsed)

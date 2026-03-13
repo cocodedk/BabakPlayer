@@ -129,6 +129,11 @@ class PlaybackController(
 
         if (castMediaItems.isEmpty()) {
             player.addListener(playerListener)
+            activePlayer = player
+            player.seekTo(currentIndex, currentPosition)
+            if (wasPlaying) player.play()
+            startTicker()
+            publishState()
             return
         }
 

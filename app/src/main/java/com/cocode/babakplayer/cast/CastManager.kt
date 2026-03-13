@@ -1,6 +1,7 @@
 package com.cocode.babakplayer.cast
 
 import android.content.Context
+import android.util.Log
 import androidx.media3.cast.CastPlayer
 import androidx.media3.common.Player
 import com.google.android.gms.cast.framework.CastContext
@@ -39,7 +40,11 @@ class CastManager(private val context: Context) {
 
         override fun onSessionStarted(session: CastSession, sessionId: String) {
             _connectionState.value = CastConnectionState.CONNECTED
-            castPlayer = CastPlayer(castContext!!)
+            val ctx = castContext ?: run {
+                Log.w(TAG, "castContext is null in onSessionStarted, cannot create CastPlayer")
+                return
+            }
+            castPlayer = CastPlayer(ctx)
             mediaServer.start()
             onSessionStarted?.invoke()
         }
@@ -48,6 +53,7 @@ class CastManager(private val context: Context) {
             _connectionState.value = CastConnectionState.NOT_CONNECTED
         }
 
+        // Intentionally empty — cleanup is handled in onSessionEnded
         override fun onSessionEnding(session: CastSession) {}
 
         override fun onSessionEnded(session: CastSession, error: Int) {
@@ -65,7 +71,11 @@ class CastManager(private val context: Context) {
 
         override fun onSessionResumed(session: CastSession, wasSuspended: Boolean) {
             _connectionState.value = CastConnectionState.CONNECTED
-            castPlayer = CastPlayer(castContext!!)
+            val ctx = castContext ?: run {
+                Log.w(TAG, "castContext is null in onSessionResumed, cannot create CastPlayer")
+                return
+            }
+            castPlayer = CastPlayer(ctx)
             mediaServer.start()
             onSessionStarted?.invoke()
         }
@@ -87,7 +97,8 @@ class CastManager(private val context: Context) {
             sessionManager = castContext!!.sessionManager
             sessionManager!!.addSessionManagerListener(sessionListener, CastSession::class.java)
             _connectionState.value = CastConnectionState.NOT_CONNECTED
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            Log.w(TAG, "Cast SDK initialization failed, casting will be unavailable", e)
             _connectionState.value = CastConnectionState.NOT_AVAILABLE
         }
     }
@@ -101,5 +112,9 @@ class CastManager(private val context: Context) {
         castPlayer = null
         mediaServer.clearRegistry()
         mediaServer.stop()
+    }
+
+    private companion object {
+        private const val TAG = "CastManager"
     }
 }

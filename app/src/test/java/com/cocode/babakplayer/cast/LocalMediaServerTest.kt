@@ -1,9 +1,9 @@
 package com.cocode.babakplayer.cast
 
 import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.net.InetAddress
 
 class LocalMediaServerTest {
 
@@ -27,7 +27,8 @@ class LocalMediaServerTest {
     fun getDeviceIpAddress_does_not_return_loopback() {
         val ip = LocalMediaServer.getDeviceIpAddress()
         if (ip != null) {
-            assertTrue("Should not return loopback address", ip != "127.0.0.1")
+            val addr = InetAddress.getByName(ip)
+            assertTrue("Should not return loopback address, got: $ip", !addr.isLoopbackAddress)
         }
     }
 }

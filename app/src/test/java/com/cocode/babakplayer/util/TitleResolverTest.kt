@@ -3,6 +3,8 @@ package com.cocode.babakplayer.util
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.util.Locale
+import java.util.TimeZone
 
 class TitleResolverTest {
 
@@ -41,13 +43,22 @@ class TitleResolverTest {
 
     @Test
     fun resolve_falls_back_to_timestamp() {
-        val result = TitleResolver.resolve(
-            firstDescription = null,
-            caption = null,
-            firstFileName = null,
-            createdAtMs = 1000L,
-        )
-        assertTrue(result.contains("playlist") || result.contains("پلی‌لیست"))
+        val savedLocale = Locale.getDefault()
+        val savedTz = TimeZone.getDefault()
+        try {
+            Locale.setDefault(Locale.ENGLISH)
+            TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+            val result = TitleResolver.resolve(
+                firstDescription = null,
+                caption = null,
+                firstFileName = null,
+                createdAtMs = 1000L,
+            )
+            assertEquals("Imported playlist 1970-01-01 00:00", result)
+        } finally {
+            Locale.setDefault(savedLocale)
+            TimeZone.setDefault(savedTz)
+        }
     }
 
     @Test

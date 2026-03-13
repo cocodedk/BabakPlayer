@@ -92,6 +92,8 @@ class MediaSupportTest {
     fun detectSupportedMedia_case_insensitive_mime() {
         val result = detectSupportedMedia("Audio/MPEG", "track.mp3")
         assertTrue(result.isSupported)
+        assertEquals("audio/mpeg", result.mimeType)
+        assertEquals("mp3", result.extension)
     }
 
     // --- safeImportFileName ---
@@ -125,7 +127,7 @@ class MediaSupportTest {
     fun asReadableSize_formats_megabytes() {
         val twoMb = 2L * 1024 * 1024
         val result = asReadableSize(twoMb)
-        assertTrue(result.contains("MB"))
+        assertTrue("Expected '2.0 MB' pattern, got: $result", result.matches(Regex("2[.,]0 MB")))
     }
 
     @Test

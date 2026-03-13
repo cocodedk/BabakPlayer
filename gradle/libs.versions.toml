@@ -12,7 +12,12 @@ media3 = "1.8.0"
 lifecycleViewModelCompose = "2.10.0"
 coroutines = "1.10.2"
 appcompat = "1.7.0"
-playServicesCast = "22.0.0"
+playServicesCast = "22.2.0"
+# NanoHTTPD 2.3.1 is the last release (project unmaintained since 2018).
+# Known CVEs (CVE-2020-13697, CVE-2022-21230) affect debug endpoints and temp file handling.
+# Mitigated here: server only serves registered media items, no debug routes, bound to LAN only.
+# Consider replacing with a maintained alternative (e.g. Ktor or ktor-server-netty) if attack
+# surface concerns grow.
 nanohttpd = "2.3.1"
 mediarouter = "1.7.0"
 
