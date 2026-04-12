@@ -19,7 +19,7 @@ playServicesCast = "22.2.0"
 # Consider replacing with a maintained alternative (e.g. Ktor or ktor-server-netty) if attack
 # surface concerns grow.
 nanohttpd = "2.3.1"
-mediarouter = "1.7.0"
+mediarouter = "1.8.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
