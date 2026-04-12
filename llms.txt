@@ -1,0 +1,39 @@
+# BabakPlayer
+
+> Android media player app that imports shared media parts from BabakCast (or WhatsApp), preserves receive order, and plays them continuously as one playlist.
+
+## What it does
+
+BabakPlayer is the companion receiver app for BabakCast. It accepts shared media files via Android's share intent, stores them in app-private storage preserving import order, and plays them as a continuous queue. Supports audio (mp3) and video (mp4, mkv, mov, webm), Google Cast to Nest/Chromecast devices, English and Persian (RTL) localization.
+
+## Key features
+
+- Share-to-import: receive files from WhatsApp or any share-capable app
+- Strict import-order playback queue
+- Google Cast support (Nest speakers, Chromecast)
+- English and Persian (RTL) UI
+- Local-first: no account, no cloud sync, no backend
+- Autoplay-next with configurable seek interval
+
+## Architecture
+
+- Language: Kotlin
+- Framework: Jetpack Compose, ExoPlayer, Google Cast SDK
+- Architecture: Clean Architecture + MVVM
+- Build tool: Gradle (Kotlin DSL)
+- Min SDK: Android 8.0 (API 26)
+
+## Repository
+
+- GitHub: https://github.com/cocodedk/BabakPlayer
+- Website (English): https://cocodedk.github.io/BabakPlayer/
+- Website (Persian): https://cocodedk.github.io/BabakPlayer/fa/
+- Download: https://github.com/cocodedk/BabakPlayer/releases/latest/download/BabakPlayer.apk
+
+## Author
+
+Babak Bandpey — https://cocode.dk | https://linkedin.com/in/babakbandpey | https://github.com/cocodedk
+
+## License
+
+Apache-2.0
