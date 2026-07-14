@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy | BabakPlayer</title>
+  <meta name="description" content="Privacy policy for BabakPlayer (com.cocode.babakplayer): your media stays on your device, no personal data is sent to the developer, and network access is used only for Google Cast." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://cocodedk.github.io/BabakPlayer/privacy.html" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080b16; --bg-2: #0f1730; --surface: rgba(16, 22, 42, 0.76);
+      --line: rgba(96, 193, 255, 0.45); --text: #eef3ff; --muted: #abc1e6;
+      --neon-blue: #44bfff; --neon-pink: #ff4edc; --neon-amber: #f7c164;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; color: var(--text); line-height: 1.7;
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      background: radial-gradient(1400px 900px at 15% -10%, #273d72 0%, transparent 60%),
+                  radial-gradient(1200px 800px at 95% 0%, #3c1d6a 0%, transparent 58%),
+                  linear-gradient(180deg, var(--bg-2), var(--bg));
+      background-attachment: fixed; overflow-x: hidden;
+    }
+    a { color: var(--neon-blue); }
+    a:hover { color: var(--neon-pink); }
+    .container { width: min(820px, 92vw); margin: 0 auto; padding: 40px 0 60px; }
+    .back { display: inline-block; margin-bottom: 20px; color: var(--muted); font-size: 0.92rem; text-decoration: none; }
+    .back:hover { color: var(--neon-blue); }
+    .card {
+      padding: clamp(22px, 5vw, 42px); border: 1px solid var(--line); border-radius: 18px;
+      background: var(--surface); backdrop-filter: blur(10px); box-shadow: 0 0 36px rgba(16, 32, 66, 0.48);
+    }
+    h1 { font-family: "Space Grotesk", "IBM Plex Sans", sans-serif; font-size: clamp(1.8rem, 5vw, 2.6rem); margin: 0 0 6px; }
+    h2 { font-family: "Space Grotesk", "IBM Plex Sans", sans-serif; font-size: 1.2rem; margin: 30px 0 8px; color: var(--neon-amber); }
+    .meta { color: var(--muted); font-size: 0.9rem; margin: 0 0 6px; }
+    code { background: rgba(68, 191, 255, 0.12); padding: 1px 6px; border-radius: 6px; font-size: 0.9em; color: #cfe6ff; }
+    p, li { color: var(--muted); }
+    strong { color: var(--text); }
+    ul { padding-inline-start: 1.2em; }
+    li { margin: 5px 0; }
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--line), transparent); margin: 44px 0; }
+    section[dir="rtl"] { font-family: Vazirmatn, "IBM Plex Sans", sans-serif; text-align: right; }
+    section[dir="rtl"] h1, section[dir="rtl"] h2 { font-family: Vazirmatn, "Space Grotesk", sans-serif; }
+    footer { color: #91a9d4; font-size: 0.85rem; margin-top: 36px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="./index.html">&larr; BabakPlayer</a>
+    <div class="card">
+
+      <!-- ==================== ENGLISH ==================== -->
+      <section lang="en">
+        <h1>Privacy Policy</h1>
+        <p class="meta">BabakPlayer &middot; <code>com.cocode.babakplayer</code></p>
+        <p class="meta">Last updated: 14 July 2026</p>
+
+        <p><strong>BabakPlayer keeps your media on your device and sends no personal data to the developer.</strong>
+        It is an Android media player that imports audio and video shared from other apps, plays them in order,
+        and can cast them to Google Cast (Chromecast) devices on your local network. It has no user accounts,
+        no analytics, and no advertising.</p>
+
+        <h2>Media and playlists you import</h2>
+        <p>When you share audio or video into BabakPlayer, the files are copied into the app's private storage
+        on your device, and the playlists you build are stored locally there too. This content stays on your
+        device — it is never uploaded to the developer or to any server. It is removed when you delete an item,
+        clear a playlist, clear the app's data, or uninstall the app. To read audio and video on your device
+        the app uses the Android media permissions (<code>READ_MEDIA_AUDIO</code> and <code>READ_MEDIA_VIDEO</code>
+        on Android 13+, or read-storage access on Android 12 and below).</p>
+
+        <h2>Casting to Chromecast and other Cast devices</h2>
+        <p>BabakPlayer includes Google Cast so you can play your media on Chromecast, Nest speakers, and other
+        Cast-enabled devices on your Wi-Fi network. This is the only feature that uses the network, and it
+        works as follows:</p>
+        <ul>
+          <li>To find Cast devices, the app scans your local Wi-Fi network. This is why it requests the
+          <strong>Wi-Fi state</strong> and <strong>network state</strong> permissions.</li>
+          <li>While you are casting, the app runs a small temporary web server on your phone and streams the
+          selected file directly to the Cast device over your local network (a <code>http://&lt;your-phone&gt;:&lt;port&gt;/…</code>
+          address that only exists on your own network). Your media travels from your phone to your Cast device
+          on your own network — it is <strong>not uploaded to the developer or to the public internet</strong>.</li>
+          <li>The Google Cast framework (a Google component built into the app) communicates with the Cast device
+          and with Google's Cast service to set up and control the session, and loads Google's standard media
+          receiver onto the Cast device. That activity is handled by Google and is governed by
+          <a href="https://policies.google.com/privacy" rel="noopener" target="_blank">Google's Privacy Policy</a>.
+          Casting runs only while you have an active Cast session.</li>
+          <li>The <strong>internet permission</strong> is required by the Google Cast framework and by this local
+          streaming server.</li>
+        </ul>
+
+        <h2>No analytics, ads, or tracking</h2>
+        <ul>
+          <li>No analytics, no crash reporting, and no advertising.</li>
+          <li>No third-party tracking SDKs, no cookies, and no advertising identifier.</li>
+          <li>The developer receives no usage data, no telemetry, and no personal information from the app.</li>
+        </ul>
+
+        <h2>Device backup</h2>
+        <p>If you have enabled Android Auto Backup or Google account backup, the operating system may include
+        the app's local data in your own personal Google backup. This is controlled entirely by you and Google —
+        the developer has no access to it. See
+        <a href="https://policies.google.com/privacy" rel="noopener" target="_blank">Google's Privacy Policy</a> for details.</p>
+
+        <h2>External links</h2>
+        <p>The app's About screen contains links to the developer's website
+        (<a href="https://cocode.dk" rel="noopener" target="_blank">cocode.dk</a>) and the project's GitHub
+        repository. Selecting them opens your browser; those sites are governed by their own privacy policies.</p>
+
+        <h2>Children</h2>
+        <p>BabakPlayer does not knowingly collect personal data from anyone, including children.</p>
+
+        <h2>Changes</h2>
+        <p>If this policy changes, the updated version will be posted on this page with a new "last updated" date.</p>
+
+        <h2>Contact</h2>
+        <p>Questions about this policy can be sent to
+        <a href="mailto:bb@cocode.dk">bb@cocode.dk</a> (CoCode.dk, developer: Babak Bandpey).</p>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ==================== PERSIAN (فارسی) ==================== -->
+      <section lang="fa" dir="rtl">
+        <h1>سیاست حفظ حریم خصوصی</h1>
+        <p class="meta">BabakPlayer &middot; <code>com.cocode.babakplayer</code></p>
+        <p class="meta">آخرین به‌روزرسانی: ۱۴ ژوئیه ۲۰۲۶</p>
+
+        <p><strong>BabakPlayer رسانه‌های شما را روی دستگاهتان نگه می‌دارد و هیچ داده شخصی‌ای برای توسعه‌دهنده ارسال نمی‌کند.</strong>
+        این یک پخش‌کنندهٔ رسانهٔ اندرویدی است که صدا و ویدیوی اشتراک‌گذاری‌شده از برنامه‌های دیگر را وارد می‌کند،
+        آن‌ها را به ترتیب پخش می‌کند و می‌تواند آن‌ها را به دستگاه‌های Google Cast (کروم‌کست) در شبکهٔ محلی شما ارسال کند.
+        این برنامه هیچ حساب کاربری، ابزار تحلیلی یا تبلیغاتی ندارد.</p>
+
+        <h2>رسانه و لیست‌های پخشی که وارد می‌کنید</h2>
+        <p>وقتی صدا یا ویدیویی را به BabakPlayer به اشتراک می‌گذارید، فایل‌ها در حافظهٔ خصوصی برنامه روی دستگاه شما
+        کپی می‌شوند و لیست‌های پخشی که می‌سازید نیز به‌صورت محلی همان‌جا ذخیره می‌شوند. این محتوا روی دستگاه شما
+        باقی می‌ماند و هرگز برای توسعه‌دهنده یا هیچ سروری بارگذاری نمی‌شود. این محتوا هنگام حذف یک مورد، پاک‌کردن
+        یک لیست پخش، پاک‌کردن داده‌های برنامه یا حذف نصب برنامه، از بین می‌رود. برنامه برای خواندن صدا و ویدیوی
+        روی دستگاه شما از مجوزهای رسانهٔ اندروید استفاده می‌کند (<code>READ_MEDIA_AUDIO</code> و
+        <code>READ_MEDIA_VIDEO</code> در اندروید ۱۳ به بالا، یا دسترسی خواندن حافظه در اندروید ۱۲ و پایین‌تر).</p>
+
+        <h2>ارسال به کروم‌کست و سایر دستگاه‌های Cast</h2>
+        <p>BabakPlayer از Google Cast پشتیبانی می‌کند تا بتوانید رسانهٔ خود را روی کروم‌کست، بلندگوهای Nest و سایر
+        دستگاه‌های سازگار با Cast در شبکهٔ Wi‑Fi خود پخش کنید. این تنها قابلیتی است که از شبکه استفاده می‌کند و
+        به این صورت کار می‌کند:</p>
+        <ul>
+          <li>برای یافتن دستگاه‌های Cast، برنامه شبکهٔ محلی Wi‑Fi شما را جست‌وجو می‌کند. به همین دلیل مجوزهای
+          <strong>وضعیت Wi‑Fi</strong> و <strong>وضعیت شبکه</strong> را درخواست می‌کند.</li>
+          <li>هنگام ارسال، برنامه یک وب‌سرور موقت کوچک روی گوشی شما اجرا می‌کند و فایل انتخاب‌شده را مستقیماً از طریق
+          شبکهٔ محلی شما به دستگاه Cast جریان می‌دهد (نشانی <code>http://&lt;گوشی‌شما&gt;:&lt;پورت&gt;/…</code> که تنها
+          روی شبکهٔ خودتان وجود دارد). رسانهٔ شما از گوشی شما به دستگاه Cast روی شبکهٔ خودتان منتقل می‌شود و
+          <strong>برای توسعه‌دهنده یا روی اینترنت عمومی بارگذاری نمی‌شود</strong>.</li>
+          <li>چارچوب Google Cast (یک مؤلفهٔ گوگل که در برنامه تعبیه شده) برای برقراری و کنترل نشست با دستگاه Cast و
+          سرویس Cast گوگل ارتباط برقرار می‌کند و گیرندهٔ رسانهٔ استاندارد گوگل را روی دستگاه Cast بارگذاری می‌کند.
+          این فعالیت توسط گوگل انجام می‌شود و تابع
+          <a href="https://policies.google.com/privacy" rel="noopener" target="_blank">سیاست حریم خصوصی گوگل</a> است.
+          ارسال فقط زمانی اجرا می‌شود که یک نشست Cast فعال داشته باشید.</li>
+          <li>مجوز <strong>اینترنت</strong> برای چارچوب Google Cast و این سرور جریان محلی لازم است.</li>
+        </ul>
+
+        <h2>بدون ابزار تحلیلی، تبلیغات یا ردیابی</h2>
+        <ul>
+          <li>هیچ ابزار تحلیلی، گزارش خطا و تبلیغاتی وجود ندارد.</li>
+          <li>هیچ کیت توسعهٔ ردیابی شخص ثالث، کوکی و شناسهٔ تبلیغاتی وجود ندارد.</li>
+          <li>توسعه‌دهنده هیچ داده کاربری، اطلاعات از راه دور یا اطلاعات شخصی‌ای از برنامه دریافت نمی‌کند.</li>
+        </ul>
+
+        <h2>پشتیبان‌گیری دستگاه</h2>
+        <p>اگر پشتیبان‌گیری خودکار اندروید یا پشتیبان‌گیری حساب گوگل را فعال کرده باشید، سیستم‌عامل ممکن است
+        داده‌های محلی برنامه را در پشتیبان شخصی گوگل شما بگنجاند. این کار کاملاً توسط شما و گوگل کنترل می‌شود و
+        توسعه‌دهنده به آن دسترسی ندارد. برای جزئیات به
+        <a href="https://policies.google.com/privacy" rel="noopener" target="_blank">سیاست حریم خصوصی گوگل</a> مراجعه کنید.</p>
+
+        <h2>پیوندهای بیرونی</h2>
+        <p>صفحهٔ «دربارهٔ» برنامه شامل پیوندهایی به وب‌سایت توسعه‌دهنده
+        (<a href="https://cocode.dk" rel="noopener" target="_blank">cocode.dk</a>) و مخزن GitHub پروژه است.
+        انتخاب آن‌ها مرورگر شما را باز می‌کند و این سایت‌ها تابع سیاست‌های حریم خصوصی خودشان هستند.</p>
+
+        <h2>کودکان</h2>
+        <p>BabakPlayer آگاهانه هیچ داده شخصی‌ای را از هیچ‌کس، از جمله کودکان، جمع‌آوری نمی‌کند.</p>
+
+        <h2>تغییرات</h2>
+        <p>در صورت تغییر این سیاست، نسخهٔ به‌روزشده با تاریخ جدید در همین صفحه منتشر خواهد شد.</p>
+
+        <h2>تماس</h2>
+        <p>پرسش‌های مربوط به این سیاست را می‌توانید به
+        <a href="mailto:bb@cocode.dk">bb@cocode.dk</a> (CoCode.dk، توسعه‌دهنده: بابک بندپی) ارسال کنید.</p>
+      </section>
+
+    </div>
+    <footer>© 2026 CoCode.dk — Babak Bandpey</footer>
+  </div>
+</body>
+</html>
