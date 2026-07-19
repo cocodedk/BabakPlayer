@@ -85,7 +85,7 @@ jobs:
       - name: Copy APK with fixed name for stable download URL
         run: cp app/build/outputs/apk/release/app-release.apk BabakPlayer.apk
 
-      - uses: softprops/action-gh-release@718ea10b132b3b2eba29c1007bb80653f286566b # v2
+      - uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228 # v2
         with:
           tag_name: v${{ steps.version.outputs.version }}
           name: Release ${{ steps.version.outputs.version }}
