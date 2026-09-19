@@ -25,8 +25,12 @@ android {
         minSdk = 24
         targetSdk = 36
 
-        // Read version from VERSION_NAME env var (CI), version.txt file, or default to "1"
-        val versionNumber = System.getenv("VERSION_NAME")
+        // Read version from the VERSION_NAME Gradle property (F-Droid's build recipe
+        // passes it this way), then the VERSION_NAME env var (CI), then version.txt,
+        // then default to "1". versionCode stays the same integer either way, so a
+        // release built by either path upgrades cleanly from the last one.
+        val versionNumber = providers.gradleProperty("VERSION_NAME").orNull?.takeIf { it.isNotBlank() }
+            ?: System.getenv("VERSION_NAME")?.takeIf { it.isNotBlank() }
             ?: file("../version.txt").takeIf { it.exists() }?.readText()?.trim()
             ?: "1"
 
@@ -34,6 +38,20 @@ android {
         versionName = versionNumber
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    // Two builds of the same app, same applicationId: `full` keeps Google Cast exactly
+    // as it always worked; `foss` drops every Google Play Services dependency so the
+    // app can go on F-Droid. See src/full and src/foss, and cast/CastController for
+    // the interface that keeps common code from knowing which flavor it's in.
+    flavorDimensions += "distribution"
+    productFlavors {
+        create("full") {
+            dimension = "distribution"
+        }
+        create("foss") {
+            dimension = "distribution"
+        }
     }
 
     signingConfigs {
@@ -72,6 +90,14 @@ android {
     buildFeatures {
         compose = true
     }
+
+    // AGP otherwise adds a "Dependency metadata" block to the APK signing block,
+    // encrypted with a key only Google Play holds. F-Droid rejects APKs that carry
+    // it, and it lands in the published release APK that F-Droid verifies against.
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
 }
 
 dependencies {
@@ -89,10 +115,14 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.ui)
-    implementation(libs.androidx.media3.cast)
-    implementation(libs.google.play.services.cast.framework)
+    // Cast is `full`-only: these are what a no-Google-Play-Services build must not
+    // ship. See src/full and src/foss under cast/ and ui/screens/ for the split.
+    // mediarouter itself carries no Google dependency, but nothing in src/foss uses
+    // it any more once the Cast button is gone, so it stays with the flavor that does.
+    "fullImplementation"(libs.androidx.media3.cast)
+    "fullImplementation"(libs.google.play.services.cast.framework)
+    "fullImplementation"(libs.androidx.mediarouter)
     implementation(libs.nanohttpd)
-    implementation(libs.androidx.mediarouter)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
