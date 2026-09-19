@@ -77,6 +77,17 @@ android {
             )
         }
     }
+    packaging {
+        jniLibs {
+            // The only .so files in the APK are prebuilts from ExoPlayer/Cast AARs. AGP
+            // strips them with whatever NDK it finds, so a rebuild without that exact NDK
+            // produces different bytes -- F-Droid's builder has none unless its recipe
+            // pins one. Keeping the symbols leaves the libraries exactly as their AARs
+            // ship them, which rebuilds identically anywhere, and costs a few kB.
+            keepDebugSymbols += "**/*.so"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
