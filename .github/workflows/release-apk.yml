@@ -127,7 +127,7 @@ jobs:
       # and the already-released check above would then refuse to retry that version.
       # Nothing here commits to main.
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@718ea10b132b3b2eba29c1007bb80653f286566b # v2
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v2
         with:
           tag_name: ${{ steps.version.outputs.tag }}
           # Without this the tag lands on whatever the default branch points at when
