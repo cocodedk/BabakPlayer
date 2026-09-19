@@ -1,0 +1,1 @@
+Adds a Google-Play-Services-free build variant (no Google Cast) for F-Droid; the full build (with Google Cast) is unchanged.

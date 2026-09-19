@@ -7,10 +7,13 @@ plugins {
 
 tasks.register("buildSmoke") {
     group = "verification"
-    description = "Build debug, run unit tests, and lint."
+    description = "Build debug, run unit tests, and lint -- both the full and foss flavors."
     dependsOn(
-        ":app:assembleDebug",
-        ":app:testDebugUnitTest",
-        ":app:lintDebug"
+        ":app:assembleFullDebug",
+        ":app:assembleFossDebug",
+        ":app:testFullDebugUnitTest",
+        ":app:testFossDebugUnitTest",
+        ":app:lintFullDebug",
+        ":app:lintFossDebug"
     )
 }

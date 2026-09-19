@@ -101,7 +101,7 @@ BabakPlayer/
 | File | Purpose |
 |------|---------|
 | `CLAUDE.md` | This file — project conventions and session startup |
-| `version.txt` | Simple integer version (incremented by release workflow) |
+| `version.txt` | Simple integer version; local build fallback only. The release workflow computes the next version from the latest `v*` tag and never writes this file |
 | `.github/workflows/ci.yml` | CI on PRs and branches |
 | `.github/workflows/release-apk.yml` | Signed release builds + GitHub Releases |
 | `.github/workflows/deploy-pages.yml` | GitHub Pages deployment |
