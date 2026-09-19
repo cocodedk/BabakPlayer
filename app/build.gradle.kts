@@ -73,7 +73,11 @@ android {
             if (hasSigningConfig) {
                 signingConfig = signingConfigs.getByName("release")
             }
-            isMinifyEnabled = false
+            // R8 shrinks and optimises the release build. proguard-rules.pro explains why
+            // no custom keep rules are needed (Cast's OptionsProvider is covered by its
+            // library's own consumer rules).
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
