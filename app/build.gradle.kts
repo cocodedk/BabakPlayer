@@ -25,17 +25,10 @@ android {
         minSdk = 24
         targetSdk = 36
 
-        // Read version from the VERSION_NAME Gradle property (F-Droid's build recipe
-        // passes it this way), then the VERSION_NAME env var (CI), then version.txt,
-        // then default to "1". versionCode stays the same integer either way, so a
-        // release built by either path upgrades cleanly from the last one.
-        val versionNumber = providers.gradleProperty("VERSION_NAME").orNull?.takeIf { it.isNotBlank() }
-            ?: System.getenv("VERSION_NAME")?.takeIf { it.isNotBlank() }
-            ?: file("../version.txt").takeIf { it.exists() }?.readText()?.trim()
-            ?: "1"
-
-        versionCode = versionNumber.toInt()
-        versionName = versionNumber
+        // The version lives in gradle.properties, where the release workflow and
+        // F-Droid's checkupdates both read it. See the comment there before bumping it.
+        versionCode = providers.gradleProperty("VERSION_CODE").get().toInt()
+        versionName = providers.gradleProperty("VERSION_NAME").get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

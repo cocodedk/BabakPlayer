@@ -92,6 +92,7 @@ BabakPlayer/
 ./gradlew lintDebug              # Run lint checks
 ./gradlew buildSmoke             # Full smoke check (build + tests + lint) — used in CI and pre-commit
 ./gradlew assembleRelease        # Build signed release APK (requires signing env vars)
+gh workflow run release-apk.yml  # after a PR bumps VERSION_NAME/VERSION_CODE in gradle.properties
 ```
 
 ---
@@ -101,7 +102,7 @@ BabakPlayer/
 | File | Purpose |
 |------|---------|
 | `CLAUDE.md` | This file — project conventions and session startup |
-| `version.txt` | Simple integer version; local build fallback only. The release workflow computes the next version from the latest `v*` tag and never writes this file |
+| `gradle.properties` | Also where `VERSION_NAME`/`VERSION_CODE` live — bump both in the PR before a release |
 | `.github/workflows/ci.yml` | CI on PRs and branches |
 | `.github/workflows/release-apk.yml` | Signed release builds + GitHub Releases |
 | `.github/workflows/deploy-pages.yml` | GitHub Pages deployment |
