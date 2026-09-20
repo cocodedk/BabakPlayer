@@ -130,7 +130,8 @@ dependencies {
     "fullImplementation"(libs.androidx.media3.cast)
     "fullImplementation"(libs.google.play.services.cast.framework)
     "fullImplementation"(libs.androidx.mediarouter)
-    implementation(libs.nanohttpd)
+    // Only the full flavor serves media to a Chromecast; foss ships no HTTP server at all.
+    "fullImplementation"(libs.nanohttpd)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
