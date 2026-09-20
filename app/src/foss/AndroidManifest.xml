@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Merged into the common manifest for the `foss` flavor only.
+
+     Media3 declares ACCESS_NETWORK_STATE in its own manifest, to measure bandwidth
+     when it streams. This flavor only plays files already on the device, so the
+     permission is taken out again: the foss build asks for no network access of any
+     kind. Media3 copes without it (it catches the SecurityException and reports the
+     network type as unknown).
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE"
+        tools:node="remove" />
+
+</manifest>

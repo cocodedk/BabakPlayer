@@ -2,8 +2,16 @@
 <!--
      Merged into the common manifest for the `full` flavor only. The foss flavor
      ships no Google Play Services and has no OptionsProvider to register.
+
+     The network permissions live here too: only Cast needs them, to serve the file
+     being played to the Chromecast over the local network (LocalMediaServer). The
+     foss flavor plays local files and must not ask for network access it never uses.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application>
         <meta-data
