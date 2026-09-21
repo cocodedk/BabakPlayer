@@ -47,8 +47,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
-import androidx.mediarouter.app.MediaRouteButton
-import com.google.android.gms.cast.framework.CastButtonFactory
 import com.cocode.babakplayer.R
 import com.cocode.babakplayer.model.Playlist
 import com.cocode.babakplayer.model.PlaylistItem
@@ -163,18 +161,6 @@ private fun VideoSurface(
             )
         }
     }
-}
-
-@Composable
-fun CastButton(modifier: Modifier = Modifier) {
-    AndroidView(
-        factory = { context ->
-            MediaRouteButton(context).apply {
-                CastButtonFactory.setUpMediaRouteButton(context, this)
-            }
-        },
-        modifier = modifier,
-    )
 }
 
 @Composable

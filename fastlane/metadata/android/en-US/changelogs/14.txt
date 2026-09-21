@@ -1,0 +1,1 @@
+The F-Droid (foss) build no longer asks for any network permission: it only plays files on your device. Casting, and the network access it needs, stay in the full build.

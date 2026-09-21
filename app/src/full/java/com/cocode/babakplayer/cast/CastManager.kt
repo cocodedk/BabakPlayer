@@ -4,8 +4,11 @@ import android.content.Context
 import android.util.Log
 import androidx.annotation.OptIn
 import androidx.media3.cast.CastPlayer
+import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
+import com.cocode.babakplayer.model.PlaylistItem
 import com.google.android.gms.cast.framework.CastContext
 import com.google.android.gms.cast.framework.CastSession
 import com.google.android.gms.cast.framework.SessionManager
@@ -14,24 +17,19 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-enum class CastConnectionState {
-    NOT_AVAILABLE,
-    NOT_CONNECTED,
-    CONNECTING,
-    CONNECTED,
-}
-
+// The `full` flavor's real Cast implementation. See CastController for why common
+// code never references CastPlayer or the gms Cast SDK directly.
 @OptIn(UnstableApi::class)
-class CastManager(private val context: Context) {
+class CastManager(private val context: Context) : CastController {
 
     private var castContext: CastContext? = null
     private var sessionManager: SessionManager? = null
-    var castPlayer: CastPlayer? = null
-        private set
-    val mediaServer = LocalMediaServer(context)
+    private var internalCastPlayer: CastPlayer? = null
+    override val castPlayer: Player? get() = internalCastPlayer
+    private val mediaServer = LocalMediaServer(context)
 
     private val _connectionState = MutableStateFlow(CastConnectionState.NOT_AVAILABLE)
-    val connectionState: StateFlow<CastConnectionState> = _connectionState.asStateFlow()
+    override val connectionState: StateFlow<CastConnectionState> = _connectionState.asStateFlow()
 
     private var onSessionStarted: (() -> Unit)? = null
     private var onSessionEnded: (() -> Unit)? = null
@@ -47,8 +45,8 @@ class CastManager(private val context: Context) {
                 Log.w(TAG, "castContext is null in onSessionStarted, cannot create CastPlayer")
                 return
             }
-            castPlayer?.release()
-            castPlayer = CastPlayer(ctx)
+            internalCastPlayer?.release()
+            internalCastPlayer = CastPlayer(ctx)
             mediaServer.start()
             onSessionStarted?.invoke()
         }
@@ -62,8 +60,8 @@ class CastManager(private val context: Context) {
 
         override fun onSessionEnded(session: CastSession, error: Int) {
             onSessionEnded?.invoke()
-            castPlayer?.release()
-            castPlayer = null
+            internalCastPlayer?.release()
+            internalCastPlayer = null
             mediaServer.clearRegistry()
             mediaServer.stop()
             _connectionState.value = CastConnectionState.NOT_CONNECTED
@@ -79,8 +77,8 @@ class CastManager(private val context: Context) {
                 Log.w(TAG, "castContext is null in onSessionResumed, cannot create CastPlayer")
                 return
             }
-            castPlayer?.release()
-            castPlayer = CastPlayer(ctx)
+            internalCastPlayer?.release()
+            internalCastPlayer = CastPlayer(ctx)
             mediaServer.start()
             onSessionStarted?.invoke()
         }
@@ -94,7 +92,7 @@ class CastManager(private val context: Context) {
         }
     }
 
-    fun initialize(onStarted: () -> Unit, onEnded: () -> Unit) {
+    override fun initialize(onStarted: () -> Unit, onEnded: () -> Unit) {
         onSessionStarted = onStarted
         onSessionEnded = onEnded
         try {
@@ -108,13 +106,13 @@ class CastManager(private val context: Context) {
         }
     }
 
-    val isCasting: Boolean
-        get() = _connectionState.value == CastConnectionState.CONNECTED && castPlayer != null
+    override val isCasting: Boolean
+        get() = _connectionState.value == CastConnectionState.CONNECTED && internalCastPlayer != null
 
-    fun release() {
+    override fun release() {
         sessionManager?.removeSessionManagerListener(sessionListener, CastSession::class.java)
-        castPlayer?.release()
-        castPlayer = null
+        internalCastPlayer?.release()
+        internalCastPlayer = null
         mediaServer.clearRegistry()
         mediaServer.stop()
         onSessionStarted = null
@@ -122,6 +120,25 @@ class CastManager(private val context: Context) {
         castContext = null
         sessionManager = null
         _connectionState.value = CastConnectionState.NOT_AVAILABLE
+    }
+
+    override fun prepareCastQueue(queue: List<PlaylistItem>): List<MediaItem> {
+        queue.forEach { item ->
+            mediaServer.registerFile(item.itemId, item.localPath, item.mimeType, item.bytes)
+        }
+        return queue.mapNotNull { item ->
+            val url = mediaServer.getStreamUrl(item.itemId) ?: return@mapNotNull null
+            MediaItem.Builder()
+                .setMediaId(item.itemId)
+                .setUri(url)
+                .setMimeType(item.mimeType)
+                .setMediaMetadata(
+                    MediaMetadata.Builder()
+                        .setTitle(item.originalDisplayName)
+                        .build()
+                )
+                .build()
+        }
     }
 
     private companion object {

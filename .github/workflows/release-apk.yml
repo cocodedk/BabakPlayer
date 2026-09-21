@@ -1,94 +1,141 @@
 name: Build signed release APK
 
+# Manual only. The previous push-to-main trigger committed a version bump to a
+# branch-protected main and then tried to push it -- that push was always rejected,
+# which orphaned the tag on every run (see git history around 2026-09). The version
+# now lives in gradle.properties, bumped in the PR before a release, so nothing needs
+# to be committed here either.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
-    inputs:
-      bump:
-        description: 'Version bump type'
-        required: false
-        default: 'patch'
-        type: choice
-        options: [patch, minor, major]
 
 permissions:
   contents: write
 
-env:
-  KEYSTORE_PATH: ${{ github.workspace }}/app/release.keystore
+# Serialize rather than cancel: two concurrent runs would read the same version from
+# gradle.properties and both try to release it.
+concurrency:
+  group: release
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0   # shallow clones hide tags, and the already-released check needs them
 
-      - name: Read and increment version
-        id: version
+      - name: Check signing secrets are present
+        # Through env, not ${{ }}: interpolation splices the secret's *value* into the
+        # shell source, so a password containing $ or a backtick would be expanded
+        # before the test ran and report itself missing when it is set.
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          CURRENT_VERSION=$(cat version.txt)
-          echo "Current version: $CURRENT_VERSION"
-          NEW_VERSION=$((CURRENT_VERSION + 1))
-          echo "New version: $NEW_VERSION"
-          echo "$NEW_VERSION" > version.txt
-          echo "VERSION_NAME=$NEW_VERSION" >> $GITHUB_ENV
-          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          missing=""
+          [ -z "$KEYSTORE_BASE64" ] && missing="$missing KEYSTORE_BASE64"
+          [ -z "$KEYSTORE_PASSWORD" ] && missing="$missing KEYSTORE_PASSWORD"
+          [ -z "$KEY_ALIAS" ] && missing="$missing KEY_ALIAS"
+          [ -z "$KEY_PASSWORD" ] && missing="$missing KEY_PASSWORD"
+          if [ -n "$missing" ]; then
+            echo "Missing repository secrets:$missing" >&2
+            exit 1
+          fi
 
-      - name: Commit version bump
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add version.txt
-          git commit -m "Bump version to ${{ steps.version.outputs.version }}"
-          git push
-
-      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
+      - uses: actions/setup-java@1bcf9fb12cf4aa7d266a90ae39939e61372fe520 # v5.4.0
         with:
           distribution: temurin
           java-version: '17'
           cache: gradle
 
-      - name: Verify signing secrets
-        env:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      - name: Read the version
+        id: version
         run: |
-          missing=0
-          if [ -z "$KEYSTORE_BASE64" ]; then echo "Missing or empty secret: KEYSTORE_BASE64"; missing=1; fi
-          if [ -z "$KEYSTORE_PASSWORD" ]; then echo "Missing or empty secret: KEYSTORE_PASSWORD"; missing=1; fi
-          if [ -z "$KEY_ALIAS" ]; then echo "Missing or empty secret: KEY_ALIAS"; missing=1; fi
-          if [ -z "$KEY_PASSWORD" ]; then echo "Missing or empty secret: KEY_PASSWORD"; missing=1; fi
-          if [ "$missing" -ne 0 ]; then exit 1; fi
+          # gradle.properties is the only place the version is set; F-Droid's checkupdates
+          # reads the same line at each tag. Refuse to re-release a version, so a
+          # forgotten bump fails here instead of overwriting nothing and confusing later.
+          VERSION=$(sed -n 's/^VERSION_NAME=//p' gradle.properties)
+          [[ "$VERSION" =~ ^[0-9]+$ ]] || { echo "Cannot parse VERSION_NAME as a plain integer: '$VERSION'" >&2; exit 1; }
+          if git rev-parse -q --verify "refs/tags/v$VERSION" >/dev/null; then
+            echo "v$VERSION is already released. Bump VERSION_NAME and VERSION_CODE in gradle.properties first." >&2
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Decode keystore
+      - name: Decode and verify keystore
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
-        run: echo "$KEYSTORE_BASE64" | base64 -d > "$KEYSTORE_PATH"
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > release.keystore
+          # Gradle decides at *configuration* time whether a signing config exists, so a
+          # corrupt keystore is not an error there -- it silently produces an unsigned
+          # APK and the staging step below then dies with "cp: cannot stat", minutes
+          # later and nowhere near the cause. This covers the file, the store password
+          # and the alias. It deliberately does not pass -keypass: the keystore is
+          # PKCS12, which has no separate key password, and keytool ignores the flag
+          # with a warning. The apksigner step below is what actually proves the
+          # signature.
+          keytool -list -keystore release.keystore -alias "$KEY_ALIAS" \
+              -storepass "$KEYSTORE_PASSWORD" >/dev/null
 
-      - name: Build release APK
+      - name: Build signed release APKs (full and foss)
         env:
+          KEYSTORE_PATH: ${{ github.workspace }}/release.keystore
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: ./gradlew assembleRelease --no-daemon --no-configuration-cache
+        run: ./gradlew assembleFullRelease assembleFossRelease --no-daemon
+
+      - name: Stage the APKs under stable filenames
+        run: |
+          # Fixed names are what make releases/latest/download/BabakPlayer.apk and
+          # .../BabakPlayer-foss.apk work.
+          cp app/build/outputs/apk/full/release/app-full-release.apk BabakPlayer.apk
+          cp app/build/outputs/apk/foss/release/app-foss-release.apk BabakPlayer-foss.apk
+          ls -la BabakPlayer.apk BabakPlayer-foss.apk
+
+      - name: Verify both APKs are signed
+        run: |
+          # The check that proves what we are about to publish. An unsigned APK uploads
+          # exactly as cleanly as a signed one, so assert it rather than infer it from a
+          # green build. This also covers the one fault the keystore pre-flight cannot
+          # see, a key password that does not match the store password.
+          APKSIGNER=$(ls "${ANDROID_HOME:-$ANDROID_SDK_ROOT}"/build-tools/*/apksigner 2>/dev/null | sort -V | tail -1)
+          [ -n "$APKSIGNER" ] || { echo "apksigner not found in the Android SDK" >&2; exit 1; }
+          "$APKSIGNER" verify --print-certs BabakPlayer.apk
+          "$APKSIGNER" verify --print-certs BabakPlayer-foss.apk
+
+      - name: Remove keystore from the runner
+        if: always()
+        run: rm -f release.keystore
 
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: app-release-signed
-          path: app/build/outputs/apk/release/app-release.apk
+          name: BabakPlayer-${{ steps.version.outputs.tag }}
+          path: |
+            BabakPlayer.apk
+            BabakPlayer-foss.apk
 
-      - name: Copy APK with fixed name for stable download URL
-        run: cp app/build/outputs/apk/release/app-release.apk BabakPlayer.apk
-
-      - uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v2
+      # This step creates the tag as well as the release. Pushing the tag ourselves
+      # first would mean a failure here left the tag behind with no release attached,
+      # and the already-released check above would then refuse to retry that version.
+      # Nothing here commits to main.
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@718ea10b132b3b2eba29c1007bb80653f286566b # v2
         with:
-          tag_name: v${{ steps.version.outputs.version }}
+          tag_name: ${{ steps.version.outputs.tag }}
+          # Without this the tag lands on whatever the default branch points at when
+          # the API call runs, which is not necessarily the commit whose APKs are
+          # attached.
+          target_commitish: ${{ github.sha }}
           name: Release ${{ steps.version.outputs.version }}
-          files: BabakPlayer.apk
-          draft: false
           generate_release_notes: true
+          files: |
+            BabakPlayer.apk
+            BabakPlayer-foss.apk

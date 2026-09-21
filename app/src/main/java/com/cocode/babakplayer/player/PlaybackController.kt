@@ -5,12 +5,11 @@ import android.net.Uri
 import androidx.annotation.OptIn
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
-import androidx.media3.common.MediaMetadata
 import androidx.media3.common.MimeTypes
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
-import com.cocode.babakplayer.cast.CastManager
+import com.cocode.babakplayer.cast.CastController
 import com.cocode.babakplayer.model.PlaylistItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -98,9 +97,8 @@ class PlaybackController(
         publishState()
     }
 
-    fun switchToCast(castManager: CastManager) {
-        val castPlayer = castManager.castPlayer ?: return
-        val mediaServer = castManager.mediaServer
+    fun switchToCast(castController: CastController) {
+        val castPlayer = castController.castPlayer ?: return
 
         // Save local state
         val currentIndex = player.currentMediaItemIndex
@@ -110,25 +108,9 @@ class PlaybackController(
         player.pause()
         player.removeListener(playerListener)
 
-        // Register all queue items with the HTTP server
-        currentQueue.forEach { item ->
-            mediaServer.registerFile(item.itemId, item.localPath, item.mimeType, item.bytes)
-        }
-
-        // Build cast media items with HTTP URLs
-        val castMediaItems = currentQueue.mapNotNull { item ->
-            val url = mediaServer.getStreamUrl(item.itemId) ?: return@mapNotNull null
-            MediaItem.Builder()
-                .setMediaId(item.itemId)
-                .setUri(url)
-                .setMimeType(item.mimeType)
-                .setMediaMetadata(
-                    MediaMetadata.Builder()
-                        .setTitle(item.originalDisplayName)
-                        .build()
-                )
-                .build()
-        }
+        // Registers the queue with the local HTTP server and builds cast media items
+        // with HTTP URLs. Empty in the foss flavor, where casting is never available.
+        val castMediaItems = castController.prepareCastQueue(currentQueue)
 
         if (castMediaItems.isEmpty()) {
             player.addListener(playerListener)
@@ -157,8 +139,8 @@ class PlaybackController(
         publishState()
     }
 
-    fun switchToLocal(castManager: CastManager) {
-        val castPlayer = castManager.castPlayer
+    fun switchToLocal(castController: CastController) {
+        val castPlayer = castController.castPlayer
 
         // Save cast state
         val currentIndex = castPlayer?.currentMediaItemIndex ?: 0
