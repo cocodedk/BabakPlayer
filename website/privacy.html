@@ -6,7 +6,7 @@
   <title>Privacy Policy | BabakPlayer</title>
   <meta name="description" content="Privacy policy for BabakPlayer (com.cocode.babakplayer): your media stays on your device, no personal data is sent to the developer, and network access is used only for Google Cast." />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://cocodedk.github.io/BabakPlayer/privacy.html" />
+  <link rel="canonical" href="https://player.cocode.dk/privacy.html" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -60,7 +60,7 @@
       <section lang="en">
         <h1>Privacy Policy</h1>
         <p class="meta">BabakPlayer &middot; <code>com.cocode.babakplayer</code></p>
-        <p class="meta">Last updated: 14 July 2026</p>
+        <p class="meta">Last updated: 21 September 2026</p>
 
         <p><strong>BabakPlayer keeps your media on your device and sends no personal data to the developer.</strong>
         It is an Android media player that imports audio and video shared from other apps, plays them in order,
@@ -75,12 +75,19 @@
         the app uses the Android media permissions (<code>READ_MEDIA_AUDIO</code> and <code>READ_MEDIA_VIDEO</code>
         on Android 13+, or read-storage access on Android 12 and below).</p>
 
+        <h2>Two builds</h2>
+        <p>BabakPlayer is published in two builds. The <strong>foss build</strong> (<code>BabakPlayer-foss.apk</code>,
+        the one submitted to F-Droid) has no Google Cast and no network access of any kind: from version 14 it requests
+        only the media permissions described above and <code>WAKE_LOCK</code> (so playback continues with the screen
+        off), and it contains no web server. Everything in the next section applies only to the
+        <strong>full build</strong> (<code>BabakPlayer.apk</code>).</p>
+
         <h2>Casting to Chromecast and other Cast devices</h2>
-        <p>BabakPlayer includes Google Cast so you can play your media on Chromecast, Nest speakers, and other
+        <p>The full build of BabakPlayer includes Google Cast so you can play your media on Chromecast, Nest speakers, and other
         Cast-enabled devices on your Wi-Fi network. This is the only feature that uses the network, and it
         works as follows:</p>
         <ul>
-          <li>To find Cast devices, the app scans your local Wi-Fi network. This is why it requests the
+          <li>To find Cast devices, the app scans your local Wi-Fi network. This is why the full build requests the
           <strong>Wi-Fi state</strong> and <strong>network state</strong> permissions.</li>
           <li>While you are casting, the app runs a small temporary web server on your phone and streams the
           selected file directly to the Cast device over your local network (a <code>http://&lt;your-phone&gt;:&lt;port&gt;/…</code>
@@ -91,7 +98,7 @@
           receiver onto the Cast device. That activity is handled by Google and is governed by
           <a href="https://policies.google.com/privacy" rel="noopener" target="_blank">Google's Privacy Policy</a>.
           Casting runs only while you have an active Cast session.</li>
-          <li>The <strong>internet permission</strong> is required by the Google Cast framework and by this local
+          <li>In the full build, the <strong>internet permission</strong> is required by the Google Cast framework and by this local
           streaming server.</li>
         </ul>
 
@@ -130,7 +137,7 @@
       <section lang="fa" dir="rtl">
         <h1>سیاست حفظ حریم خصوصی</h1>
         <p class="meta">BabakPlayer &middot; <code>com.cocode.babakplayer</code></p>
-        <p class="meta">آخرین به‌روزرسانی: ۱۴ ژوئیه ۲۰۲۶</p>
+        <p class="meta">آخرین به‌روزرسانی: ۲۱ سپتامبر ۲۰۲۶</p>
 
         <p><strong>BabakPlayer رسانه‌های شما را روی دستگاهتان نگه می‌دارد و هیچ داده شخصی‌ای برای توسعه‌دهنده ارسال نمی‌کند.</strong>
         این یک پخش‌کنندهٔ رسانهٔ اندرویدی است که صدا و ویدیوی اشتراک‌گذاری‌شده از برنامه‌های دیگر را وارد می‌کند،
@@ -145,12 +152,19 @@
         روی دستگاه شما از مجوزهای رسانهٔ اندروید استفاده می‌کند (<code>READ_MEDIA_AUDIO</code> و
         <code>READ_MEDIA_VIDEO</code> در اندروید ۱۳ به بالا، یا دسترسی خواندن حافظه در اندروید ۱۲ و پایین‌تر).</p>
 
+        <h2>دو نسخه</h2>
+        <p>BabakPlayer در دو نسخه منتشر می‌شود. <strong>نسخهٔ foss</strong> (<code>BabakPlayer-foss.apk</code>،
+        همان نسخه‌ای که برای F-Droid ارسال شده) Google Cast ندارد و هیچ‌گونه دسترسی به شبکه ندارد: از نسخهٔ ۱۴ فقط
+        مجوزهای رسانه‌ای یادشده در بالا و <code>WAKE_LOCK</code> (برای ادامهٔ پخش با صفحهٔ خاموش) را درخواست می‌کند و
+        هیچ وب‌سروری در آن نیست. آنچه در بخش بعدی آمده فقط به <strong>نسخهٔ کامل</strong>
+        (<code>BabakPlayer.apk</code>) مربوط است.</p>
+
         <h2>ارسال به کروم‌کست و سایر دستگاه‌های Cast</h2>
-        <p>BabakPlayer از Google Cast پشتیبانی می‌کند تا بتوانید رسانهٔ خود را روی کروم‌کست، بلندگوهای Nest و سایر
+        <p>نسخهٔ کامل BabakPlayer از Google Cast پشتیبانی می‌کند تا بتوانید رسانهٔ خود را روی کروم‌کست، بلندگوهای Nest و سایر
         دستگاه‌های سازگار با Cast در شبکهٔ Wi‑Fi خود پخش کنید. این تنها قابلیتی است که از شبکه استفاده می‌کند و
         به این صورت کار می‌کند:</p>
         <ul>
-          <li>برای یافتن دستگاه‌های Cast، برنامه شبکهٔ محلی Wi‑Fi شما را جست‌وجو می‌کند. به همین دلیل مجوزهای
+          <li>برای یافتن دستگاه‌های Cast، برنامه شبکهٔ محلی Wi‑Fi شما را جست‌وجو می‌کند. به همین دلیل نسخهٔ کامل مجوزهای
           <strong>وضعیت Wi‑Fi</strong> و <strong>وضعیت شبکه</strong> را درخواست می‌کند.</li>
           <li>هنگام ارسال، برنامه یک وب‌سرور موقت کوچک روی گوشی شما اجرا می‌کند و فایل انتخاب‌شده را مستقیماً از طریق
           شبکهٔ محلی شما به دستگاه Cast جریان می‌دهد (نشانی <code>http://&lt;گوشی‌شما&gt;:&lt;پورت&gt;/…</code> که تنها
@@ -161,7 +175,7 @@
           این فعالیت توسط گوگل انجام می‌شود و تابع
           <a href="https://policies.google.com/privacy" rel="noopener" target="_blank">سیاست حریم خصوصی گوگل</a> است.
           ارسال فقط زمانی اجرا می‌شود که یک نشست Cast فعال داشته باشید.</li>
-          <li>مجوز <strong>اینترنت</strong> برای چارچوب Google Cast و این سرور جریان محلی لازم است.</li>
+          <li>در نسخهٔ کامل، مجوز <strong>اینترنت</strong> برای چارچوب Google Cast و این سرور جریان محلی لازم است.</li>
         </ul>
 
         <h2>بدون ابزار تحلیلی، تبلیغات یا ردیابی</h2>

@@ -2,10 +2,10 @@
 
 **App:** BabakPlayer (`com.cocode.babakplayer`)
 **Developer:** CoCode.dk — Babak Bandpey
-**Last updated:** 14 July 2026
+**Last updated:** 21 September 2026
 
 > The canonical, always-current version of this policy is published at
-> **https://cocodedk.github.io/BabakPlayer/privacy.html**
+> **https://player.cocode.dk/privacy.html**
 
 **BabakPlayer keeps your media on your device and sends no personal data to the developer.**
 It is an Android media player that imports audio and video shared from other apps, plays them in
@@ -21,14 +21,21 @@ item, clear a playlist, clear the app's data, or uninstall the app. To read audi
 device the app uses the Android media permissions (`READ_MEDIA_AUDIO` and `READ_MEDIA_VIDEO` on
 Android 13+, or read-storage access on Android 12 and below).
 
+## Two builds
+
+BabakPlayer is published in two builds. The **foss build** (`BabakPlayer-foss.apk`, the one submitted to
+F-Droid) has no Google Cast and no network access of any kind: from version 14 it requests only the media
+permissions described above and `WAKE_LOCK` (so playback continues with the screen off), and it contains
+no web server. Everything in the next section applies only to the **full build** (`BabakPlayer.apk`).
+
 ## Casting to Chromecast and other Cast devices
 
-BabakPlayer includes Google Cast so you can play your media on Chromecast, Nest speakers, and other
+The full build of BabakPlayer includes Google Cast so you can play your media on Chromecast, Nest speakers, and other
 Cast-enabled devices on your Wi-Fi network. This is the only feature that uses the network, and it
 works as follows:
 
-- To find Cast devices, the app scans your local Wi-Fi network. This is why it requests the Wi-Fi
-  state and network state permissions.
+- To find Cast devices, the app scans your local Wi-Fi network. This is why the full build requests the
+  Wi-Fi state and network state permissions.
 - While you are casting, the app runs a small temporary web server on your phone and streams the
   selected file directly to the Cast device over your local network (a `http://<your-phone>:<port>/…`
   address that only exists on your own network). Your media travels from your phone to your Cast
@@ -38,7 +45,8 @@ works as follows:
   receiver onto the Cast device. That activity is handled by Google and is governed by
   [Google's Privacy Policy](https://policies.google.com/privacy). Casting runs only while you have an
   active Cast session.
-- The internet permission is required by the Google Cast framework and by this local streaming server.
+- In the full build, the internet permission is required by the Google Cast framework and by this local
+  streaming server.
 
 ## No analytics, ads, or tracking
 
