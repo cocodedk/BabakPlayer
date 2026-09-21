@@ -26,8 +26,8 @@ BabakPlayer is the companion receiver app for BabakCast. It accepts shared media
 ## Repository
 
 - GitHub: https://github.com/cocodedk/BabakPlayer
-- Website (English): https://cocodedk.github.io/BabakPlayer/
-- Website (Persian): https://cocodedk.github.io/BabakPlayer/fa/
+- Website (English): https://player.cocode.dk/
+- Website (Persian): https://player.cocode.dk/fa/
 - Download: https://github.com/cocodedk/BabakPlayer/releases/latest/download/BabakPlayer.apk
 
 ## Author
