@@ -17,25 +17,20 @@
   <link rel="alternate" hreflang="en" href="https://player.cocode.dk/" />
   <link rel="alternate" hreflang="fa" href="https://player.cocode.dk/fa/" />
   <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="https://brand.cocode.dk/v1.css">
+  <script type="module" src="https://brand.cocode.dk/v1.js"></script>
 </head>
 <body>
   <div class="bg-orb orb-a"></div>
   <div class="bg-orb orb-b"></div>
   <div class="bg-grid"></div>
 
-  <header class="site-header shell">
-    <div class="brand">
-      <img src="../assets/favicon.svg" alt="لوگوی BabakPlayer" class="brand-logo" />
-      <span>BabakPlayer</span>
-    </div>
-    <nav>
-      <a href="#companion">همراه</a>
-      <a href="#features">ویژگی‌ها</a>
-      <a href="#install">نصب</a>
-      <a href="#about">درباره</a>
-      <a href="../" class="lang-switch">English</a>
-    </nav>
-  </header>
+<!-- The cocode.dk family frame. Without JavaScript its children show instead: a way
+     home and the language link. -->
+<cocode-head project="BabakPlayer" accent="#44bfff" on-accent="#040811" dark>
+  <a href="https://cocode.dk">cocode.dk</a>
+  <a href="../" hreflang="en">English</a>
+</cocode-head>
 
   <main class="shell">
     <section class="hero reveal">
@@ -146,7 +141,11 @@
   </main>
 
   <footer class="shell site-footer">
-    <p>Apache-2.0 | © ۲۰۲۶ <a href="https://cocode.dk" target="_blank" rel="noreferrer">Cocode</a> | BabakPlayer | <a href="../privacy.html">سیاست حریم خصوصی</a></p>
+    <p>Apache-2.0 | <a href="../privacy.html">سیاست حریم خصوصی</a></p>
   </footer>
+
+<cocode-foot repo="cocodedk/BabakPlayer" dark>
+  <a href="https://cocode.dk">cocode.dk</a>
+</cocode-foot>
 </body>
 </html>

@@ -49,9 +49,21 @@
     section[dir="rtl"] { font-family: Vazirmatn, "IBM Plex Sans", sans-serif; text-align: right; }
     section[dir="rtl"] h1, section[dir="rtl"] h2 { font-family: Vazirmatn, "Space Grotesk", sans-serif; }
     footer { color: #91a9d4; font-size: 0.85rem; margin-top: 36px; text-align: center; }
+    /* This page has no styles.css and no fixed side padding on .container (it uses
+       min(820px, 92vw)); these values reproduce that same left edge at both the
+       phone and desktop widths the frame is checked at. */
+    cocode-head, cocode-foot { --cocode-max: calc(820px + 8vw); --cocode-gutter: 4vw; }
   </style>
+  <link rel="stylesheet" href="https://brand.cocode.dk/v1.css">
+  <script type="module" src="https://brand.cocode.dk/v1.js"></script>
 </head>
 <body>
+
+<!-- The cocode.dk family frame. Without JavaScript its child shows instead: a way home. -->
+<cocode-head project="BabakPlayer" accent="#44bfff" on-accent="#040811" dark>
+  <a href="https://cocode.dk">cocode.dk</a>
+</cocode-head>
+
   <div class="container">
     <a class="back" href="./index.html">&larr; BabakPlayer</a>
     <div class="card">
@@ -208,7 +220,10 @@
       </section>
 
     </div>
-    <footer>© 2026 CoCode.dk — Babak Bandpey</footer>
   </div>
+
+<cocode-foot repo="cocodedk/BabakPlayer" dark>
+  <a href="https://cocode.dk">cocode.dk</a>
+</cocode-foot>
 </body>
 </html>
