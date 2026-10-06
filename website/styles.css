@@ -105,6 +105,25 @@ p { margin: 0; color: var(--muted); line-height: 1.65; }
 }
 
 .site-footer { padding: 30px 0 42px; font-size: 0.9rem; color: #91a9d4; }
+
+/* The shared cocode-apps navigation, install block and footer, in the site's own look. */
+main:focus { outline: 0; }
+.site-nav { position: relative; z-index: 1; padding-top: 12px; }
+.cocode-nav a, .cocode-footer a { color: var(--text); }
+.cocode-nav a:hover, .cocode-footer a:hover { color: var(--neon-blue); }
+.cocode-nav .brand { gap: 10px; font-family: "Space Grotesk", "IBM Plex Sans", sans-serif; font-weight: 700; }
+.cocode-nav a[aria-current="page"]:not(.brand) { color: var(--neon-blue); }
+.cocode-footer a { color: var(--neon-blue); }
+.cocode-footer a:hover { color: var(--neon-pink); }
+.install { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
+.install a, .install .fdroid-soon { display: inline-flex; align-items: center; min-height: 44px; margin: 0; padding: 0 16px;
+  border-radius: 12px; font-weight: 600; }
+.install .fdroid-soon { border: 1px dashed var(--line); color: var(--muted); }
+.install .fdroid { padding: 0; }
+.install li:nth-child(2) a { background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink)); color: #040811;
+  box-shadow: 0 0 24px rgba(68, 191, 255, 0.45); }
+.install li:nth-child(3) a { border: 1px solid var(--line); background: rgba(11, 17, 33, 0.52); }
+.card .steps-title { margin: 24px 0 0; font-size: 1.08rem; }
 .reveal { animation: rise .68s ease both; }
 @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
