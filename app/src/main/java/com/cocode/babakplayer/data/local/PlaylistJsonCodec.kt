@@ -15,12 +15,13 @@ object PlaylistJsonCodec {
         return root.toString(2)
     }
 
-    fun decode(raw: String): List<Playlist> {
+    /** [fallbackName] names an item whose stored file name is missing; it is asked for only then. */
+    fun decode(raw: String, fallbackName: () -> String): List<Playlist> {
         val root = runCatching { JSONObject(raw) }.getOrNull() ?: return emptyList()
         val array = root.optJSONArray("playlists") ?: return emptyList()
         return buildList {
             for (index in 0 until array.length()) {
-                val playlist = array.optJSONObject(index)?.toPlaylist() ?: continue
+                val playlist = array.optJSONObject(index)?.toPlaylist(fallbackName) ?: continue
                 add(playlist)
             }
         }
@@ -55,7 +56,7 @@ object PlaylistJsonCodec {
         }
     }
 
-    private fun JSONObject.toPlaylist(): Playlist? {
+    private fun JSONObject.toPlaylist(fallbackName: () -> String): Playlist? {
         val playlistId = optString("playlistId")
         val title = optString("title")
         if (playlistId.isBlank() || title.isBlank()) return null
@@ -63,7 +64,7 @@ object PlaylistJsonCodec {
         val itemsArray = optJSONArray("items") ?: JSONArray()
         val items = buildList {
             for (index in 0 until itemsArray.length()) {
-                val item = itemsArray.optJSONObject(index)?.toPlaylistItem() ?: continue
+                val item = itemsArray.optJSONObject(index)?.toPlaylistItem(fallbackName) ?: continue
                 add(item)
             }
         }
@@ -81,7 +82,7 @@ object PlaylistJsonCodec {
         )
     }
 
-    private fun JSONObject.toPlaylistItem(): PlaylistItem? {
+    private fun JSONObject.toPlaylistItem(fallbackName: () -> String): PlaylistItem? {
         val itemId = optString("itemId")
         val localPath = optString("localPath")
         if (itemId.isBlank() || localPath.isBlank()) return null
@@ -92,7 +93,7 @@ object PlaylistJsonCodec {
         return PlaylistItem(
             itemId = itemId,
             importOrderIndex = optInt("importOrderIndex"),
-            originalDisplayName = optString("originalDisplayName").ifBlank { "Media file" },
+            originalDisplayName = optString("originalDisplayName").ifBlank(fallbackName),
             mimeType = optString("mimeType").ifBlank { "application/octet-stream" },
             localPath = localPath,
             bytes = optLong("bytes"),

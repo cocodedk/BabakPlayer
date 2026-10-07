@@ -8,7 +8,8 @@ enum class ThemeMode {
 
 enum class AppLanguage(val tag: String) {
     ENGLISH("en"),
-    PERSIAN("fa");
+    PERSIAN("fa"),
+    DANISH("da");
 
     companion object {
         fun fromTag(tag: String): AppLanguage {

@@ -66,6 +66,7 @@ fun SettingsScreen(
                 Text(stringResource(R.string.settings_language), style = MaterialTheme.typography.titleMedium)
                 LanguageOption(settings.language, AppLanguage.ENGLISH, R.string.language_english, onLanguageChange)
                 LanguageOption(settings.language, AppLanguage.PERSIAN, R.string.language_persian, onLanguageChange)
+                LanguageOption(settings.language, AppLanguage.DANISH, R.string.language_danish, onLanguageChange)
             }
         }
 

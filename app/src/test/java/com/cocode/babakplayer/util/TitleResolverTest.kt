@@ -15,6 +15,7 @@ class TitleResolverTest {
             caption = "My Playlist",
             firstFileName = "file.mp3",
             createdAtMs = 1000L,
+            fallbackPrefix = "Imported playlist",
         )
         assertEquals("Episode 1 recap", result)
     }
@@ -26,6 +27,7 @@ class TitleResolverTest {
             caption = "Road Trip Mix",
             firstFileName = "file.mp3",
             createdAtMs = 1000L,
+            fallbackPrefix = "Imported playlist",
         )
         assertEquals("Road Trip Mix", result)
     }
@@ -37,12 +39,13 @@ class TitleResolverTest {
             caption = null,
             firstFileName = "cool_song.mp3",
             createdAtMs = 1000L,
+            fallbackPrefix = "Imported playlist",
         )
         assertEquals("cool_song", result)
     }
 
     @Test
-    fun resolve_falls_back_to_timestamp() {
+    fun resolve_falls_back_to_the_given_prefix_and_timestamp() {
         val savedLocale = Locale.getDefault()
         val savedTz = TimeZone.getDefault()
         try {
@@ -53,6 +56,7 @@ class TitleResolverTest {
                 caption = null,
                 firstFileName = null,
                 createdAtMs = 1000L,
+                fallbackPrefix = "Imported playlist",
             )
             assertEquals("Imported playlist 1970-01-01 00:00", result)
         } finally {
@@ -68,6 +72,7 @@ class TitleResolverTest {
             caption = "caption",
             firstFileName = null,
             createdAtMs = 1000L,
+            fallbackPrefix = "Imported playlist",
         )
         assertEquals("padded", result)
     }
@@ -79,6 +84,7 @@ class TitleResolverTest {
             caption = "My Caption",
             firstFileName = null,
             createdAtMs = 1000L,
+            fallbackPrefix = "Imported playlist",
         )
         assertEquals("My Caption", result)
     }
@@ -90,6 +96,7 @@ class TitleResolverTest {
             caption = "  ",
             firstFileName = "track.mp4",
             createdAtMs = 1000L,
+            fallbackPrefix = "Imported playlist",
         )
         assertEquals("track", result)
     }

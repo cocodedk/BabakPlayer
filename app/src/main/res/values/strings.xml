@@ -30,6 +30,8 @@
     <string name="playlists_empty">No playlists yet. Use + to import.</string>
     <string name="player_part_label">Part %1$d of %2$d</string>
     <string name="dismiss_summary">Dismiss summary</string>
+    <string name="playlist_default_title">Imported playlist</string>
+    <string name="media_file_fallback_name">Media file</string>
 
     <string name="summary_title">Imported: %1$s</string>
     <string name="summary_imported">Imported</string>
@@ -89,6 +91,7 @@
     <string name="settings_language">App language</string>
     <string name="language_english">English</string>
     <string name="language_persian">Persian</string>
+    <string name="language_danish" translatable="false">Dansk</string>
     <string name="settings_autoplay_next">Autoplay next item</string>
     <string name="settings_autoplay_next_desc">Continue automatically to next item in playlist.</string>
     <string name="settings_seek_interval">Seek interval</string>
@@ -102,14 +105,23 @@
     <string name="dialog_reset_settings_message">Restore all settings to default values?</string>
 
     <string name="about_title">About</string>
-    <string name="about_purpose">BabakPlayer is a local-first receiver app for shared media parts.</string>
-    <string name="about_companion">Companion to BabakCast: import split files and play continuously.</string>
-    <string name="about_local_first">No accounts, no cloud sync, no analytics by default.</string>
-    <string name="about_supported_formats">Supported formats: mp3, mp4, mkv, mov, webm (codec availability depends on device).</string>
-    <string name="about_license">License: Apache-2.0</string>
+    <string name="about_section_version">Name and version</string>
+    <string name="about_section_what">What the app does</string>
+    <string name="about_section_privacy">Privacy</string>
+    <string name="about_section_links">Links</string>
     <string name="about_version">Version %1$s</string>
-    <string name="about_open_website">Open website</string>
-    <string name="about_open_repo">Open repository</string>
-    <string name="about_website_url">https://cocodedk.github.io/BabakPlayer/</string>
-    <string name="about_repo_url">https://github.com/cocodedk/BabakPlayer</string>
+    <string name="about_update_note">The app does not look for updates by itself. This button opens the web page where new versions are published.</string>
+    <string name="about_check_updates">See the latest version</string>
+    <string name="about_purpose">BabakPlayer plays audio and video that arrive in several parts, for example when they are shared through WhatsApp. It keeps the parts in the order you received them and plays them one after another as one playlist. It is made to work with BabakCast, the app that splits media into parts and shares them.</string>
+    <string name="about_supported_formats">Supported file types: mp3 (audio) and mp4, mkv, mov, webm (video). Whether a file plays can also depend on your device.</string>
+    <string name="about_privacy_body">Your audio and video stay on your device, and the app sends no personal data to the developer. It has no accounts, no advertising and no tracking, and it does not measure how you use it.</string>
+    <string name="about_privacy_link">Read the privacy policy</string>
+    <string name="about_website">Open the website</string>
+    <string name="about_source">See the source code on GitHub</string>
+    <string name="about_report">Report a problem on GitHub</string>
+    <string name="about_credits">Credits and licenses</string>
+    <string name="about_license">License: Apache-2.0</string>
+    <string name="about_credits_libraries">BabakPlayer is built with two open-source libraries: Jetpack Compose (the screens) and Media3 ExoPlayer (playback). Both use the Apache-2.0 license.</string>
+    <string name="about_made_by">Made by Cocode (cocode.dk)</string>
+    <string name="about_made_by_link">Open cocode.dk</string>
 </resources>

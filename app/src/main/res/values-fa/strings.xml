@@ -29,6 +29,8 @@
     <string name="empty_playlists">هنوز پلی‌لیستی وجود ندارد. فایل را اشتراک‌گذاری کنید یا از گالری/فایل‌ها وارد کنید.</string>
     <string name="playlists_empty">هنوز پلی‌لیستی نیست. برای ورود از + استفاده کنید.</string>
     <string name="player_part_label">بخش %1$d از %2$d</string>
+    <string name="playlist_default_title">پلی‌لیست واردشده</string>
+    <string name="media_file_fallback_name">فایل رسانه</string>
     <string name="dismiss_summary">بستن خلاصه</string>
 
     <string name="summary_title">وارد شد: %1$s</string>
@@ -102,14 +104,23 @@
     <string name="dialog_reset_settings_message">همه تنظیمات به حالت پیش‌فرض برگردد؟</string>
 
     <string name="about_title">درباره</string>
-    <string name="about_purpose">بابک‌پلیر یک برنامه محلی برای دریافت فایل‌های چندبخشی رسانه است.</string>
-    <string name="about_companion">همراه بابک‌کست: فایل‌های بخش‌بندی‌شده را وارد کنید و پیوسته پخش کنید.</string>
-    <string name="about_local_first">بدون حساب کاربری، بدون همگام‌سازی ابری و بدون رهگیری پیش‌فرض.</string>
-    <string name="about_supported_formats">فرمت‌های پشتیبانی‌شده: mp3, mp4, mkv, mov, webm (وابسته به کدک دستگاه).</string>
-    <string name="about_license">مجوز: Apache-2.0</string>
+    <string name="about_section_version">نام و نسخه</string>
+    <string name="about_section_what">برنامه چه می‌کند</string>
+    <string name="about_section_privacy">حریم خصوصی</string>
+    <string name="about_section_links">پیوندها</string>
     <string name="about_version">نسخه %1$s</string>
-    <string name="about_open_website">باز کردن وب‌سایت</string>
-    <string name="about_open_repo">باز کردن مخزن</string>
-    <string name="about_website_url">https://cocodedk.github.io/BabakPlayer/</string>
-    <string name="about_repo_url">https://github.com/cocodedk/BabakPlayer</string>
+    <string name="about_update_note">برنامه خودش به‌روزرسانی را بررسی نمی‌کند. این دکمه صفحه‌ای را باز می‌کند که نسخه‌های تازه در آن منتشر می‌شوند.</string>
+    <string name="about_check_updates">دیدن آخرین نسخه</string>
+    <string name="about_purpose">بابک‌پلیر صدا و تصویری را پخش می‌کند که در چند بخش می‌رسد، برای نمونه از راه واتس‌اپ. بخش‌ها را به همان ترتیبی که دریافت کرده‌اید نگه می‌دارد و پشت سر هم، مثل یک فهرست پخش، اجرا می‌کند. این برنامه برای کار با بابک‌کست ساخته شده است؛ برنامه‌ای که رسانه را به چند بخش تقسیم می‌کند و به اشتراک می‌گذارد.</string>
+    <string name="about_supported_formats">نوع فایل‌های پشتیبانی‌شده: mp3 (صدا) و mp4، mkv، mov، webm (تصویر). اینکه یک فایل پخش شود یا نه، به دستگاه شما هم بستگی دارد.</string>
+    <string name="about_privacy_body">صدا و تصویر شما روی دستگاهتان می‌ماند و برنامه هیچ اطلاعات شخصی‌ای برای سازنده نمی‌فرستد. برنامه حساب کاربری، تبلیغات و رهگیری ندارد و نمی‌سنجد که چگونه از آن استفاده می‌کنید.</string>
+    <string name="about_privacy_link">خواندن سیاست حریم خصوصی</string>
+    <string name="about_website">باز کردن وب‌سایت</string>
+    <string name="about_source">دیدن کد منبع در GitHub</string>
+    <string name="about_report">گزارش مشکل در GitHub</string>
+    <string name="about_credits">قدردانی و مجوزها</string>
+    <string name="about_license">مجوز: Apache-2.0</string>
+    <string name="about_credits_libraries">بابک‌پلیر با دو کتابخانه متن‌باز ساخته شده است: Jetpack Compose (برای صفحه‌ها) و Media3 ExoPlayer (برای پخش). هر دو مجوز Apache-2.0 دارند.</string>
+    <string name="about_made_by">ساخته‌شده توسط Cocode (cocode.dk)</string>
+    <string name="about_made_by_link">باز کردن cocode.dk</string>
 </resources>

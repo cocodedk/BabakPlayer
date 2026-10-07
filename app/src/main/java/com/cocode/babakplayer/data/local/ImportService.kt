@@ -6,11 +6,13 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
+import com.cocode.babakplayer.R
 import com.cocode.babakplayer.domain.StorageReferencePolicy
 import com.cocode.babakplayer.model.PlaylistItem
 import com.cocode.babakplayer.util.SharePayload
 import com.cocode.babakplayer.util.detectSupportedMedia
 import com.cocode.babakplayer.util.extractDisplayName
+import com.cocode.babakplayer.util.getStringInAppLanguage
 import java.io.File
 import java.util.UUID
 
@@ -24,6 +26,8 @@ class ImportService(private val context: Context) {
         val firstDisplayName: String?,
     )
 
+    private fun mediaFileFallbackName(): String = context.getStringInAppLanguage(R.string.media_file_fallback_name)
+
     suspend fun importPayload(payload: SharePayload): ImportDraft {
         val resolver = context.contentResolver
         val imported = mutableListOf<PlaylistItem>()
@@ -33,7 +37,7 @@ class ImportService(private val context: Context) {
         var firstDisplayName: String? = null
 
         payload.uris.forEachIndexed { index, uri ->
-            val displayName = queryDisplayName(resolver, uri) ?: extractDisplayName(uri.toString())
+            val displayName = queryDisplayName(resolver, uri) ?: extractDisplayName(uri.toString(), mediaFileFallbackName())
             if (firstDisplayName == null) firstDisplayName = displayName
 
             val mimeType = resolver.getType(uri)
