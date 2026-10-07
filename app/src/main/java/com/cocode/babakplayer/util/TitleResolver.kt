@@ -10,6 +10,7 @@ object TitleResolver {
         caption: String?,
         firstFileName: String?,
         createdAtMs: Long,
+        fallbackPrefix: String,
     ): String {
         val desc = firstDescription?.trim().takeIf { !it.isNullOrBlank() }
         if (desc != null) return desc
@@ -21,7 +22,6 @@ object TitleResolver {
         if (byName != null) return byName
 
         val stamp = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(Date(createdAtMs))
-        val prefix = if (Locale.getDefault().language == "fa") "پلی‌لیست واردشده" else "Imported playlist"
-        return "$prefix $stamp"
+        return "$fallbackPrefix $stamp"
     }
 }

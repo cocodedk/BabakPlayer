@@ -77,6 +77,6 @@ fun asDurationText(ms: Long): String {
     return "%d:%02d".format(Locale.getDefault(), minutes, seconds)
 }
 
-fun extractDisplayName(pathOrName: String): String {
-    return File(pathOrName).name.ifBlank { "Media file" }
+fun extractDisplayName(pathOrName: String, fallbackName: String): String {
+    return File(pathOrName).name.ifBlank { fallbackName }
 }

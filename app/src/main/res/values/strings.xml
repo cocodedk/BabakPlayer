@@ -5,10 +5,10 @@
     <string name="tab_playlists">Playlists</string>
     <string name="tab_settings">Settings</string>
     <string name="tab_about">About</string>
-    <string name="nav_add">Add</string>
+    <string name="nav_add">Import media</string>
 
     <string name="player_header">BabakPlayer</string>
-    <string name="player_subtitle">Import from WhatsApp or device storage and play in receive order.</string>
+    <string name="player_subtitle">Import audio and video from WhatsApp or your device and play them continuously.</string>
     <string name="player_importing">Importing shared files...</string>
     <string name="player_import_from_device_action">Import from gallery/files</string>
     <string name="player_import_from_device_hint">Pick multiple audio/video files from gallery or file locations to create one playlist.</string>
@@ -23,13 +23,16 @@
     <string name="media_category_downloads">Downloads</string>
     <string name="media_loading">Loading media...</string>
     <string name="media_empty">No media files found in this section.</string>
-    <string name="media_create_playlist">Create Playlist</string>
+    <string name="media_create_playlist">Create playlist and play</string>
     <string name="media_permission_denied_title">Permission needed</string>
     <string name="media_permission_denied_message">Grant media access to browse this section, or use manual file picking.</string>
     <string name="empty_playlists">No playlists yet. Share media or import from gallery/files.</string>
     <string name="playlists_empty">No playlists yet. Use + to import.</string>
     <string name="player_part_label">Part %1$d of %2$d</string>
     <string name="dismiss_summary">Dismiss summary</string>
+    <string name="playlist_default_title">Imported playlist</string>
+    <string name="media_file_fallback_name">Media file</string>
+    <string name="audio_file_fallback_name">Audio file</string>
 
     <string name="summary_title">Imported: %1$s</string>
     <string name="summary_imported">Imported</string>
@@ -37,7 +40,10 @@
     <string name="summary_unsupported">Unsupported</string>
     <string name="summary_total_size">Total size</string>
 
-    <string name="playlist_files_size">%1$d files · %2$s</string>
+    <plurals name="playlist_files_size">
+        <item quantity="one">%1$d file · %2$s</item>
+        <item quantity="other">%1$d files · %2$s</item>
+    </plurals>
     <string name="playlist_collapsed_hint">Collapsed. Tap arrow to show files.</string>
     <string name="status_ready">Ready</string>
     <string name="status_decode_failed">Decode failed</string>
@@ -48,8 +54,8 @@
     <string name="content_play_playlist">Play playlist</string>
     <string name="content_expand_playlist">Expand playlist</string>
     <string name="content_collapse_playlist">Collapse playlist</string>
-    <string name="content_delete_playlist">Delete playlist</string>
-    <string name="content_delete_file">Delete file</string>
+    <string name="content_delete_playlist">Remove playlist</string>
+    <string name="content_delete_file">Remove file</string>
     <string name="content_previous">Previous</string>
     <string name="content_next">Next</string>
     <string name="content_play">Play</string>
@@ -65,7 +71,10 @@
     <string name="dialog_delete_file_title">Remove file</string>
     <string name="dialog_delete_file_message">Remove %1$s from this playlist? The original file stays in device storage.</string>
     <string name="dialog_delete_playlist_title">Remove playlist</string>
-    <string name="dialog_delete_playlist_message">Remove playlist %2$s with %1$d items? Original files stay in device storage.</string>
+    <plurals name="dialog_delete_playlist_message">
+        <item quantity="one">Remove playlist %2$s with %1$d file? The original file stays in device storage.</item>
+        <item quantity="other">Remove playlist %2$s with %1$d files? The original files stay in device storage.</item>
+    </plurals>
     <string name="action_delete">Remove</string>
     <string name="action_delete_all">Remove all</string>
     <string name="action_show_more">more\u2026</string>
@@ -75,7 +84,7 @@
 
     <string name="notice_file_deleted">File removed from playlist</string>
     <string name="notice_playlist_deleted">Playlist removed. Original files unchanged.</string>
-    <string name="notice_decode_skip">One file failed decoding and was skipped</string>
+    <string name="notice_decode_skip">Could not play this file. Playback continues with the next file, if available.</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_section_appearance">Appearance</string>
@@ -89,12 +98,13 @@
     <string name="settings_language">App language</string>
     <string name="language_english">English</string>
     <string name="language_persian">Persian</string>
+    <string name="language_danish" translatable="false">Dansk</string>
     <string name="settings_autoplay_next">Autoplay next item</string>
     <string name="settings_autoplay_next_desc">Continue automatically to next item in playlist.</string>
     <string name="settings_seek_interval">Seek interval</string>
     <string name="settings_seek_interval_value">%1$d seconds</string>
     <string name="settings_auto_dismiss">Auto-dismiss import summary</string>
-    <string name="settings_auto_dismiss_desc">Hide import summary automatically after a short delay.</string>
+    <string name="settings_auto_dismiss_desc">Import summaries are not shown in this version, so this setting has no effect.</string>
     <string name="settings_reset">Reset settings</string>
     <string name="settings_reset_desc">Restore default theme, language, and playback preferences.</string>
     <string name="settings_reset_confirm">Reset</string>
@@ -102,14 +112,23 @@
     <string name="dialog_reset_settings_message">Restore all settings to default values?</string>
 
     <string name="about_title">About</string>
-    <string name="about_purpose">BabakPlayer is a local-first receiver app for shared media parts.</string>
-    <string name="about_companion">Companion to BabakCast: import split files and play continuously.</string>
-    <string name="about_local_first">No accounts, no cloud sync, no analytics by default.</string>
-    <string name="about_supported_formats">Supported formats: mp3, mp4, mkv, mov, webm (codec availability depends on device).</string>
-    <string name="about_license">License: Apache-2.0</string>
+    <string name="about_section_version">Name and version</string>
+    <string name="about_section_what">What the app does</string>
+    <string name="about_section_privacy">Privacy</string>
+    <string name="about_section_links">Links</string>
     <string name="about_version">Version %1$s</string>
-    <string name="about_open_website">Open website</string>
-    <string name="about_open_repo">Open repository</string>
-    <string name="about_website_url">https://cocodedk.github.io/BabakPlayer/</string>
-    <string name="about_repo_url">https://github.com/cocodedk/BabakPlayer</string>
+    <string name="about_update_note">The app does not look for updates by itself. This button opens the web page where new versions are published.</string>
+    <string name="about_check_updates">See the latest version</string>
+    <string name="about_purpose">BabakPlayer plays audio and video that arrive in several parts, for example shared through WhatsApp, one after another as one playlist. Files shared with a caption go into one playlist named after the caption, in order by file name (part2 before part10). Files shared without a caption play in the order they were shared. It is made to work with BabakCast, the app that splits media into parts and shares them.</string>
+    <string name="about_supported_formats">Supported file types: mp3 (audio) and mp4, mkv, mov, webm (video). Whether a file plays can also depend on your device.</string>
+    <string name="about_privacy_body">Your audio and video stay on your device, and the app sends no personal data to the developer. It has no accounts, no advertising and no tracking, and it does not measure how you use it.</string>
+    <string name="about_privacy_link">Read the privacy policy</string>
+    <string name="about_website">Open the website</string>
+    <string name="about_source">See the source code on GitHub</string>
+    <string name="about_report">Report a problem on GitHub</string>
+    <string name="about_credits">Credits and licenses</string>
+    <string name="about_license">License: Apache-2.0</string>
+    <string name="about_credits_libraries">BabakPlayer is built with two open-source libraries: Jetpack Compose (the screens) and Media3 ExoPlayer (playback). Both use the Apache-2.0 license.</string>
+    <string name="about_made_by">Made by Cocode (cocode.dk)</string>
+    <string name="about_made_by_link">Open cocode.dk</string>
 </resources>

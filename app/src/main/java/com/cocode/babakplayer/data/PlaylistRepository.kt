@@ -3,6 +3,7 @@ package com.cocode.babakplayer.data
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import com.cocode.babakplayer.R
 import com.cocode.babakplayer.data.local.ImportService
 import com.cocode.babakplayer.data.local.PlaylistStore
 import com.cocode.babakplayer.domain.CaptionPlaylistPolicy
@@ -14,6 +15,7 @@ import com.cocode.babakplayer.model.Playlist
 import com.cocode.babakplayer.model.PlaylistItem
 import com.cocode.babakplayer.util.SharePayload
 import com.cocode.babakplayer.util.TitleResolver
+import com.cocode.babakplayer.util.getStringInAppLanguage
 import java.io.File
 
 class PlaylistRepository(private val context: Context) {
@@ -49,6 +51,7 @@ class PlaylistRepository(private val context: Context) {
             caption = payload.caption,
             firstFileName = draft.firstDisplayName,
             createdAtMs = createdAt,
+            fallbackPrefix = context.getStringInAppLanguage(R.string.playlist_default_title),
         )
         val current = loadPlaylistsForMutation()
         val grouped = CaptionPlaylistPolicy.mergeIntoCaptionPlaylist(

@@ -1,12 +1,14 @@
 package com.cocode.babakplayer.data.local
 
 import android.content.Context
+import com.cocode.babakplayer.R
 import com.cocode.babakplayer.model.Playlist
+import com.cocode.babakplayer.util.getStringInAppLanguage
 import java.io.File
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-class PlaylistStore(context: Context) {
+class PlaylistStore(private val context: Context) {
     private val rootDir = File(context.filesDir, "playlists").apply { mkdirs() }
     private val indexFile = File(rootDir, "index.json")
     private val lock = Mutex()
@@ -14,7 +16,7 @@ class PlaylistStore(context: Context) {
     suspend fun loadPlaylists(): List<Playlist> = lock.withLock {
         if (!indexFile.exists()) return emptyList()
         val content = runCatching { indexFile.readText() }.getOrDefault("")
-        return PlaylistJsonCodec.decode(content)
+        return decode(content)
             .sortedByDescending { it.createdAt }
     }
 
@@ -39,8 +41,11 @@ class PlaylistStore(context: Context) {
 
     private fun loadUnsafe(): List<Playlist> {
         if (!indexFile.exists()) return emptyList()
-        return PlaylistJsonCodec.decode(indexFile.readText())
+        return decode(indexFile.readText())
     }
+
+    private fun decode(raw: String): List<Playlist> =
+        PlaylistJsonCodec.decode(raw) { context.getStringInAppLanguage(R.string.media_file_fallback_name) }
 
     private fun saveUnsafe(playlists: List<Playlist>) {
         val parent = indexFile.parentFile

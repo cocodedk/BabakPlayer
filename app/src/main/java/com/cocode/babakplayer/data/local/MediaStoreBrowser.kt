@@ -5,6 +5,8 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import com.cocode.babakplayer.R
+import com.cocode.babakplayer.util.getStringInAppLanguage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -64,7 +66,7 @@ class MediaStoreBrowser(private val context: Context) {
                     add(
                         BrowsableMedia(
                             uri = ContentUris.withAppendedId(uri, id),
-                            displayName = it.getString(nameCol) ?: "Audio",
+                            displayName = it.getString(nameCol) ?: context.getStringInAppLanguage(R.string.audio_file_fallback_name),
                             mimeType = it.getString(mimeCol) ?: "audio/*",
                             sizeBytes = it.getLong(sizeCol),
                             dateAddedSec = it.getLong(dateCol),
@@ -127,7 +129,7 @@ class MediaStoreBrowser(private val context: Context) {
                     add(
                         BrowsableMedia(
                             uri = ContentUris.withAppendedId(uri, id),
-                            displayName = it.getString(nameCol) ?: "Media",
+                            displayName = it.getString(nameCol) ?: context.getStringInAppLanguage(R.string.media_file_fallback_name),
                             mimeType = it.getString(mimeCol) ?: "*/*",
                             sizeBytes = it.getLong(sizeCol),
                             dateAddedSec = it.getLong(dateCol),

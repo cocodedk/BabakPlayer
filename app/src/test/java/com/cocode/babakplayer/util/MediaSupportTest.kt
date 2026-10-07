@@ -148,11 +148,16 @@ class MediaSupportTest {
 
     @Test
     fun extractDisplayName_extracts_filename_from_path() {
-        assertEquals("song.mp3", extractDisplayName("/some/path/song.mp3"))
+        assertEquals("song.mp3", extractDisplayName("/some/path/song.mp3", "Media file"))
+    }
+
+    @Test
+    fun extractDisplayName_uses_the_given_fallback_for_a_blank_name() {
+        assertEquals("Unnamed file", extractDisplayName("", "Unnamed file"))
     }
 
     @Test
     fun extractDisplayName_returns_name_if_no_path() {
-        assertEquals("track.mp4", extractDisplayName("track.mp4"))
+        assertEquals("track.mp4", extractDisplayName("track.mp4", "Media file"))
     }
 }

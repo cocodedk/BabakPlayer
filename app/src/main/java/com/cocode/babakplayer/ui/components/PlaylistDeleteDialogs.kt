@@ -5,6 +5,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import com.cocode.babakplayer.R
 import com.cocode.babakplayer.model.Playlist
@@ -42,7 +43,7 @@ fun DeletePlaylistDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.dialog_delete_playlist_title)) },
-        text = { Text(stringResource(R.string.dialog_delete_playlist_message, playlist.itemCount, playlist.title)) },
+        text = { Text(pluralStringResource(R.plurals.dialog_delete_playlist_message, playlist.itemCount, playlist.itemCount, playlist.title)) },
         confirmButton = {
             Button(onClick = {
                 onDelete(playlist.playlistId)
