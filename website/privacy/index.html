@@ -7,6 +7,9 @@
   <meta name="description" content="Privacy policy for BabakPlayer (com.cocode.babakplayer): your media stays on your device, no personal data is sent to the developer, and network access is used only for Google Cast." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://player.cocode.dk/privacy/" />
+  <link rel="alternate" hreflang="en" href="https://player.cocode.dk/privacy/" />
+  <link rel="alternate" hreflang="da" href="https://player.cocode.dk/da/privacy/" />
+  <link rel="alternate" hreflang="x-default" href="https://player.cocode.dk/privacy/" />
   <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -69,9 +72,10 @@
 </head>
 <body>
 
-<!-- The cocode.dk family frame. Without JavaScript its child shows instead: a way home. -->
+<!-- The cocode.dk family frame. Without JavaScript its children show instead: a way home and the language link. -->
 <cocode-head project="BabakPlayer" accent="#44bfff" on-accent="#040811" dark>
   <a href="https://cocode.dk">cocode.dk</a>
+  <a href="../da/privacy/" hreflang="da">Dansk</a>
 </cocode-head>
 
   <header class="site-nav">
@@ -96,18 +100,20 @@
       <section lang="en">
         <h1>Privacy Policy</h1>
         <p class="meta">BabakPlayer &middot; <code>com.cocode.babakplayer</code></p>
-        <p class="meta">Last updated: 21 September 2026</p>
+        <p class="meta">Last updated: 7 October 2026</p>
 
         <p><strong>BabakPlayer keeps your media on your device and sends no personal data to the developer.</strong>
-        It is an Android media player that imports audio and video shared from other apps, plays them in order,
+        It is an Android media player that imports audio and video shared from other apps, plays them one after another,
         and can cast them to Google Cast (Chromecast) devices on your local network. It has no user accounts,
         no analytics, and no advertising.</p>
 
         <h2>Media and playlists you import</h2>
-        <p>When you share audio or video into BabakPlayer, the files are copied into the app's private storage
-        on your device, and the playlists you build are stored locally there too. This content stays on your
-        device — it is never uploaded to the developer or to any server. It is removed when you delete an item,
-        clear a playlist, clear the app's data, or uninstall the app. To read audio and video on your device
+        <p>When you share audio or video into BabakPlayer, the app keeps access to the original file where
+        Android allows it. Where Android does not (for example, files shared from WhatsApp), the app saves a
+        private copy in its own storage on your device. The playlists you build are stored locally on your
+        device too. BabakPlayer does not upload your media to the developer. Removing a playlist takes it out
+        of BabakPlayer; it does not delete your original files or the private copies. The private copies stay
+        until you clear the app's data or uninstall the app. To read audio and video on your device
         the app uses the Android media permissions (<code>READ_MEDIA_AUDIO</code> and <code>READ_MEDIA_VIDEO</code>
         on Android 13+, or read-storage access on Android 12 and below).</p>
 
@@ -126,9 +132,9 @@
           <li>To find Cast devices, the app scans your local Wi-Fi network. This is why the full build requests the
           <strong>Wi-Fi state</strong> and <strong>network state</strong> permissions.</li>
           <li>While you are casting, the app runs a small temporary web server on your phone and streams the
-          selected file directly to the Cast device over your local network (a <code>http://&lt;your-phone&gt;:&lt;port&gt;/…</code>
-          address that only exists on your own network). Your media travels from your phone to your Cast device
-          on your own network — it is <strong>not uploaded to the developer or to the public internet</strong>.</li>
+          selected file to the Cast device (a <code>http://&lt;your-phone&gt;:&lt;port&gt;/…</code> address).
+          The server is not restricted to your Wi-Fi: it listens on every network connection your phone has, for as
+          long as the Cast session lasts. Your media is <strong>not uploaded to the developer</strong>.</li>
           <li>The Google Cast framework (a Google component built into the app) communicates with the Cast device
           and with Google's Cast service to set up and control the session, and loads Google's standard media
           receiver onto the Cast device. That activity is handled by Google and is governed by
@@ -147,14 +153,18 @@
 
         <h2>Device backup</h2>
         <p>If you have enabled Android Auto Backup or Google account backup, the operating system may include
-        the app's local data in your own personal Google backup. This is controlled entirely by you and Google —
+        the app's local data, including your playlists and the private copies of imported media, in your own
+        personal Google backup. This is controlled entirely by you and Google —
         the developer has no access to it. See
         <a href="https://policies.google.com/privacy" rel="noopener" target="_blank">Google's Privacy Policy</a> for details.</p>
 
         <h2>External links</h2>
-        <p>The app's About screen contains links to the developer's website
-        (<a href="https://cocode.dk" rel="noopener" target="_blank">cocode.dk</a>) and the project's GitHub
-        repository. Selecting them opens your browser; those sites are governed by their own privacy policies.</p>
+        <p>The app's About screen has buttons that open, in your browser, the BabakPlayer website and this privacy
+        policy, the project's source code, issue tracker and releases page on GitHub, and the developer's website
+        (<a href="https://cocode.dk" rel="noopener" target="_blank">cocode.dk</a>). The buttons only hand the
+        address to Android, which opens your browser. BabakPlayer itself does not connect to these addresses and does
+        not check for updates by itself. Your browser then connects to the site, and those sites are governed by their
+        own privacy policies. This applies to both builds.</p>
 
         <h2>Children</h2>
         <p>BabakPlayer does not knowingly collect personal data from anyone, including children.</p>
@@ -173,18 +183,20 @@
       <section lang="fa" dir="rtl">
         <h2 class="page-title">سیاست حفظ حریم خصوصی</h2>
         <p class="meta">BabakPlayer &middot; <code>com.cocode.babakplayer</code></p>
-        <p class="meta">آخرین به‌روزرسانی: ۲۱ سپتامبر ۲۰۲۶</p>
+        <p class="meta">آخرین به‌روزرسانی: ۷ اکتبر ۲۰۲۶</p>
 
         <p><strong>BabakPlayer رسانه‌های شما را روی دستگاهتان نگه می‌دارد و هیچ داده شخصی‌ای برای توسعه‌دهنده ارسال نمی‌کند.</strong>
         این یک پخش‌کنندهٔ رسانهٔ اندرویدی است که صدا و ویدیوی اشتراک‌گذاری‌شده از برنامه‌های دیگر را وارد می‌کند،
-        آن‌ها را به ترتیب پخش می‌کند و می‌تواند آن‌ها را به دستگاه‌های Google Cast (کروم‌کست) در شبکهٔ محلی شما ارسال کند.
+        آن‌ها را پشت سر هم پخش می‌کند و می‌تواند آن‌ها را به دستگاه‌های Google Cast (کروم‌کست) در شبکهٔ محلی شما ارسال کند.
         این برنامه هیچ حساب کاربری، ابزار تحلیلی یا تبلیغاتی ندارد.</p>
 
         <h2>رسانه و لیست‌های پخشی که وارد می‌کنید</h2>
-        <p>وقتی صدا یا ویدیویی را به BabakPlayer به اشتراک می‌گذارید، فایل‌ها در حافظهٔ خصوصی برنامه روی دستگاه شما
-        کپی می‌شوند و لیست‌های پخشی که می‌سازید نیز به‌صورت محلی همان‌جا ذخیره می‌شوند. این محتوا روی دستگاه شما
-        باقی می‌ماند و هرگز برای توسعه‌دهنده یا هیچ سروری بارگذاری نمی‌شود. این محتوا هنگام حذف یک مورد، پاک‌کردن
-        یک لیست پخش، پاک‌کردن داده‌های برنامه یا حذف نصب برنامه، از بین می‌رود. برنامه برای خواندن صدا و ویدیوی
+        <p>وقتی صدا یا ویدیویی را به BabakPlayer به اشتراک می‌گذارید، برنامه در صورت امکان دسترسی به فایل اصلی را
+        حفظ می‌کند؛ در غیر این صورت (برای مثال فایل‌هایی که از واتس‌اپ ارسال می‌شوند)، یک نسخهٔ خصوصی در حافظهٔ
+        خود برنامه روی دستگاه شما ذخیره می‌کند. لیست‌های پخشی که می‌سازید نیز به‌صورت محلی روی دستگاه شما ذخیره
+        می‌شوند. BabakPlayer رسانه‌های واردشده را برای توسعه‌دهنده بارگذاری نمی‌کند. حذف یک لیست پخش، آن را از
+        BabakPlayer برمی‌دارد، اما فایل‌های اصلی و نسخه‌های خصوصی را پاک نمی‌کند. نسخه‌های خصوصی تا زمان پاک‌کردن
+        داده‌های برنامه یا حذف نصب برنامه باقی می‌مانند. برنامه برای خواندن صدا و ویدیوی
         روی دستگاه شما از مجوزهای رسانهٔ اندروید استفاده می‌کند (<code>READ_MEDIA_AUDIO</code> و
         <code>READ_MEDIA_VIDEO</code> در اندروید ۱۳ به بالا، یا دسترسی خواندن حافظه در اندروید ۱۲ و پایین‌تر).</p>
 
@@ -202,10 +214,10 @@
         <ul>
           <li>برای یافتن دستگاه‌های Cast، برنامه شبکهٔ محلی Wi‑Fi شما را جست‌وجو می‌کند. به همین دلیل نسخهٔ کامل مجوزهای
           <strong>وضعیت Wi‑Fi</strong> و <strong>وضعیت شبکه</strong> را درخواست می‌کند.</li>
-          <li>هنگام ارسال، برنامه یک وب‌سرور موقت کوچک روی گوشی شما اجرا می‌کند و فایل انتخاب‌شده را مستقیماً از طریق
-          شبکهٔ محلی شما به دستگاه Cast جریان می‌دهد (نشانی <code>http://&lt;گوشی‌شما&gt;:&lt;پورت&gt;/…</code> که تنها
-          روی شبکهٔ خودتان وجود دارد). رسانهٔ شما از گوشی شما به دستگاه Cast روی شبکهٔ خودتان منتقل می‌شود و
-          <strong>برای توسعه‌دهنده یا روی اینترنت عمومی بارگذاری نمی‌شود</strong>.</li>
+          <li>هنگام ارسال، برنامه یک وب‌سرور موقت کوچک روی گوشی شما اجرا می‌کند و فایل انتخاب‌شده را به دستگاه Cast
+          جریان می‌دهد (نشانی <code>http://&lt;گوشی‌شما&gt;:&lt;پورت&gt;/…</code>). این سرور به Wi‑Fi محدود نیست: تا زمانی که
+          نشست Cast ادامه دارد، روی همهٔ اتصال‌های شبکهٔ گوشی شما گوش می‌دهد. رسانهٔ شما
+          <strong>برای توسعه‌دهنده بارگذاری نمی‌شود</strong>.</li>
           <li>چارچوب Google Cast (یک مؤلفهٔ گوگل که در برنامه تعبیه شده) برای برقراری و کنترل نشست با دستگاه Cast و
           سرویس Cast گوگل ارتباط برقرار می‌کند و گیرندهٔ رسانهٔ استاندارد گوگل را روی دستگاه Cast بارگذاری می‌کند.
           این فعالیت توسط گوگل انجام می‌شود و تابع
@@ -218,19 +230,23 @@
         <ul>
           <li>هیچ ابزار تحلیلی، گزارش خطا و تبلیغاتی وجود ندارد.</li>
           <li>هیچ کیت توسعهٔ ردیابی شخص ثالث، کوکی و شناسهٔ تبلیغاتی وجود ندارد.</li>
-          <li>توسعه‌دهنده هیچ داده کاربری، اطلاعات از راه دور یا اطلاعات شخصی‌ای از برنامه دریافت نمی‌کند.</li>
+          <li>توسعه‌دهنده هیچ داده‌ای دربارهٔ استفاده از برنامه یا عملکرد آن، و هیچ اطلاعات شخصی‌ای از برنامه دریافت نمی‌کند.</li>
         </ul>
 
         <h2>پشتیبان‌گیری دستگاه</h2>
         <p>اگر پشتیبان‌گیری خودکار اندروید یا پشتیبان‌گیری حساب گوگل را فعال کرده باشید، سیستم‌عامل ممکن است
-        داده‌های محلی برنامه را در پشتیبان شخصی گوگل شما بگنجاند. این کار کاملاً توسط شما و گوگل کنترل می‌شود و
+        داده‌های محلی برنامه، از جمله لیست‌های پخش و نسخه‌های خصوصی رسانه‌های واردشده، را در پشتیبان شخصی گوگل شما
+        بگنجاند. این کار کاملاً توسط شما و گوگل کنترل می‌شود و
         توسعه‌دهنده به آن دسترسی ندارد. برای جزئیات به
         <a href="https://policies.google.com/privacy" rel="noopener" target="_blank">سیاست حریم خصوصی گوگل</a> مراجعه کنید.</p>
 
         <h2>پیوندهای بیرونی</h2>
-        <p>صفحهٔ «دربارهٔ» برنامه شامل پیوندهایی به وب‌سایت توسعه‌دهنده
-        (<a href="https://cocode.dk" rel="noopener" target="_blank">cocode.dk</a>) و مخزن GitHub پروژه است.
-        انتخاب آن‌ها مرورگر شما را باز می‌کند و این سایت‌ها تابع سیاست‌های حریم خصوصی خودشان هستند.</p>
+        <p>صفحهٔ «درباره» در برنامه دکمه‌هایی دارد که این صفحه‌ها را در مرورگر شما باز می‌کنند: وب‌سایت BabakPlayer و همین
+        سیاست حریم خصوصی، کد برنامه و صفحهٔ گزارش مشکل و صفحهٔ نسخه‌ها در GitHub، و وب‌سایت توسعه‌دهنده
+        (<a href="https://cocode.dk" rel="noopener" target="_blank">cocode.dk</a>). این دکمه‌ها فقط نشانی را به
+        اندروید می‌دهند و اندروید مرورگر شما را باز می‌کند. خود BabakPlayer به این نشانی‌ها وصل نمی‌شود و خودش
+        به‌روزرسانی را بررسی نمی‌کند. سپس مرورگر شما به آن سایت وصل می‌شود و این سایت‌ها تابع سیاست‌های حریم
+        خصوصی خودشان هستند. این موضوع در هر دو نسخه صدق می‌کند.</p>
 
         <h2>کودکان</h2>
         <p>BabakPlayer آگاهانه هیچ داده شخصی‌ای را از هیچ‌کس، از جمله کودکان، جمع‌آوری نمی‌کند.</p>

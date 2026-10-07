@@ -2,23 +2,25 @@
 
 **App:** BabakPlayer (`com.cocode.babakplayer`)
 **Developer:** CoCode.dk — Babak Bandpey
-**Last updated:** 21 September 2026
+**Last updated:** 7 October 2026
 
 > The canonical, always-current version of this policy is published at
-> **https://player.cocode.dk/privacy.html**
+> **https://player.cocode.dk/privacy/**
 
 **BabakPlayer keeps your media on your device and sends no personal data to the developer.**
-It is an Android media player that imports audio and video shared from other apps, plays them in
-order, and can cast them to Google Cast (Chromecast) devices on your local network. It has no user
+It is an Android media player that imports audio and video shared from other apps, plays them one
+after another, and can cast them to Google Cast (Chromecast) devices on your local network. It has no user
 accounts, no analytics, and no advertising.
 
 ## Media and playlists you import
 
-When you share audio or video into BabakPlayer, the files are copied into the app's private storage
-on your device, and the playlists you build are stored locally there too. This content stays on your
-device — it is never uploaded to the developer or to any server. It is removed when you delete an
-item, clear a playlist, clear the app's data, or uninstall the app. To read audio and video on your
-device the app uses the Android media permissions (`READ_MEDIA_AUDIO` and `READ_MEDIA_VIDEO` on
+When you share audio or video into BabakPlayer, the app keeps access to the original file where
+Android allows it. Where Android does not (for example, files shared from WhatsApp), the app saves a
+private copy in its own storage on your device. The playlists you build are stored locally on your
+device too. BabakPlayer does not upload your media to the developer. Removing a playlist takes it out
+of BabakPlayer; it does not delete your original files or the private copies. The private copies stay
+until you clear the app's data or uninstall the app. To read audio and video on your device
+the app uses the Android media permissions (`READ_MEDIA_AUDIO` and `READ_MEDIA_VIDEO` on
 Android 13+, or read-storage access on Android 12 and below).
 
 ## Two builds
@@ -37,9 +39,9 @@ works as follows:
 - To find Cast devices, the app scans your local Wi-Fi network. This is why the full build requests the
   Wi-Fi state and network state permissions.
 - While you are casting, the app runs a small temporary web server on your phone and streams the
-  selected file directly to the Cast device over your local network (a `http://<your-phone>:<port>/…`
-  address that only exists on your own network). Your media travels from your phone to your Cast
-  device on your own network — it is **not uploaded to the developer or to the public internet**.
+  selected file to the Cast device (a `http://<your-phone>:<port>/…` address). The server is not
+  restricted to your Wi-Fi: it listens on every network connection your phone has, for as long as the
+  Cast session lasts. Your media is **not uploaded to the developer**.
 - The Google Cast framework (a Google component built into the app) communicates with the Cast device
   and with Google's Cast service to set up and control the session, and loads Google's standard media
   receiver onto the Cast device. That activity is handled by Google and is governed by
@@ -57,15 +59,19 @@ works as follows:
 ## Device backup
 
 If you have enabled Android Auto Backup or Google account backup, the operating system may include
-the app's local data in your own personal Google backup. This is controlled entirely by you and
-Google — the developer has no access to it. See
+the app's local data, including your playlists and the private copies of imported media, in your
+own personal Google backup. This is controlled entirely by you and Google — the developer has no
+access to it. See
 [Google's Privacy Policy](https://policies.google.com/privacy) for details.
 
 ## External links
 
-The app's About screen contains links to the developer's website ([cocode.dk](https://cocode.dk))
-and the project's GitHub repository. Selecting them opens your browser; those sites are governed by
-their own privacy policies.
+The app's About screen has buttons that open, in your browser, the BabakPlayer website and this
+privacy policy, the project's source code, issue tracker and releases page on GitHub, and the
+developer's website ([cocode.dk](https://cocode.dk)). The buttons only hand the address to Android,
+which opens your browser. BabakPlayer itself does not connect to these addresses and does not check for
+updates by itself. Your browser then connects to the site, and those sites are governed by their own
+privacy policies. This applies to both builds.
 
 ## Children
 

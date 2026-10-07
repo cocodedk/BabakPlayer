@@ -3,14 +3,34 @@
   <url>
     <loc>https://player.cocode.dk/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://player.cocode.dk/" />
+    <xhtml:link rel="alternate" hreflang="da" href="https://player.cocode.dk/da/" />
     <xhtml:link rel="alternate" hreflang="fa" href="https://player.cocode.dk/fa/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://player.cocode.dk/" />
+  </url>
+  <url>
+    <loc>https://player.cocode.dk/da/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://player.cocode.dk/" />
+    <xhtml:link rel="alternate" hreflang="da" href="https://player.cocode.dk/da/" />
+    <xhtml:link rel="alternate" hreflang="fa" href="https://player.cocode.dk/fa/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://player.cocode.dk/" />
   </url>
   <url>
     <loc>https://player.cocode.dk/fa/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://player.cocode.dk/" />
+    <xhtml:link rel="alternate" hreflang="da" href="https://player.cocode.dk/da/" />
     <xhtml:link rel="alternate" hreflang="fa" href="https://player.cocode.dk/fa/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://player.cocode.dk/" />
   </url>
   <url>
     <loc>https://player.cocode.dk/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://player.cocode.dk/privacy/" />
+    <xhtml:link rel="alternate" hreflang="da" href="https://player.cocode.dk/da/privacy/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://player.cocode.dk/privacy/" />
+  </url>
+  <url>
+    <loc>https://player.cocode.dk/da/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://player.cocode.dk/privacy/" />
+    <xhtml:link rel="alternate" hreflang="da" href="https://player.cocode.dk/da/privacy/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://player.cocode.dk/privacy/" />
   </url>
 </urlset>
