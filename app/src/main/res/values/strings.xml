@@ -112,7 +112,7 @@
     <string name="about_version">Version %1$s</string>
     <string name="about_update_note">The app does not look for updates by itself. This button opens the web page where new versions are published.</string>
     <string name="about_check_updates">See the latest version</string>
-    <string name="about_purpose">BabakPlayer plays audio and video that arrive in several parts, for example when they are shared through WhatsApp. It keeps the parts in the order you received them and plays them one after another as one playlist. It is made to work with BabakCast, the app that splits media into parts and shares them.</string>
+    <string name="about_purpose">BabakPlayer plays audio and video that arrive in several parts, for example shared through WhatsApp, one after another as one playlist. Files shared with a caption go into one playlist named after the caption, in order by file name (part2 before part10). Files shared without a caption play in the order they were shared. It is made to work with BabakCast, the app that splits media into parts and shares them.</string>
     <string name="about_supported_formats">Supported file types: mp3 (audio) and mp4, mkv, mov, webm (video). Whether a file plays can also depend on your device.</string>
     <string name="about_privacy_body">Your audio and video stay on your device, and the app sends no personal data to the developer. It has no accounts, no advertising and no tracking, and it does not measure how you use it.</string>
     <string name="about_privacy_link">Read the privacy policy</string>
