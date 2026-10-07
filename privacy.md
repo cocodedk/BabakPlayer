@@ -55,6 +55,11 @@ works as follows:
 - No analytics, no crash reporting, and no advertising.
 - No third-party tracking SDKs, no cookies, and no advertising identifier.
 - The developer receives no usage data, no telemetry, and no personal information from the app.
+- The media player the app uses (the Media3 library) passes playback events and performance data, such
+  as errors and buffering, to Android's own media metrics service on Android 12 and newer. That service
+  is part of your phone's system, not of this app, and the developer never receives the data. Google may
+  also collect it if you have turned on sharing of usage and diagnostics data on your device; you control
+  that in your phone's settings.
 
 ## Device backup
 
