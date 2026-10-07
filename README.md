@@ -2,9 +2,24 @@
 
 BabakPlayer is an Android companion app for BabakCast. It imports shared media parts (for example from WhatsApp), preserves receive order, and plays them continuously as one playlist.
 
+## Download
+<!-- cocode-apps:install:start -->
+- Coming to F-Droid
+- [Download the APK from GitHub](https://github.com/cocodedk/BabakPlayer/releases/latest/download/BabakPlayer.apk)
+- [Auto-update the GitHub APK with Obtainium](https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/cocodedk/BabakPlayer)
+<!-- cocode-apps:install:end -->
+
 ## Website
 - [English](https://player.cocode.dk/)
 - [فارسی (Persian)](https://player.cocode.dk/fa/)
+
+## Features
+- Share-to-import: receive one or many files from WhatsApp or any other app that can share them.
+- Strict import order: the queue follows the order of the share payload, with no filename resorting.
+- Continuous playback of audio and video as one playlist, with autoplay-next and a seek interval you can set.
+- Google Cast to Nest speakers, Chromecast and other Cast devices on the same Wi-Fi network.
+- English and Persian interface, with the Persian layout running right-to-left.
+- Local-first: no account, no cloud sync, no backend. Removing a file or a playlist removes it from BabakPlayer only; your original files stay where they are.
 
 ## Relationship with BabakCast
 - `BabakCast`: splits and shares media parts.
@@ -18,7 +33,7 @@ BabakPlayer is an Android companion app for BabakCast. It imports shared media p
 ## Share-to-Import Flow
 1. Select one or many files in WhatsApp (or another app).
 2. Tap Share and choose BabakPlayer.
-3. BabakPlayer imports files to app-private storage.
+3. BabakPlayer adds them to a playlist: it keeps a reference to the original file when Android allows it, and otherwise copies the file into app-private storage.
 4. Import summary shows imported/skipped counts and total size.
 5. Press play once for continuous queue playback.
 
@@ -43,17 +58,29 @@ BabakPlayer is an Android companion app for BabakCast. It imports shared media p
 - Built-in languages: English and Persian (`fa`).
 - Persian UI runs in RTL layout automatically.
 
-## Delete and Purge Behavior
-- Delete file: removes item from playlist and purges local file permanently.
-- Delete playlist: purges all playlist files and metadata permanently.
-- All imported files live in app-private storage under `files/playlists`.
+## Storage and Removal Behavior
+- Import: BabakPlayer asks Android to keep read access to the shared file and plays it from where it is. If Android does not grant that, or for files shared from WhatsApp, it copies the file into app-private storage under `files/imported_media`.
+- Playlists (titles, order and item details) are stored as metadata in `files/playlists/index.json` in app-private storage.
+- Remove file: removes the item from the playlist. The file itself is not deleted.
+- Remove playlist: removes the playlist and its items from the list. No media file is deleted.
+- Original files stay in device storage. Copies under `files/imported_media` are not deleted when you remove an item or a playlist; they stay until you clear the app's data or uninstall the app.
+- If a referenced file no longer exists, its entry is dropped from the playlist the next time the playlists load.
 
-## Build and Run
+## Privacy
+- Local-first: no account, no cloud sync, no backend requirement.
+- Shared files are referenced where Android allows it and otherwise copied into app-private storage.
+- Removing a file or a playlist removes its entry from BabakPlayer; it does not delete the original file or the copies kept in app-private storage (see Storage and Removal Behavior above).
+- No analytics, crash reporting or advertising.
+
+Read the full [privacy policy](https://player.cocode.dk/privacy/).
+
+## Build
+### Debug build
 ```bash
 ./gradlew assembleDebug
 ```
 
-## Release Build (Signed)
+### Release build (signed)
 Set required environment variables:
 - `KEYSTORE_PATH`
 - `KEYSTORE_PASSWORD`
@@ -65,15 +92,15 @@ Then build:
 ./gradlew assembleRelease
 ```
 
-## CI Smoke Check
+### CI smoke check
 ```bash
 ./gradlew buildSmoke
 ```
 
-## Privacy and Storage
-- Local-first: no account, no cloud sync, no backend requirement.
-- Imported files are copied into app-private storage.
-- Deletion operations permanently remove local imported files.
+## Contributing
+Local setup, git hooks, the build and test commands, coding style and the pull request checklist are in
+[CONTRIBUTING.md](CONTRIBUTING.md). Bugs and ideas go to the
+[issues page](https://github.com/cocodedk/BabakPlayer/issues).
 
 ## License
 Apache-2.0 | © 2026 [Cocode](https://cocode.dk) | BabakPlayer
