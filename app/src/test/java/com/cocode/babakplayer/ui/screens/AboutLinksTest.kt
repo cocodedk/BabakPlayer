@@ -50,10 +50,13 @@ class AboutLinksTest {
     }
 
     @Test
+    fun website_opens_the_persian_site_in_persian() {
+        assertEquals("https://player.cocode.dk/fa/", aboutUrl(AboutLink.Website, "fa", onFdroid = false))
+    }
+
+    @Test
     fun website_falls_back_to_the_english_site_in_a_language_the_site_lacks() {
-        for (language in listOf("fa", "de")) {
-            assertEquals("https://player.cocode.dk/", aboutUrl(AboutLink.Website, language, onFdroid = false))
-        }
+        assertEquals("https://player.cocode.dk/", aboutUrl(AboutLink.Website, "de", onFdroid = false))
     }
 
     @Test
