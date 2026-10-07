@@ -27,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -121,7 +122,7 @@ private fun BrowserPlaylistCard(
                     fontWeight = FontWeight.SemiBold,
                 )
                 Text(
-                    text = stringResource(R.string.playlist_files_size, playlist.itemCount, asReadableSize(playlist.totalBytes)),
+                    text = pluralStringResource(R.plurals.playlist_files_size, playlist.itemCount, playlist.itemCount, asReadableSize(playlist.totalBytes)),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.secondary,
                 )

@@ -5,10 +5,10 @@
     <string name="tab_playlists">پلی‌لیست‌ها</string>
     <string name="tab_settings">تنظیمات</string>
     <string name="tab_about">درباره</string>
-    <string name="nav_add">افزودن</string>
+    <string name="nav_add">ورود رسانه</string>
 
     <string name="player_header">بابک‌پلیر</string>
-    <string name="player_subtitle">از واتس‌اپ یا حافظه دستگاه وارد کنید و به ترتیب دریافت پخش کنید.</string>
+    <string name="player_subtitle">فایل‌های صوتی و ویدیویی را از واتس‌اپ یا حافظهٔ دستگاه وارد کنید و پیوسته پخش کنید.</string>
     <string name="player_importing">در حال وارد کردن فایل‌های اشتراک‌گذاری‌شده...</string>
     <string name="player_import_from_device_action">ورود از گالری/فایل‌ها</string>
     <string name="player_import_from_device_hint">چند فایل صوتی/ویدیویی را از گالری یا فایل‌ها انتخاب کنید تا یک پلی‌لیست ساخته شود.</string>
@@ -23,14 +23,15 @@
     <string name="media_category_downloads">دانلودها</string>
     <string name="media_loading">در حال بارگذاری رسانه‌ها...</string>
     <string name="media_empty">در این بخش فایل رسانه‌ای پیدا نشد.</string>
-    <string name="media_create_playlist">ساخت پلی‌لیست</string>
+    <string name="media_create_playlist">ساخت پلی‌لیست و پخش</string>
     <string name="media_permission_denied_title">نیاز به دسترسی</string>
     <string name="media_permission_denied_message">برای مرور این بخش دسترسی رسانه را بدهید، یا از انتخاب دستی فایل استفاده کنید.</string>
     <string name="empty_playlists">هنوز پلی‌لیستی وجود ندارد. فایل را اشتراک‌گذاری کنید یا از گالری/فایل‌ها وارد کنید.</string>
     <string name="playlists_empty">هنوز پلی‌لیستی نیست. برای ورود از + استفاده کنید.</string>
     <string name="player_part_label">بخش %1$d از %2$d</string>
     <string name="playlist_default_title">پلی‌لیست واردشده</string>
-    <string name="media_file_fallback_name">فایل رسانه</string>
+    <string name="media_file_fallback_name">فایل رسانه‌ای</string>
+    <string name="audio_file_fallback_name">فایل صوتی</string>
     <string name="dismiss_summary">بستن خلاصه</string>
 
     <string name="summary_title">وارد شد: %1$s</string>
@@ -39,7 +40,10 @@
     <string name="summary_unsupported">پشتیبانی‌نشده</string>
     <string name="summary_total_size">حجم کل</string>
 
-    <string name="playlist_files_size">%1$d فایل · %2$s</string>
+    <plurals name="playlist_files_size">
+        <item quantity="one">%1$d فایل · %2$s</item>
+        <item quantity="other">%1$d فایل · %2$s</item>
+    </plurals>
     <string name="playlist_collapsed_hint">بسته است. برای نمایش فایل‌ها فلش را بزنید.</string>
     <string name="status_ready">آماده</string>
     <string name="status_decode_failed">خطای Decode</string>
@@ -55,7 +59,7 @@
     <string name="content_previous">قبلی</string>
     <string name="content_next">بعدی</string>
     <string name="content_play">پخش</string>
-    <string name="content_pause">توقف</string>
+    <string name="content_pause">مکث</string>
     <string name="content_seek_back">عقب بردن</string>
     <string name="content_seek_forward">جلو بردن</string>
     <string name="content_fullscreen">تمام صفحه</string>
@@ -67,7 +71,10 @@
     <string name="dialog_delete_file_title">حذف فایل</string>
     <string name="dialog_delete_file_message">فایل %1$s از این پلی‌لیست حذف شود؟ فایل اصلی در حافظه دستگاه باقی می‌ماند.</string>
     <string name="dialog_delete_playlist_title">حذف پلی‌لیست</string>
-    <string name="dialog_delete_playlist_message">پلی‌لیست %2$s با %1$d فایل حذف شود؟ فایل‌های اصلی در حافظه دستگاه باقی می‌مانند.</string>
+    <plurals name="dialog_delete_playlist_message">
+        <item quantity="one">پلی‌لیست %2$s با %1$d فایل حذف شود؟ فایل اصلی در حافظه دستگاه باقی می‌ماند.</item>
+        <item quantity="other">پلی‌لیست %2$s با %1$d فایل حذف شود؟ فایل‌های اصلی در حافظه دستگاه باقی می‌مانند.</item>
+    </plurals>
     <string name="action_delete">حذف</string>
     <string name="action_delete_all">حذف همه</string>
     <string name="action_show_more">بیشتر\u2026</string>
@@ -77,7 +84,7 @@
 
     <string name="notice_file_deleted">فایل از پلی‌لیست حذف شد</string>
     <string name="notice_playlist_deleted">پلی‌لیست حذف شد. فایل‌های اصلی تغییر نکردند.</string>
-    <string name="notice_decode_skip">یکی از فایل‌ها Decode نشد و رد شد</string>
+    <string name="notice_decode_skip">این فایل پخش نشد. اگر فایل دیگری در پلی‌لیست باشد، پخش با آن ادامه پیدا می‌کند.</string>
 
     <string name="settings_title">تنظیمات</string>
     <string name="settings_section_appearance">ظاهر</string>
@@ -96,7 +103,7 @@
     <string name="settings_seek_interval">بازه جابجایی</string>
     <string name="settings_seek_interval_value">%1$d ثانیه</string>
     <string name="settings_auto_dismiss">بستن خودکار خلاصه ورود</string>
-    <string name="settings_auto_dismiss_desc">خلاصه ورود پس از چند ثانیه به‌صورت خودکار بسته شود.</string>
+    <string name="settings_auto_dismiss_desc">خلاصهٔ فایل‌های واردشده در این نسخه نمایش داده نمی‌شود، پس این گزینه فعلاً اثری ندارد.</string>
     <string name="settings_reset">بازنشانی تنظیمات</string>
     <string name="settings_reset_desc">تنظیمات ظاهر، زبان و پخش به حالت پیش‌فرض برگردد.</string>
     <string name="settings_reset_confirm">بازنشانی</string>
@@ -111,7 +118,7 @@
     <string name="about_version">نسخه %1$s</string>
     <string name="about_update_note">برنامه خودش به‌روزرسانی را بررسی نمی‌کند. این دکمه صفحه‌ای را باز می‌کند که نسخه‌های تازه در آن منتشر می‌شوند.</string>
     <string name="about_check_updates">دیدن آخرین نسخه</string>
-    <string name="about_purpose">بابک‌پلیر صدا و تصویری را که در چند بخش می‌رسند، برای نمونه از راه واتس‌اپ، پشت سر هم و مثل یک فهرست پخش اجرا می‌کند. فایل‌هایی که با متن همراه (کپشن) به اشتراک گذاشته شوند در یک فهرست پخش به نام همان متن قرار می‌گیرند و بر اساس نام فایل مرتب می‌شوند (part2 پیش از part10). فایل‌هایی که بدون متن همراه به اشتراک گذاشته شوند، به همان ترتیبی که فرستاده شده‌اند پخش می‌شوند. این برنامه برای کار با بابک‌کست ساخته شده است؛ برنامه‌ای که رسانه را به چند بخش تقسیم می‌کند و به اشتراک می‌گذارد.</string>
+    <string name="about_purpose">بابک‌پلیر صدا و تصویری را که در چند بخش می‌رسند، برای نمونه از راه واتس‌اپ، پشت سر هم و مثل یک فهرست پخش اجرا می‌کند. فایل‌هایی که با متن همراه (کپشن) به اشتراک گذاشته شوند در یک پلی‌لیست به نام همان متن قرار می‌گیرند و بر اساس نام فایل مرتب می‌شوند (part2 پیش از part10). فایل‌هایی که بدون متن همراه به اشتراک گذاشته شوند، به همان ترتیبی که فرستاده شده‌اند پخش می‌شوند. این برنامه برای کار با بابک‌کست ساخته شده است؛ برنامه‌ای که رسانه را به چند بخش تقسیم می‌کند و به اشتراک می‌گذارد.</string>
     <string name="about_supported_formats">نوع فایل‌های پشتیبانی‌شده: mp3 (صدا) و mp4، mkv، mov، webm (تصویر). اینکه یک فایل پخش شود یا نه، به دستگاه شما هم بستگی دارد.</string>
     <string name="about_privacy_body">صدا و تصویر شما روی دستگاهتان می‌ماند و برنامه هیچ اطلاعات شخصی‌ای برای سازنده نمی‌فرستد. برنامه حساب کاربری، تبلیغات و رهگیری ندارد و نمی‌سنجد که چگونه از آن استفاده می‌کنید.</string>
     <string name="about_privacy_link">خواندن سیاست حریم خصوصی</string>
