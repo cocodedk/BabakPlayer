@@ -1,0 +1,1 @@
+F-Droid-versionen beder ikke længere om nogen netværkstilladelse, fordi den kun afspiller filer på din enhed. GitHub-versionen beholder Google Cast og den netværksadgang, Cast kræver.

@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BabakPlayer | Følgeapp til BabakCast</title>
+  <meta name="description" content="BabakPlayer er Android-følgeappen til BabakCast. Importér delte mediedele, og afspil dem efter hinanden som én afspilningsliste." />
+  <meta property="og:title" content="BabakPlayer" />
+  <meta property="og:description" content="Følgeapp til BabakCast: importér delte mediedele, og afspil dem som én afspilningsliste." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://player.cocode.dk/da/" />
+  <meta property="og:image" content="https://player.cocode.dk/img/share.png" />
+  <meta property="og:image:width" content="1024" />
+  <meta property="og:image:height" content="500" />
+  <meta property="og:image:alt" content="BabakPlayer: appens ikon og navn" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="alternate" hreflang="en" href="https://player.cocode.dk/" />
+  <link rel="alternate" hreflang="da" href="https://player.cocode.dk/da/" />
+  <link rel="alternate" hreflang="fa" href="https://player.cocode.dk/fa/" />
+  <link rel="alternate" hreflang="x-default" href="https://player.cocode.dk/" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="https://brand.cocode.dk/v1.css">
+  <script type="module" src="https://brand.cocode.dk/v1.js"></script>
+</head>
+<body>
+  <div class="bg-orb orb-a"></div>
+  <div class="bg-orb orb-b"></div>
+  <div class="bg-grid"></div>
+
+<!-- The cocode.dk family frame. Without JavaScript its children show instead: a way
+     home and the language links. -->
+<cocode-head project="BabakPlayer" accent="#44bfff" on-accent="#040811" dark>
+  <a href="https://cocode.dk">cocode.dk</a>
+  <a href="../" hreflang="en">English</a>
+  <a href="../fa/" hreflang="fa">فارسی</a>
+</cocode-head>
+
+  <header class="shell site-nav">
+    <!-- cocode-apps:nav:start -->
+<link rel="stylesheet" href="/css/cocode-nav.css">
+<a class="skip" href="#main">Spring til indhold</a>
+<nav class="cocode-nav" aria-label="BabakPlayer">
+  <a class="brand" href="/da/" data-nav="home" aria-current="page"><img src="/img/icon.png" alt="" width="32" height="32">BabakPlayer</a>
+  <a href="/da/#how" data-nav="how">Sådan virker det</a>
+  <a href="/da/#install" data-nav="install">Installér</a>
+  <a href="/da/privacy/" data-nav="privacy">Privatliv</a>
+  <a href="/" hreflang="en" lang="en" data-nav="lang">English</a>
+  <a href="https://cocode.dk/" data-nav="more">Flere apps</a>
+</nav>
+<!-- cocode-apps:nav:end -->
+  </header>
+
+  <main id="main" tabindex="-1" class="shell">
+    <section class="hero reveal">
+      <p class="kicker">Android-følgeapp til BabakCast</p>
+      <h1>Afspil opdelte medier som én sammenhængende historie.</h1>
+      <p class="hero-copy">
+        BabakPlayer importerer lyd- og videodele, der er delt fra beskedapps,
+        og afspiller dem efter hinanden som én afspilningsliste.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#install">Hent appen</a>
+        <a class="btn btn-ghost" href="https://github.com/cocodedk/BabakPlayer" target="_blank" rel="noreferrer">Se på GitHub</a>
+      </div>
+    </section>
+
+    <section id="how" class="card reveal">
+      <h2>BabakCast -> BabakPlayer</h2>
+      <div class="flow-grid">
+        <article>
+          <h3>1. BabakCast laver delene</h3>
+          <p>BabakCast opdeler store mediefiler i mindre dele, som du kan sende gennem beskedapps.</p>
+        </article>
+        <article>
+          <h3>2. Del til BabakPlayer</h3>
+          <p>Del én eller flere filer fra WhatsApp eller fra en anden app med en Del-knap, og vælg BabakPlayer.</p>
+        </article>
+        <article>
+          <h3>3. Sammenhængende afspilning</h3>
+          <p>BabakPlayer begynder at afspille, så snart importen er færdig, og går gennem alle delene efter hinanden.</p>
+        </article>
+      </div>
+      <p class="compat">Importér understøttede lyd- og videodele, der er delt fra <a href="https://github.com/cocodedk/BabakCast" target="_blank" rel="noreferrer">BabakCast</a>.</p>
+    </section>
+
+    <section id="features" class="reveal">
+      <h2>Derfor BabakPlayer</h2>
+      <div class="feature-grid">
+        <article class="card">
+          <h3>Delene i den rigtige rækkefølge</h3>
+          <p>Filer, der deles med en billedtekst, kommer i én afspilningsliste, sorteret efter filnavn (part2 før part10). Filer, der deles uden billedtekst, afspilles i den rækkefølge, de blev delt i.</p>
+        </article>
+        <article class="card">
+          <h3>Sammenhængende afspilning</h3>
+          <p>Afspilningen går gennem alle delene af sig selv. Du kan sætte den på pause, springe til næste eller forrige fil og spole frem eller tilbage i en fil.</p>
+        </article>
+        <article class="card">
+          <h3>Fjern afspilningslister</h3>
+          <p>Fjern en afspilningsliste fra BabakPlayer uden at slette dine oprindelige filer. Private kopier, som BabakPlayer har lavet, bliver, indtil du rydder appens data eller afinstallerer den.</p>
+        </article>
+        <article class="card">
+          <h3>Privat og lokalt</h3>
+          <p>Du behøver ingen konto. Filerne bliver, hvor de er, hvis det er muligt. Ellers gemmer BabakPlayer en privat kopi.</p>
+        </article>
+        <article class="card">
+          <h3>Google Cast i GitHub-versionen</h3>
+          <p>Send lyd til kompatible Nest-højttalere, eller lyd og video til kompatible Chromecast-enheder på dit netværk. F-Droid-versionen har ikke Cast.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="install" class="card reveal">
+      <h2>Installér på Android</h2>
+      <!-- cocode-apps:install:start -->
+<ul class="install" role="list">
+  <li><p class="fdroid-soon">Kommer på F-Droid</p></li>
+  <li><a href="https://github.com/cocodedk/BabakPlayer/releases/latest/download/BabakPlayer.apk">Hent installationsfilen til Android (APK) fra GitHub</a></li>
+  <li><a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/cocodedk/BabakPlayer">Tilføj appen i Obtainium, som holder den opdateret</a></li>
+</ul>
+<!-- cocode-apps:install:end -->
+      <h3 class="steps-title">Sådan installerer du appen (APK)</h3>
+      <div class="install-steps">
+        <div class="install-step">
+          <span class="step-number">1</span>
+          <div class="step-content">
+            <h3>Hent installationsfilen</h3>
+            <p>Brug download-linket ovenfor, eller hent Androids installationsfil (.apk) fra <a href="https://github.com/cocodedk/BabakPlayer/releases" target="_blank" rel="noreferrer">GitHub Releases</a>.</p>
+          </div>
+        </div>
+        <div class="install-step">
+          <span class="step-number">2</span>
+          <div class="step-content">
+            <h3>Tillad installation</h3>
+            <p>Hvis Android blokerer installationen, skal du åbne de indstillinger, den viser, og slå "Tillad fra denne kilde" til for din browser eller filhåndtering. Ordlyden varierer fra enhed til enhed.</p>
+          </div>
+        </div>
+        <div class="install-step">
+          <span class="step-number">3</span>
+          <div class="step-content">
+            <h3>Installér appen</h3>
+            <p>Åbn den hentede <code>.apk</code>-fil, og tryk på "Installér".</p>
+          </div>
+        </div>
+        <div class="install-step">
+          <span class="step-number">4</span>
+          <div class="step-content">
+            <h3>Åbn BabakPlayer</h3>
+            <p>Åbn BabakPlayer fra din appoversigt, tryk på + og vælg dine filer. Appen opretter en afspilningsliste og begynder at afspille.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="card reveal">
+      <h2>Om</h2>
+      <p><strong>Skabt af Babak Bandpey.</strong></p>
+      <p><strong>Bygget af <a href="https://cocode.dk" target="_blank" rel="noreferrer">Cocode</a>.</strong></p>
+      <p>
+        Brug BabakCast til at dele medier op og sende dem, og åbn derefter delene i BabakPlayer
+        for at afspille dem uden afbrydelser.
+      </p>
+      <div class="about-links">
+        <a href="https://github.com/cocodedk/BabakCast" target="_blank" rel="noreferrer">BabakCast-kildekode</a>
+        <a href="https://github.com/cocodedk/BabakPlayer" target="_blank" rel="noreferrer">BabakPlayer-kildekode</a>
+      </div>
+    </section>
+  </main>
+
+  <div class="shell site-footer">
+    <!-- cocode-apps:footer:start -->
+<footer class="cocode-footer">
+  <a href="https://github.com/cocodedk/BabakPlayer">Kildekode</a> ·
+  <a href="/da/privacy/">Privatliv</a> ·
+  Licens: Apache-2.0 ·
+  <a href="https://cocode.dk/">Lavet af Cocode (cocode.dk)</a>
+</footer>
+<!-- cocode-apps:footer:end -->
+  </div>
+
+<cocode-foot repo="cocodedk/BabakPlayer" dark>
+  <a href="https://cocode.dk">cocode.dk</a>
+</cocode-foot>
+</body>
+</html>

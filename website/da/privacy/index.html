@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privatlivspolitik | BabakPlayer</title>
+  <meta name="description" content="Privatlivspolitik for BabakPlayer (com.cocode.babakplayer): dine medier bliver på din enhed, der sendes ingen personlige data til udvikleren, og netværk bruges kun til Google Cast." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://player.cocode.dk/da/privacy/" />
+  <link rel="alternate" hreflang="en" href="https://player.cocode.dk/privacy/" />
+  <link rel="alternate" hreflang="da" href="https://player.cocode.dk/da/privacy/" />
+  <link rel="alternate" hreflang="x-default" href="https://player.cocode.dk/privacy/" />
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080b16; --bg-2: #0f1730; --surface: rgba(16, 22, 42, 0.76);
+      --line: rgba(96, 193, 255, 0.45); --text: #eef3ff; --muted: #abc1e6;
+      --neon-blue: #44bfff; --neon-pink: #ff4edc; --neon-amber: #f7c164;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; color: var(--text); line-height: 1.7;
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      background: radial-gradient(1400px 900px at 15% -10%, #273d72 0%, transparent 60%),
+                  radial-gradient(1200px 800px at 95% 0%, #3c1d6a 0%, transparent 58%),
+                  linear-gradient(180deg, var(--bg-2), var(--bg));
+      background-attachment: fixed; overflow-x: hidden;
+    }
+    a { color: var(--neon-blue); }
+    a:hover { color: var(--neon-pink); }
+    .container { width: min(820px, 92vw); margin: 0 auto; padding: 40px 0 60px; }
+    .back { display: inline-block; margin-bottom: 20px; color: var(--muted); font-size: 0.92rem; text-decoration: none; }
+    .back:hover { color: var(--neon-blue); }
+    .card {
+      padding: clamp(22px, 5vw, 42px); border: 1px solid var(--line); border-radius: 18px;
+      background: var(--surface); backdrop-filter: blur(10px); box-shadow: 0 0 36px rgba(16, 32, 66, 0.48);
+    }
+    h1 { font-family: "Space Grotesk", "IBM Plex Sans", sans-serif; font-size: clamp(1.8rem, 5vw, 2.6rem); margin: 0 0 6px; }
+    h2 { font-family: "Space Grotesk", "IBM Plex Sans", sans-serif; font-size: 1.2rem; margin: 30px 0 8px; color: var(--neon-amber); }
+    .meta { color: var(--muted); font-size: 0.9rem; margin: 0 0 6px; }
+    code { background: rgba(68, 191, 255, 0.12); padding: 1px 6px; border-radius: 6px; font-size: 0.9em; color: #cfe6ff; }
+    p, li { color: var(--muted); }
+    strong { color: var(--text); }
+    ul { padding-inline-start: 1.2em; }
+    li { margin: 5px 0; }
+    footer { color: #91a9d4; font-size: 0.85rem; margin-top: 36px; text-align: center; }
+    /* This page has no styles.css and no fixed side padding on .container (it uses
+       min(820px, 92vw)); these values reproduce that same left edge at both the
+       phone and desktop widths the frame is checked at. */
+    cocode-head, cocode-foot { --cocode-max: calc(820px + 8vw); --cocode-gutter: 4vw; }
+    /* The shared cocode-apps navigation and footer, on the same 820px column. */
+    .site-nav, .site-footer { width: min(820px, 92vw); margin: 0 auto; }
+    .site-nav { padding-top: 12px; }
+    .cocode-nav a, .cocode-footer a { color: var(--text); text-decoration: none; }
+    .cocode-nav a:hover, .cocode-footer a:hover { color: var(--neon-blue); }
+    .cocode-nav .brand { font-family: "Space Grotesk", "IBM Plex Sans", sans-serif; font-weight: 700; }
+    .cocode-nav a[aria-current="page"]:not(.brand) { color: var(--neon-blue); }
+    .site-footer { padding: 0 0 30px; color: #91a9d4; font-size: 0.9rem; }
+    main:focus { outline: 0; }
+  </style>
+  <link rel="stylesheet" href="https://brand.cocode.dk/v1.css">
+  <script type="module" src="https://brand.cocode.dk/v1.js"></script>
+</head>
+<body>
+
+<!-- The cocode.dk family frame. Without JavaScript its children show instead: a way home and the language link. -->
+<cocode-head project="BabakPlayer" accent="#44bfff" on-accent="#040811" dark>
+  <a href="https://cocode.dk">cocode.dk</a>
+  <a href="../../privacy/" hreflang="en">English</a>
+</cocode-head>
+
+  <header class="site-nav">
+    <!-- cocode-apps:nav:start -->
+<link rel="stylesheet" href="/css/cocode-nav.css">
+<a class="skip" href="#main">Spring til indhold</a>
+<nav class="cocode-nav" aria-label="BabakPlayer">
+  <a class="brand" href="/da/" data-nav="home"><img src="/img/icon.png" alt="" width="32" height="32">BabakPlayer</a>
+  <a href="/da/#how" data-nav="how">Sådan virker det</a>
+  <a href="/da/#install" data-nav="install">Installér</a>
+  <a href="/da/privacy/" data-nav="privacy" aria-current="page">Privatliv</a>
+  <a href="/privacy/" hreflang="en" lang="en" data-nav="lang">English</a>
+  <a href="https://cocode.dk/" data-nav="more">Flere apps</a>
+</nav>
+<!-- cocode-apps:nav:end -->
+  </header>
+
+  <main id="main" tabindex="-1" class="container">
+    <a class="back" href="../">&larr; BabakPlayer</a>
+    <div class="card">
+      <section lang="da">
+        <h1>Privatlivspolitik</h1>
+        <p class="meta">BabakPlayer &middot; <code>com.cocode.babakplayer</code></p>
+        <p class="meta">Sidst opdateret: 7. oktober 2026</p>
+
+        <p><strong>BabakPlayer beholder dine medier på din enhed og sender ingen personlige data til udvikleren.</strong>
+        Det er en Android-medieafspiller, der importerer lyd og video delt fra andre apps, afspiller dem efter hinanden
+        og kan caste dem til Google Cast-enheder (Chromecast) på dit lokale netværk. Den har ingen brugerkonti,
+        ingen analyse og ingen reklamer.</p>
+
+        <h2>Medier og afspilningslister, du importerer</h2>
+        <p>Når du deler lyd eller video med BabakPlayer, beholder appen adgangen til den oprindelige fil, hvis Android
+        tillader det. Hvis Android ikke gør det (for eksempel ved filer delt fra WhatsApp), gemmer appen en privat kopi
+        i sit eget lager på din enhed. De afspilningslister, du opretter, gemmes også lokalt på din enhed. BabakPlayer
+        uploader ikke dine medier til udvikleren. Når du fjerner en afspilningsliste, tages den ud af BabakPlayer, men
+        dine oprindelige filer og de private kopier slettes ikke. De private kopier bliver, indtil du rydder appens data
+        eller afinstallerer appen. For at læse lyd og video på din enhed bruger
+        appen Androids mediatilladelser (<code>READ_MEDIA_AUDIO</code> og <code>READ_MEDIA_VIDEO</code> på Android 13
+        og nyere, eller læseadgang til lageret på Android 12 og ældre).</p>
+
+        <h2>To versioner</h2>
+        <p>BabakPlayer udgives i to versioner. <strong>foss-versionen</strong> (<code>BabakPlayer-foss.apk</code>,
+        den, der er indsendt til F-Droid) har ikke Google Cast og ingen netværksadgang overhovedet: fra version 14
+        beder den kun om de mediatilladelser, der er beskrevet ovenfor, og om <code>WAKE_LOCK</code> (så afspilningen
+        fortsætter med slukket skærm), og den indeholder ingen webserver. Alt i det næste afsnit gælder kun for
+        <strong>den fulde version</strong> (<code>BabakPlayer.apk</code>).</p>
+
+        <h2>Cast til Chromecast og andre Cast-enheder</h2>
+        <p>Den fulde version af BabakPlayer indeholder Google Cast, så du kan afspille dine medier på Chromecast,
+        Nest-højttalere og andre Cast-enheder på dit wifi-netværk. Det er den eneste funktion, der bruger netværket,
+        og den virker sådan her:</p>
+        <ul>
+          <li>For at finde Cast-enheder søger appen på dit lokale wifi-netværk. Derfor beder den fulde version om
+          tilladelserne <strong>wifi-status</strong> og <strong>netværksstatus</strong>.</li>
+          <li>Mens du caster, kører appen en lille, midlertidig webserver på din telefon og streamer den valgte fil
+          til Cast-enheden (en adresse som <code>http://&lt;din-telefon&gt;:&lt;port&gt;/…</code>). Serveren er ikke
+          begrænset til dit wifi: Den lytter på alle telefonens netværksforbindelser, så længe Cast-sessionen varer.
+          Dine medier bliver <strong>ikke uploadet til udvikleren</strong>.</li>
+          <li>Google Cast-rammeværket (en Google-komponent, der er indbygget i appen) kommunikerer med Cast-enheden og
+          med Googles Cast-tjeneste for at oprette og styre sessionen, og det indlæser Googles standardmodtager for
+          medier på Cast-enheden. Det håndteres af Google og er omfattet af
+          <a href="https://policies.google.com/privacy" rel="noopener" target="_blank">Googles privatlivspolitik</a>.
+          Casting kører kun, mens du har en aktiv Cast-session.</li>
+          <li>I den fulde version kræver Google Cast-rammeværket og den lokale streamingserver
+          <strong>internettilladelsen</strong>.</li>
+        </ul>
+
+        <h2>Ingen analyse, reklamer eller sporing</h2>
+        <ul>
+          <li>Ingen analyse, ingen fejlrapportering og ingen reklamer.</li>
+          <li>Ingen sporings-SDK'er fra tredjeparter, ingen cookies og intet reklame-id.</li>
+          <li>Udvikleren modtager ingen brugsdata, ingen telemetri og ingen personlige oplysninger fra appen.</li>
+          <li>Den medieafspiller, appen bruger (biblioteket Media3), sender på Android 12 og nyere afspilningshændelser og ydelsesdata, for eksempel fejl og buffering, til Androids egen tjeneste til målinger af medieafspilning. Den tjeneste er en del af telefonens system og ikke af appen, og udvikleren modtager aldrig disse data. Google kan også indsamle dem, hvis du har slået deling af brugs- og diagnosticeringsdata til på din enhed. Det bestemmer du selv i telefonens indstillinger.</li>
+        </ul>
+
+        <h2>Sikkerhedskopi af enheden</h2>
+        <p>Hvis du har slået Androids automatiske sikkerhedskopiering eller sikkerhedskopiering til din Google-konto
+        til, kan operativsystemet tage appens lokale data, herunder dine afspilningslister og de private kopier af
+        importerede medier, med i din egen Google-sikkerhedskopi. Det er helt op til
+        dig og Google, og udvikleren har ikke adgang til den. Se
+        <a href="https://policies.google.com/privacy" rel="noopener" target="_blank">Googles privatlivspolitik</a>
+        for flere oplysninger.</p>
+
+        <h2>Eksterne links</h2>
+        <p>Appens Om-skærm har knapper, der åbner disse sider i din browser: BabakPlayers hjemmeside og denne
+        privatlivspolitik, projektets kildekode, fejlmeldinger og versioner på GitHub samt udviklerens hjemmeside
+        (<a href="https://cocode.dk" rel="noopener" target="_blank">cocode.dk</a>). Knapperne giver kun adressen
+        videre til Android, som åbner din browser. BabakPlayer selv forbinder ikke til disse adresser og leder
+        ikke selv efter opdateringer. Det er din browser, der derefter forbinder til websitet, og de websteder
+        er omfattet af deres egne privatlivspolitikker. Det gælder begge versioner.</p>
+
+        <h2>Børn</h2>
+        <p>BabakPlayer indsamler ikke bevidst personlige data fra nogen, heller ikke fra børn.</p>
+
+        <h2>Ændringer</h2>
+        <p>Hvis denne politik ændres, bliver den opdaterede version lagt på denne side med en ny dato for "sidst
+        opdateret".</p>
+
+        <h2>Kontakt</h2>
+        <p>Spørgsmål om denne politik kan sendes til
+        <a href="mailto:bb@cocode.dk">bb@cocode.dk</a> (CoCode.dk, udvikler: Babak Bandpey).</p>
+      </section>
+    </div>
+  </main>
+
+  <div class="site-footer">
+    <!-- cocode-apps:footer:start -->
+<footer class="cocode-footer">
+  <a href="https://github.com/cocodedk/BabakPlayer">Kildekode</a> ·
+  <a href="/da/privacy/">Privatliv</a> ·
+  Licens: Apache-2.0 ·
+  <a href="https://cocode.dk/">Lavet af Cocode (cocode.dk)</a>
+</footer>
+<!-- cocode-apps:footer:end -->
+  </div>
+
+<cocode-foot repo="cocodedk/BabakPlayer" dark>
+  <a href="https://cocode.dk">cocode.dk</a>
+</cocode-foot>
+</body>
+</html>

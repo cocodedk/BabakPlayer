@@ -1,1 +1,1 @@
-Plays shared media parts back in order, as one continuous playlist
+Plays shared audio and video parts one after another, as one playlist

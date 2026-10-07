@@ -15,8 +15,8 @@ Built by [Cocode](https://cocode.dk).
 ## Build and Test Commands
 ```bash
 ./gradlew assembleDebug
-./gradlew testDebugUnitTest
-./gradlew lintDebug
+./gradlew testFullDebugUnitTest testFossDebugUnitTest
+./gradlew lintFullDebug lintFossDebug
 ./gradlew buildSmoke
 ```
 
@@ -29,6 +29,5 @@ Built by [Cocode](https://cocode.dk).
 - [ ] `./gradlew buildSmoke` passes.
 - [ ] Manual share-import test completed.
 - [ ] Continuous playback across imported parts verified.
-- [ ] Single-file delete purges file and updates playlist.
-- [ ] Full-playlist delete purges files and metadata.
+- [ ] Playlist removal updates the saved list without deleting original media or app-private copies.
 - [ ] Updated docs if behavior changed.

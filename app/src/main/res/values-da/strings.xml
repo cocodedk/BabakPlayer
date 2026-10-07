@@ -1,0 +1,133 @@
+<resources>
+    <string name="app_name">BabakPlayer</string>
+
+    <string name="tab_player">BabakPlayer</string>
+    <string name="tab_playlists">Afspilningslister</string>
+    <string name="tab_settings">Indstillinger</string>
+    <string name="tab_about">Om</string>
+    <string name="nav_add">Importér medier</string>
+
+    <string name="player_header">BabakPlayer</string>
+    <string name="player_subtitle">Importér lyd og video fra WhatsApp eller din enhed, og afspil dem efter hinanden.</string>
+    <string name="player_importing">Importerer delte filer…</string>
+    <string name="player_import_from_device_action">Importér fra galleri/filer</string>
+    <string name="player_import_from_device_hint">Vælg flere lyd- eller videofiler fra galleriet eller andre placeringer for at oprette én afspilningsliste.</string>
+    <string name="import_menu_title">Importér medier fra</string>
+    <string name="import_option_videos">Videoer</string>
+    <string name="import_option_audio">Lyd</string>
+    <string name="import_option_whatsapp">WhatsApp-medier</string>
+    <string name="import_option_downloads">Downloads</string>
+    <string name="import_option_manual">Vælg filer manuelt</string>
+    <string name="media_category_audio">Lyd</string>
+    <string name="media_category_whatsapp">WhatsApp-medier</string>
+    <string name="media_category_downloads">Downloads</string>
+    <string name="media_loading">Indlæser medier…</string>
+    <string name="media_empty">Ingen mediefiler fundet i denne sektion.</string>
+    <string name="media_create_playlist">Opret afspilningsliste og afspil</string>
+    <string name="media_permission_denied_title">Tilladelse påkrævet</string>
+    <string name="media_permission_denied_message">Giv adgang til medier for at gennemse denne sektion, eller vælg filer manuelt.</string>
+    <string name="empty_playlists">Ingen afspilningslister endnu. Del medier, eller importér fra galleri/filer.</string>
+    <string name="playlists_empty">Ingen afspilningslister endnu. Tryk på + for at importere.</string>
+    <string name="player_part_label">Del %1$d af %2$d</string>
+    <string name="dismiss_summary">Luk oversigten</string>
+    <string name="playlist_default_title">Importeret afspilningsliste</string>
+    <string name="media_file_fallback_name">Mediefil</string>
+    <string name="audio_file_fallback_name">Lydfil</string>
+
+    <string name="summary_title">Importeret: %1$s</string>
+    <string name="summary_imported">Importeret</string>
+    <string name="summary_skipped">Sprunget over</string>
+    <string name="summary_unsupported">Ikke understøttet</string>
+    <string name="summary_total_size">Samlet størrelse</string>
+
+    <plurals name="playlist_files_size">
+        <item quantity="one">%1$d fil · %2$s</item>
+        <item quantity="other">%1$d filer · %2$s</item>
+    </plurals>
+    <string name="playlist_collapsed_hint">Foldet sammen. Tryk på pilen for at vise filerne.</string>
+    <string name="status_ready">Klar</string>
+    <string name="status_decode_failed">Afkodning mislykkedes</string>
+    <string name="status_deleted">Slettet</string>
+    <string name="item_status_size">%1$s · %2$s</string>
+
+    <string name="current_playing_title">Afspiller nu</string>
+    <string name="content_play_playlist">Afspil afspilningsliste</string>
+    <string name="content_expand_playlist">Fold afspilningslisten ud</string>
+    <string name="content_collapse_playlist">Fold afspilningslisten sammen</string>
+    <string name="content_delete_playlist">Fjern afspilningsliste</string>
+    <string name="content_delete_file">Fjern fil</string>
+    <string name="content_previous">Forrige</string>
+    <string name="content_next">Næste</string>
+    <string name="content_play">Afspil</string>
+    <string name="content_pause">Pause</string>
+    <string name="content_seek_back">Spol tilbage</string>
+    <string name="content_seek_forward">Spol frem</string>
+    <string name="content_fullscreen">Fuld skærm</string>
+    <string name="content_cast">Cast</string>
+    <string name="notice_cast_connected">Caster til enheden</string>
+    <string name="notice_cast_disconnected">Cast afbrudt</string>
+    <string name="content_exit_fullscreen">Afslut fuld skærm</string>
+
+    <string name="dialog_delete_file_title">Fjern fil</string>
+    <string name="dialog_delete_file_message">Fjern %1$s fra denne afspilningsliste? Den oprindelige fil bliver liggende på enheden.</string>
+    <string name="dialog_delete_playlist_title">Fjern afspilningsliste</string>
+    <plurals name="dialog_delete_playlist_message">
+        <item quantity="one">Fjern afspilningslisten %2$s med %1$d fil? Den oprindelige fil bliver liggende på enheden.</item>
+        <item quantity="other">Fjern afspilningslisten %2$s med %1$d filer? De oprindelige filer bliver liggende på enheden.</item>
+    </plurals>
+    <string name="action_delete">Fjern</string>
+    <string name="action_delete_all">Fjern alle</string>
+    <string name="action_show_more">mere…</string>
+    <string name="action_show_less">mindre</string>
+    <string name="action_cancel">Annullér</string>
+    <string name="action_ok">OK</string>
+
+    <string name="notice_file_deleted">Filen er fjernet fra afspilningslisten</string>
+    <string name="notice_playlist_deleted">Afspilningslisten er fjernet. De oprindelige filer er uændrede.</string>
+    <string name="notice_decode_skip">Filen kunne ikke afspilles. Afspilningen fortsætter med den næste fil, hvis der er en.</string>
+
+    <string name="settings_title">Indstillinger</string>
+    <string name="settings_section_appearance">Udseende</string>
+    <string name="settings_section_language">Sprog</string>
+    <string name="settings_section_playback">Afspilning</string>
+    <string name="settings_section_import">Import</string>
+    <string name="settings_theme_mode">Tema</string>
+    <string name="theme_system">System</string>
+    <string name="theme_dark">Mørkt</string>
+    <string name="theme_light">Lyst</string>
+    <string name="settings_language">Appens sprog</string>
+    <string name="language_english">Engelsk</string>
+    <string name="language_persian">Persisk</string>
+    <string name="settings_autoplay_next">Afspil næste automatisk</string>
+    <string name="settings_autoplay_next_desc">Fortsæt automatisk til næste fil på afspilningslisten.</string>
+    <string name="settings_seek_interval">Spoleinterval</string>
+    <string name="settings_seek_interval_value">%1$d sekunder</string>
+    <string name="settings_auto_dismiss">Luk importoversigten automatisk</string>
+    <string name="settings_auto_dismiss_desc">Importoversigter vises ikke i denne version, så indstillingen har ingen virkning.</string>
+    <string name="settings_reset">Nulstil indstillinger</string>
+    <string name="settings_reset_desc">Gendan standardindstillingerne for tema, sprog og afspilning.</string>
+    <string name="settings_reset_confirm">Nulstil</string>
+    <string name="dialog_reset_settings_title">Nulstil indstillinger</string>
+    <string name="dialog_reset_settings_message">Gendan alle indstillinger til standardværdierne?</string>
+
+    <string name="about_title">Om</string>
+    <string name="about_section_version">Navn og version</string>
+    <string name="about_section_what">Hvad appen gør</string>
+    <string name="about_section_privacy">Privatliv</string>
+    <string name="about_section_links">Links</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_update_note">Appen leder ikke selv efter opdateringer. Knappen åbner den webside, hvor nye versioner udgives.</string>
+    <string name="about_check_updates">Se den nyeste version</string>
+    <string name="about_purpose">BabakPlayer afspiller lyd og video, der kommer i flere dele, for eksempel delt gennem WhatsApp, efter hinanden som én afspilningsliste. Filer, der deles med en billedtekst, kommer i én afspilningsliste opkaldt efter billedteksten, sorteret efter filnavn (part2 før part10). Filer, der deles uden billedtekst, afspilles i den rækkefølge, de blev delt i. Appen er lavet til at virke sammen med BabakCast, som deler medier op i dele og sender dem videre.</string>
+    <string name="about_supported_formats">Understøttede filtyper: mp3 (lyd) og mp4, mkv, mov, webm (video). Om en fil kan afspilles, afhænger også af din enhed.</string>
+    <string name="about_privacy_body">Din lyd og video bliver på din enhed, og appen sender ingen personlige data til udvikleren. Den har ingen konti, ingen reklamer og ingen sporing, og den måler ikke, hvordan du bruger den.</string>
+    <string name="about_privacy_link">Læs privatlivspolitikken</string>
+    <string name="about_website">Åbn hjemmesiden</string>
+    <string name="about_source">Se kildekoden på GitHub</string>
+    <string name="about_report">Meld en fejl på GitHub</string>
+    <string name="about_credits">Tak og licenser</string>
+    <string name="about_license">Licens: Apache-2.0</string>
+    <string name="about_credits_libraries">BabakPlayer er bygget med to open source-biblioteker: Jetpack Compose (skærmene) og Media3 ExoPlayer (afspilningen). Begge har licensen Apache-2.0.</string>
+    <string name="about_made_by">Lavet af Cocode (cocode.dk)</string>
+    <string name="about_made_by_link">Åbn cocode.dk</string>
+</resources>

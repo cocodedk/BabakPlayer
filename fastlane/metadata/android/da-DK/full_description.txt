@@ -1,0 +1,9 @@
+BabakPlayer er en følgeapp til BabakCast, som opdeler store medier i mindre dele, du kan sende gennem beskedapps. BabakPlayer importerer delene, når du deler dem med appen fra andre apps, for eksempel WhatsApp, og afspiller dem efter hinanden som én afspilningsliste.
+
+Er delene delt med en billedtekst, kommer de i én afspilningsliste opkaldt efter billedteksten, sorteret efter filnavn (part2 før part10). Er de delt uden billedtekst, afspilles de i den rækkefølge, de blev delt i.
+
+Appen understøtter gængse lyd- og videoformater, blandt andet mp3, mp4, mkv, mov og webm. Om en fil kan afspilles, afhænger også af din enhed. Kan en fil ikke afspilles, bliver den markeret som mislykket, og afspilningen fortsætter med den næste fil, hvis der er en.
+
+Appen findes på engelsk, persisk og dansk, og det persiske layout kører automatisk fra højre mod venstre.
+
+Filerne bliver, hvor de er, når Android giver varig adgang til dem. Ellers gemmer appen en privat kopi på din telefon. Når du fjerner en afspilningsliste, slettes dine mediefiler ikke, og de private kopier bliver, indtil du rydder appens data eller afinstallerer den. Appen har ingen konto, ingen cloud-synkronisering og ingen backend-tjeneste, og det kræver ingen internetforbindelse at afspille filer på din telefon.

@@ -22,23 +22,52 @@ class AboutLinksTest {
     }
 
     @Test
-    fun privacy_link_points_at_the_policy_page_in_every_language() {
-        for (language in listOf("en", "fa", "da")) {
+    fun privacy_opens_the_english_policy_in_english() {
+        assertEquals("https://player.cocode.dk/privacy/", aboutUrl(AboutLink.Privacy, "en", onFdroid = false))
+    }
+
+    @Test
+    fun privacy_opens_the_danish_policy_in_danish() {
+        assertEquals("https://player.cocode.dk/da/privacy/", aboutUrl(AboutLink.Privacy, "da", onFdroid = false))
+    }
+
+    @Test
+    fun privacy_falls_back_to_the_english_policy_in_a_language_the_site_lacks() {
+        // Persian has no privacy page on the site yet.
+        for (language in listOf("fa", "de")) {
             assertEquals("https://player.cocode.dk/privacy/", aboutUrl(AboutLink.Privacy, language, onFdroid = false))
         }
     }
 
     @Test
-    fun website_has_a_persian_front_page_and_an_english_one_for_the_rest() {
-        assertEquals("https://player.cocode.dk/fa/", aboutUrl(AboutLink.Website, "fa", onFdroid = false))
+    fun website_opens_the_english_site_in_english() {
         assertEquals("https://player.cocode.dk/", aboutUrl(AboutLink.Website, "en", onFdroid = false))
-        assertEquals("https://player.cocode.dk/", aboutUrl(AboutLink.Website, "da", onFdroid = false))
     }
 
     @Test
-    fun source_and_issues_point_at_the_repository() {
-        assertEquals("https://github.com/cocodedk/BabakPlayer", aboutUrl(AboutLink.Source, "en", onFdroid = false))
-        assertEquals("https://github.com/cocodedk/BabakPlayer/issues", aboutUrl(AboutLink.Issues, "en", onFdroid = false))
+    fun website_opens_the_danish_site_in_danish() {
+        assertEquals("https://player.cocode.dk/da/", aboutUrl(AboutLink.Website, "da", onFdroid = false))
+    }
+
+    @Test
+    fun website_opens_the_persian_site_in_persian() {
+        assertEquals("https://player.cocode.dk/fa/", aboutUrl(AboutLink.Website, "fa", onFdroid = false))
+    }
+
+    @Test
+    fun website_falls_back_to_the_english_site_in_a_language_the_site_lacks() {
+        assertEquals("https://player.cocode.dk/", aboutUrl(AboutLink.Website, "de", onFdroid = false))
+    }
+
+    @Test
+    fun source_and_issues_point_at_the_repository_in_every_language() {
+        for (language in listOf("en", "da", "fa")) {
+            assertEquals("https://github.com/cocodedk/BabakPlayer", aboutUrl(AboutLink.Source, language, onFdroid = false))
+            assertEquals(
+                "https://github.com/cocodedk/BabakPlayer/issues",
+                aboutUrl(AboutLink.Issues, language, onFdroid = false),
+            )
+        }
     }
 
     @Test
