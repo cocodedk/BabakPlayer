@@ -197,6 +197,15 @@ class PlaybackController(
         }
     }
 
+    /** Jumps to the queue entry for [itemId] and plays it; ignored if it is not queued. */
+    fun playItem(itemId: String) {
+        val index = (0 until activePlayer.mediaItemCount)
+            .firstOrNull { activePlayer.getMediaItemAt(it).mediaId == itemId } ?: return
+        activePlayer.seekTo(index, 0L)
+        activePlayer.prepare() // recovers the player after a decode error left it idle
+        play()
+    }
+
     fun previous() {
         if (activePlayer.hasPreviousMediaItem()) {
             activePlayer.seekToPreviousMediaItem()

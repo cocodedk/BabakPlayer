@@ -109,6 +109,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun previous() = playbackController.previous()
 
+    fun playItem(itemId: String) = playbackController.playItem(itemId)
+
     fun setAutoplayNext(enabled: Boolean) {
         playbackController.setAutoplayNext(enabled)
     }
