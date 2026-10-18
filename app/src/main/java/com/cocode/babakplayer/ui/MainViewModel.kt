@@ -109,7 +109,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun previous() = playbackController.previous()
 
-    fun playItem(itemId: String) = playbackController.playItem(itemId)
+    fun playItem(itemId: String) {
+        if (playbackController.playItem(itemId)) return
+        // The queue can lag behind the selected playlist (e.g. after an empty import): rebuild it.
+        val state = _uiState.value
+        val playlist = state.playlists.firstOrNull { it.playlistId == state.selectedPlaylistId } ?: return
+        if (playlist.items.any { it.itemId == itemId }) preparePlaylist(playlist, autoPlay = true, startItemId = itemId)
+    }
 
     fun setAutoplayNext(enabled: Boolean) {
         playbackController.setAutoplayNext(enabled)
