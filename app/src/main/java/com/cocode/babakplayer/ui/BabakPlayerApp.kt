@@ -161,6 +161,7 @@ fun BabakPlayerApp(mainViewModel: MainViewModel, appViewModel: AppViewModel) {
                     onSeekTo = mainViewModel::seekTo,
                     onNext = mainViewModel::next,
                     onPrevious = mainViewModel::previous,
+                    onPlayItem = mainViewModel::playItem,
                     onEnterFullscreen = { appViewModel.setFullscreen(true) },
                     isImporting = mainState.isImporting,
                     onImportFromDevice = onOpenImport,
@@ -169,11 +170,13 @@ fun BabakPlayerApp(mainViewModel: MainViewModel, appViewModel: AppViewModel) {
                 AppTab.PLAYLISTS -> PlaylistBrowserScreen(
                     playlists = mainState.playlists,
                     selectedPlaylistId = mainState.selectedPlaylistId,
+                    currentItemId = playbackState.currentItemId,
                     onSelectAndPlay = { playlistId ->
                         mainViewModel.selectPlaylist(playlistId, true)
                         appViewModel.selectTab(AppTab.PLAYER)
                     },
                     onDeletePlaylist = mainViewModel::deletePlaylist,
+                    onDeleteItem = mainViewModel::deleteItem,
                 )
 
                 AppTab.SETTINGS -> SettingsScreen(

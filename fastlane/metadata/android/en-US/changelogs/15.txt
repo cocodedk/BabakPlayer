@@ -1,0 +1,3 @@
+A file that fails to decode is now marked "Decode failed" in the player list and in the Playlists tab.
+In the Playlists tab, open a playlist with the arrow to see its files, and delete a single file with its delete button.
+Tap a file in the player list to start playing from it.

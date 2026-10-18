@@ -10,9 +10,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Fullscreen
 import androidx.compose.material.icons.outlined.FastForward
@@ -27,7 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -52,6 +48,7 @@ import com.cocode.babakplayer.model.Playlist
 import com.cocode.babakplayer.model.PlaylistItem
 import com.cocode.babakplayer.player.PlaybackUiState
 import com.cocode.babakplayer.ui.MainUiState
+import com.cocode.babakplayer.ui.components.PartsListSection
 import com.cocode.babakplayer.ui.components.PlayerHeroCard
 import com.cocode.babakplayer.ui.components.createPlayerView
 import com.cocode.babakplayer.ui.theme.NeonBlue
@@ -71,6 +68,7 @@ fun PlayerScreen(
     onSeekTo: (Long) -> Unit,
     onNext: () -> Unit,
     onPrevious: () -> Unit,
+    onPlayItem: (String) -> Unit,
     onEnterFullscreen: () -> Unit,
     isImporting: Boolean,
     onImportFromDevice: () -> Unit,
@@ -123,6 +121,7 @@ fun PlayerScreen(
         PartsListSection(
             items = selectedPlaylist.items,
             currentItemId = playbackState.currentItemId,
+            onPlayItem = onPlayItem,
             modifier = Modifier.weight(1f),
         )
     }
@@ -295,47 +294,6 @@ private fun TransportControls(
         }
         IconButton(onClick = onNext) {
             Icon(Icons.Outlined.SkipNext, contentDescription = stringResource(R.string.content_next))
-        }
-    }
-}
-
-@Composable
-private fun PartsListSection(
-    items: List<PlaylistItem>,
-    currentItemId: String?,
-    modifier: Modifier = Modifier,
-) {
-    LazyColumn(
-        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-    ) {
-        itemsIndexed(items = items, key = { _, item -> item.itemId }) { index, item ->
-            val isCurrent = item.itemId == currentItemId
-            val bgColor = if (isCurrent) NeonBlue.copy(alpha = 0.26f) else MaterialTheme.colorScheme.background.copy(alpha = 0.45f)
-            Surface(
-                modifier = Modifier.fillMaxWidth(),
-                color = bgColor,
-                shape = RoundedCornerShape(10.dp),
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        text = "${index + 1}.",
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = if (isCurrent) FontWeight.Bold else FontWeight.Normal,
-                        color = if (isCurrent) NeonPink else MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.padding(end = 8.dp),
-                    )
-                    Text(
-                        text = item.originalDisplayName,
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = if (isCurrent) FontWeight.Bold else FontWeight.Normal,
-                        color = if (isCurrent) NeonPink else MaterialTheme.colorScheme.onSurface,
-                    )
-                }
-            }
         }
     }
 }
